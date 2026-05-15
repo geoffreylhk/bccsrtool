@@ -1,0 +1,1029 @@
+{
+  "metadata": {
+    "title": "BC Contaminated Sites Regulation — Schedule 3.1 Human Health Protection Standards",
+    "regulation": "B.C. Reg. 375/96",
+    "schedule": "Schedule 3.1 — Part 1 (Matrix 1 – 40)",
+    "last_amended": "October 27, 2025",
+    "units": {
+      "soil": "μg/g (micrograms per gram dry weight)",
+      "groundwater": "μg/L (micrograms per litre)"
+    },
+    "special_values": {
+      "NS": "No Standard established in regulation",
+      "pH-dep.": "pH-dependent standard — consult the specific Matrix in Schedule 3.1 for the full pH-banded table",
+      "> 1 000 mg/g": "Exceeds upper soil reporting limit — effectively unrestricted at this land use"
+    },
+    "land_use_codes": {
+      "WLN": "Wildlands Natural",
+      "WLR": "Wildlands Reverted",
+      "AL": "Agricultural",
+      "PL": "Urban Park",
+      "RLLD": "Residential Low Density",
+      "RLHD": "Residential High Density",
+      "CL": "Commercial",
+      "IL": "Industrial"
+    }
+  },
+  "substances": [
+    {
+      "matrix": 1,
+      "substance": "Anthracene",
+      "cas_number": "120-12-7",
+      "soil_ug_per_g": {
+        "WLN": "25 000",
+        "WLR": "25 000",
+        "AL": "10 000",
+        "PL": "25 000",
+        "RLLD": "10 000",
+        "RLHD": "25 000",
+        "CL": "75 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 2,
+      "substance": "Arsenic",
+      "cas_number": "7440-38-2",
+      "soil_ug_per_g": {
+        "WLN": "40",
+        "WLR": "40",
+        "AL": "20",
+        "PL": "40",
+        "RLLD": "20",
+        "RLHD": "40",
+        "CL": "150",
+        "IL": "400"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "10",
+        "WLR": "10",
+        "AL": "10",
+        "PL": "10",
+        "RLLD": "10",
+        "RLHD": "10",
+        "CL": "10",
+        "IL": "10"
+      }
+    },
+    {
+      "matrix": 3,
+      "substance": "Barium",
+      "cas_number": "7440-39-3",
+      "soil_ug_per_g": {
+        "WLN": "15 000",
+        "WLR": "15 000",
+        "AL": "8 500",
+        "PL": "15 000",
+        "RLLD": "8 500",
+        "RLHD": "15 000",
+        "CL": "50 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "350",
+        "WLR": "350",
+        "AL": "350",
+        "PL": "350",
+        "RLLD": "350",
+        "RLHD": "350",
+        "CL": "350",
+        "IL": "350"
+      }
+    },
+    {
+      "matrix": 4,
+      "substance": "Benzene",
+      "cas_number": "71-43-2",
+      "soil_ug_per_g": {
+        "WLN": "350",
+        "WLR": "350",
+        "AL": "150",
+        "PL": "350",
+        "RLLD": "150",
+        "RLHD": "350",
+        "CL": "1 000",
+        "IL": "6 500"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "0.035",
+        "WLR": "0.035",
+        "AL": "0.035",
+        "PL": "0.035",
+        "RLLD": "0.035",
+        "RLHD": "0.035",
+        "CL": "0.035",
+        "IL": "0.035"
+      }
+    },
+    {
+      "matrix": 5,
+      "substance": "Benzo(a)pyrene",
+      "cas_number": "50-32-8",
+      "soil_ug_per_g": {
+        "WLN": "10",
+        "WLR": "10",
+        "AL": "5",
+        "PL": "10",
+        "RLLD": "5",
+        "RLHD": "10",
+        "CL": "30",
+        "IL": "50"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 6,
+      "substance": "Beryllium",
+      "cas_number": "7440-41-7",
+      "soil_ug_per_g": {
+        "WLN": "150",
+        "WLR": "150",
+        "AL": "85",
+        "PL": "150",
+        "RLLD": "85",
+        "RLHD": "150",
+        "CL": "500",
+        "IL": "15 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 7,
+      "substance": "Cadmium",
+      "cas_number": "7440-43-9",
+      "soil_ug_per_g": {
+        "WLN": "40",
+        "WLR": "40",
+        "AL": "20",
+        "PL": "40",
+        "RLLD": "20",
+        "RLHD": "40",
+        "CL": "150",
+        "IL": "3 500"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 8,
+      "substance": "Chloride Ion",
+      "cas_number": "16887-00-6",
+      "soil_ug_per_g": {
+        "WLN": "> 1 000 mg/g",
+        "WLR": "> 1 000 mg/g",
+        "AL": "> 1 000 mg/g",
+        "PL": "> 1 000 mg/g",
+        "RLLD": "> 1 000 mg/g",
+        "RLHD": "> 1 000 mg/g",
+        "CL": "> 1 000 mg/g",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "100",
+        "WLR": "100",
+        "AL": "100",
+        "PL": "100",
+        "RLLD": "100",
+        "RLHD": "100",
+        "CL": "100",
+        "IL": "100"
+      }
+    },
+    {
+      "matrix": 9,
+      "substance": "Chromium",
+      "cas_number": "7440-47-3",
+      "soil_ug_per_g": {
+        "WLN": "250",
+        "WLR": "250",
+        "AL": "100",
+        "PL": "250",
+        "RLLD": "100",
+        "RLHD": "250",
+        "CL": "750",
+        "IL": "20 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 10,
+      "substance": "Cobalt",
+      "cas_number": "7440-48-4",
+      "soil_ug_per_g": {
+        "WLN": "25",
+        "WLR": "25",
+        "AL": "25",
+        "PL": "25",
+        "RLLD": "25",
+        "RLHD": "25",
+        "CL": "75",
+        "IL": "2 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "25",
+        "WLR": "25",
+        "AL": "25",
+        "PL": "25",
+        "RLLD": "25",
+        "RLHD": "25",
+        "CL": "25",
+        "IL": "25"
+      }
+    },
+    {
+      "matrix": 11,
+      "substance": "Copper",
+      "cas_number": "7440-50-8",
+      "soil_ug_per_g": {
+        "WLN": "7 500",
+        "WLR": "7 500",
+        "AL": "3 500",
+        "PL": "7 500",
+        "RLLD": "3 500",
+        "RLHD": "7 500",
+        "CL": "25 000",
+        "IL": "700 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 12,
+      "substance": "Cyanide",
+      "cas_number": "57-12-5",
+      "soil_ug_per_g": {
+        "WLN": "50",
+        "WLR": "50",
+        "AL": "25",
+        "PL": "50",
+        "RLLD": "25",
+        "RLHD": "50",
+        "CL": "150",
+        "IL": "4 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "6.5",
+        "WLR": "6.5",
+        "AL": "6.5",
+        "PL": "6.5",
+        "RLLD": "6.5",
+        "RLHD": "6.5",
+        "CL": "6.5",
+        "IL": "6.5"
+      }
+    },
+    {
+      "matrix": 13,
+      "substance": "DDT (Dichlorodiphenyltrichloroethane, Total)",
+      "cas_number": "NS",
+      "soil_ug_per_g": {
+        "WLN": "40",
+        "WLR": "40",
+        "AL": "20",
+        "PL": "40",
+        "RLLD": "20",
+        "RLHD": "40",
+        "CL": "150",
+        "IL": "1 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 14,
+      "substance": "DIPA (Diisopropanolamine)",
+      "cas_number": "110-97-4",
+      "soil_ug_per_g": {
+        "WLN": "30 000",
+        "WLR": "30 000",
+        "AL": "15 000",
+        "PL": "30 000",
+        "RLLD": "15 000",
+        "RLHD": "30 000",
+        "CL": "100 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "1.5",
+        "WLR": "1.5",
+        "AL": "1.5",
+        "PL": "1.5",
+        "RLLD": "1.5",
+        "RLHD": "1.5",
+        "CL": "1.5",
+        "IL": "1.5"
+      }
+    },
+    {
+      "matrix": 15,
+      "substance": "Ethylbenzene",
+      "cas_number": "100-41-4",
+      "soil_ug_per_g": {
+        "WLN": "8 500",
+        "WLR": "8 500",
+        "AL": "4 000",
+        "PL": "8 500",
+        "RLLD": "4 000",
+        "RLHD": "8 500",
+        "CL": "25 000",
+        "IL": "700 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "15",
+        "WLR": "15",
+        "AL": "15",
+        "PL": "15",
+        "RLLD": "15",
+        "RLHD": "15",
+        "CL": "15",
+        "IL": "15"
+      }
+    },
+    {
+      "matrix": 16,
+      "substance": "Ethylene Glycol",
+      "cas_number": "107-21-1",
+      "soil_ug_per_g": {
+        "WLN": "150 000",
+        "WLR": "150 000",
+        "AL": "85 000",
+        "PL": "150 000",
+        "RLLD": "85 000",
+        "RLHD": "150 000",
+        "CL": "500 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "10",
+        "WLR": "10",
+        "AL": "10",
+        "PL": "10",
+        "RLLD": "10",
+        "RLHD": "10",
+        "CL": "10",
+        "IL": "10"
+      }
+    },
+    {
+      "matrix": 17,
+      "substance": "Fluoranthene",
+      "cas_number": "206-44-0",
+      "soil_ug_per_g": {
+        "WLN": "3 500",
+        "WLR": "3 500",
+        "AL": "1 500",
+        "PL": "3 500",
+        "RLLD": "1 500",
+        "RLHD": "3 500",
+        "CL": "10 000",
+        "IL": "300 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 18,
+      "substance": "Lead",
+      "cas_number": "7439-92-1",
+      "soil_ug_per_g": {
+        "WLN": "120",
+        "WLR": "120",
+        "AL": "120",
+        "PL": "120",
+        "RLLD": "120",
+        "RLHD": "120",
+        "CL": "150",
+        "IL": "4 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 19,
+      "substance": "Manganese",
+      "cas_number": "7439-96-5",
+      "soil_ug_per_g": {
+        "WLN": "10 000",
+        "WLR": "10 000",
+        "AL": "6 000",
+        "PL": "10 000",
+        "RLLD": "6 000",
+        "RLHD": "10 000",
+        "CL": "35 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "2 000",
+        "WLR": "2 000",
+        "AL": "2 000",
+        "PL": "2 000",
+        "RLLD": "2 000",
+        "RLHD": "2 000",
+        "CL": "2 000",
+        "IL": "2 000"
+      }
+    },
+    {
+      "matrix": 20,
+      "substance": "Mercury",
+      "cas_number": "7439-97-6",
+      "soil_ug_per_g": {
+        "WLN": "25",
+        "WLR": "25",
+        "AL": "10",
+        "PL": "25",
+        "RLLD": "10",
+        "RLHD": "25",
+        "CL": "75",
+        "IL": "2 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 21,
+      "substance": "Methanol",
+      "cas_number": "67-56-1",
+      "soil_ug_per_g": {
+        "WLN": "40 000",
+        "WLR": "40 000",
+        "AL": "20 000",
+        "PL": "40 000",
+        "RLLD": "20 000",
+        "RLHD": "40 000",
+        "CL": "150 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "15",
+        "WLR": "15",
+        "AL": "15",
+        "PL": "15",
+        "RLLD": "15",
+        "RLHD": "15",
+        "CL": "15",
+        "IL": "15"
+      }
+    },
+    {
+      "matrix": 22,
+      "substance": "Molybdenum",
+      "cas_number": "7439-98-7",
+      "soil_ug_per_g": {
+        "WLN": "400",
+        "WLR": "400",
+        "AL": "200",
+        "PL": "400",
+        "RLLD": "200",
+        "RLHD": "400",
+        "CL": "1 500",
+        "IL": "35 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "15",
+        "WLR": "15",
+        "AL": "15",
+        "PL": "15",
+        "RLLD": "15",
+        "RLHD": "15",
+        "CL": "15",
+        "IL": "15"
+      }
+    },
+    {
+      "matrix": 23,
+      "substance": "Naphthalene",
+      "cas_number": "91-20-3",
+      "soil_ug_per_g": {
+        "WLN": "1 500",
+        "WLR": "1 500",
+        "AL": "850",
+        "PL": "1 500",
+        "RLLD": "850",
+        "RLHD": "1 500",
+        "CL": "5 000",
+        "IL": "150 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "100",
+        "WLR": "100",
+        "AL": "100",
+        "PL": "100",
+        "RLLD": "100",
+        "RLHD": "100",
+        "CL": "100",
+        "IL": "100"
+      }
+    },
+    {
+      "matrix": 24,
+      "substance": "Nickel",
+      "cas_number": "7440-02-0",
+      "soil_ug_per_g": {
+        "WLN": "900",
+        "WLR": "900",
+        "AL": "450",
+        "PL": "900",
+        "RLLD": "450",
+        "RLHD": "900",
+        "CL": "3 000",
+        "IL": "80 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 25,
+      "substance": "Nonylphenol and Nonylphenol Ethoxylates",
+      "cas_number": "NS",
+      "soil_ug_per_g": {
+        "WLN": "400",
+        "WLR": "400",
+        "AL": "200",
+        "PL": "400",
+        "RLLD": "200",
+        "RLHD": "400",
+        "CL": "1 000",
+        "IL": "35 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "20",
+        "WLR": "20",
+        "AL": "20",
+        "PL": "20",
+        "RLLD": "20",
+        "RLHD": "20",
+        "CL": "20",
+        "IL": "20"
+      }
+    },
+    {
+      "matrix": 26,
+      "substance": "Pentachlorophenol (PCP)",
+      "cas_number": "87-86-5",
+      "soil_ug_per_g": {
+        "WLN": "200",
+        "WLR": "200",
+        "AL": "90",
+        "PL": "200",
+        "RLLD": "90",
+        "RLHD": "200",
+        "CL": "550",
+        "IL": "900"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    },
+    {
+      "matrix": 27,
+      "substance": "PFOS (Perfluorooctane Sulfonate)",
+      "cas_number": "1763-23-1",
+      "soil_ug_per_g": {
+        "WLN": "2.5",
+        "WLR": "2.5",
+        "AL": "1",
+        "PL": "2.5",
+        "RLLD": "1",
+        "RLHD": "2.5",
+        "CL": "7.5",
+        "IL": "200"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "0.35",
+        "WLR": "0.35",
+        "AL": "0.35",
+        "PL": "0.35",
+        "RLLD": "0.35",
+        "RLHD": "0.35",
+        "CL": "0.35",
+        "IL": "0.35"
+      }
+    },
+    {
+      "matrix": 28,
+      "substance": "Phenol",
+      "cas_number": "108-95-2",
+      "soil_ug_per_g": {
+        "WLN": "25 000",
+        "WLR": "25 000",
+        "AL": "10 000",
+        "PL": "25 000",
+        "RLLD": "10 000",
+        "RLHD": "25 000",
+        "CL": "75 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "7.5",
+        "WLR": "7.5",
+        "AL": "7.5",
+        "PL": "7.5",
+        "RLLD": "7.5",
+        "RLHD": "7.5",
+        "CL": "7.5",
+        "IL": "7.5"
+      }
+    },
+    {
+      "matrix": 29,
+      "substance": "PCBs (Polychlorinated Biphenyls, Total)",
+      "cas_number": "1336-36-3",
+      "soil_ug_per_g": {
+        "WLN": "10",
+        "WLR": "10",
+        "AL": "5",
+        "PL": "10",
+        "RLLD": "5",
+        "RLHD": "10",
+        "CL": "35",
+        "IL": "900"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 30,
+      "substance": "PCDDs/PCDFs (Polychlorinated Dioxins and Furans, Total)",
+      "cas_number": "1746-01-6",
+      "soil_ug_per_g": {
+        "WLN": "0.0002",
+        "WLR": "0.0002",
+        "AL": "0.000095",
+        "PL": "0.0002",
+        "RLLD": "0.000095",
+        "RLHD": "0.0002",
+        "CL": "0.0006",
+        "IL": "0.015"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "NS",
+        "WLR": "NS",
+        "AL": "NS",
+        "PL": "NS",
+        "RLLD": "NS",
+        "RLHD": "NS",
+        "CL": "NS",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 31,
+      "substance": "Selenium",
+      "cas_number": "7782-49-2",
+      "soil_ug_per_g": {
+        "WLN": "400",
+        "WLR": "400",
+        "AL": "200",
+        "PL": "400",
+        "RLLD": "200",
+        "RLHD": "400",
+        "CL": "1 500",
+        "IL": "35 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "1",
+        "WLR": "1",
+        "AL": "1",
+        "PL": "1",
+        "RLLD": "1",
+        "RLHD": "1",
+        "CL": "1",
+        "IL": "1"
+      }
+    },
+    {
+      "matrix": 32,
+      "substance": "Sodium Ion",
+      "cas_number": "17341-25-2",
+      "soil_ug_per_g": {
+        "WLN": "> 1 000 mg/g",
+        "WLR": "> 1 000 mg/g",
+        "AL": "> 1 000 mg/g",
+        "PL": "> 1 000 mg/g",
+        "RLLD": "> 1 000 mg/g",
+        "RLHD": "> 1 000 mg/g",
+        "CL": "> 1 000 mg/g",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "15 000",
+        "WLR": "15 000",
+        "AL": "15 000",
+        "PL": "15 000",
+        "RLLD": "15 000",
+        "RLHD": "15 000",
+        "CL": "15 000",
+        "IL": "15 000"
+      }
+    },
+    {
+      "matrix": 33,
+      "substance": "Sulfolane",
+      "cas_number": "126-33-0",
+      "soil_ug_per_g": {
+        "WLN": "800",
+        "WLR": "800",
+        "AL": "400",
+        "PL": "800",
+        "RLLD": "400",
+        "RLHD": "800",
+        "CL": "2 500",
+        "IL": "70 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "0.1",
+        "WLR": "0.1",
+        "AL": "0.1",
+        "PL": "0.1",
+        "RLLD": "0.1",
+        "RLHD": "0.1",
+        "CL": "0.1",
+        "IL": "0.1"
+      }
+    },
+    {
+      "matrix": 34,
+      "substance": "Tetrachloroethylene",
+      "cas_number": "127-18-4",
+      "soil_ug_per_g": {
+        "WLN": "500",
+        "WLR": "500",
+        "AL": "250",
+        "PL": "500",
+        "RLLD": "250",
+        "RLHD": "500",
+        "CL": "1 500",
+        "IL": "40 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "2.5",
+        "WLR": "2.5",
+        "AL": "2.5",
+        "PL": "2.5",
+        "RLLD": "2.5",
+        "RLHD": "2.5",
+        "CL": "2.5",
+        "IL": "2.5"
+      }
+    },
+    {
+      "matrix": 35,
+      "substance": "Toluene",
+      "cas_number": "108-88-3",
+      "soil_ug_per_g": {
+        "WLN": "6 500",
+        "WLR": "6 500",
+        "AL": "3 500",
+        "PL": "6 500",
+        "RLLD": "3 500",
+        "RLHD": "6 500",
+        "CL": "20 000",
+        "IL": "550 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "6",
+        "WLR": "6",
+        "AL": "6",
+        "PL": "6",
+        "RLLD": "6",
+        "RLHD": "6",
+        "CL": "6",
+        "IL": "6"
+      }
+    },
+    {
+      "matrix": 36,
+      "substance": "Trichloroethylene",
+      "cas_number": "79-01-6",
+      "soil_ug_per_g": {
+        "WLN": "40",
+        "WLR": "40",
+        "AL": "20",
+        "PL": "40",
+        "RLLD": "20",
+        "RLHD": "40",
+        "CL": "150",
+        "IL": "3 500"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "8",
+        "WLR": "15",
+        "AL": "1.5",
+        "PL": "15",
+        "RLLD": "15",
+        "RLHD": "25",
+        "CL": "25",
+        "IL": "NS"
+      }
+    },
+    {
+      "matrix": 37,
+      "substance": "Uranium",
+      "cas_number": "7440-61-1",
+      "soil_ug_per_g": {
+        "WLN": "250",
+        "WLR": "250",
+        "AL": "100",
+        "PL": "250",
+        "RLLD": "100",
+        "RLHD": "250",
+        "CL": "750",
+        "IL": "20 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "30",
+        "WLR": "30",
+        "AL": "30",
+        "PL": "30",
+        "RLLD": "30",
+        "RLHD": "30",
+        "CL": "30",
+        "IL": "30"
+      }
+    },
+    {
+      "matrix": 38,
+      "substance": "Vanadium",
+      "cas_number": "7440-62-2",
+      "soil_ug_per_g": {
+        "WLN": "400",
+        "WLR": "400",
+        "AL": "200",
+        "PL": "400",
+        "RLLD": "200",
+        "RLHD": "400",
+        "CL": "1 500",
+        "IL": "35 000"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "100",
+        "WLR": "100",
+        "AL": "100",
+        "PL": "100",
+        "RLLD": "100",
+        "RLHD": "100",
+        "CL": "100",
+        "IL": "100"
+      }
+    },
+    {
+      "matrix": 39,
+      "substance": "Xylenes",
+      "cas_number": "1330-20-7",
+      "soil_ug_per_g": {
+        "WLN": "15 000",
+        "WLR": "15 000",
+        "AL": "8 500",
+        "PL": "15 000",
+        "RLLD": "8 500",
+        "RLHD": "15 000",
+        "CL": "50 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "6.5",
+        "WLR": "6.5",
+        "AL": "6.5",
+        "PL": "6.5",
+        "RLLD": "6.5",
+        "RLHD": "6.5",
+        "CL": "6.5",
+        "IL": "6.5"
+      }
+    },
+    {
+      "matrix": 40,
+      "substance": "Zinc",
+      "cas_number": "7440-66-6",
+      "soil_ug_per_g": {
+        "WLN": "25 000",
+        "WLR": "25 000",
+        "AL": "10 000",
+        "PL": "25 000",
+        "RLLD": "10 000",
+        "RLHD": "25 000",
+        "CL": "75 000",
+        "IL": "> 1 000 mg/g"
+      },
+      "gw_drinking_ug_per_L": {
+        "WLN": "pH-dep.",
+        "WLR": "pH-dep.",
+        "AL": "pH-dep.",
+        "PL": "pH-dep.",
+        "RLLD": "pH-dep.",
+        "RLHD": "pH-dep.",
+        "CL": "pH-dep.",
+        "IL": "pH-dep."
+      }
+    }
+  ]
+}
