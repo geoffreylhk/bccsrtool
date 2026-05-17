@@ -1,18 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="utf-8">
-    <title>BC CSR tool</title>
-    <link rel="stylesheet" href="style.css"> <!-- CSS Stylesheet-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BC CSR Screening Tool</title>
+    <link rel="stylesheet" href="style.css">
   </head>
-
   <body>
-    <h1>BC CSR (Contaminted Site Regulation) tool</h1>
-    <h2>Description</h2>
-    <p>A simple tool to streamline the BC CSR Phase I process</p>
-    
-    <script src="script.js"></script> <!-- JavaScript file -->
-  </body>
 
+    <nav>
+      <div class="logo">
+        <img src="logo2.png" alt="BC logo">
+          BC CSR Tool
+      </div>
+      <a href="#">About</a>
+    </nav>
+
+    <main class="landing">
+
+      <h1>BC CSR Screening Tool</h1>
+      <p class="subtitle">Screen contaminated sites against BC Schedule 3.1 
+      thresholds and determine whether a Phase II ESA may be warranted.</p>
+
+      <div class="disclaimer-box">
+        <p><strong>⚠ Educational Use Only</strong></p>
+        <p>This tool is for academic purposes and does not constitute 
+        professional environmental advice or a formal ESA under the BC 
+        Contaminated Sites Regulation. Threshold values are from Schedule 
+        3.1 but may not reflect current amendments. Always consult a 
+        qualified Approved Professional for site-specific work.</p>
+      </div>
+
+      <div class="checkbox-box">
+        <input type="checkbox" id="agree">
+        <label for="agree">I understand this tool is for educational 
+        purposes only and will not use its output as a substitute for 
+        professional advice.</label>
+      </div>
+
+      <button id="beginBtn" disabled>Begin Assessment</button>
+
+    </main>
+
+    <footer>
+      <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+  </body>
 </html>
