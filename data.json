@@ -1,1028 +1,748 @@
 {
   "metadata": {
-    "title": "BC Contaminated Sites Regulation — Schedule 3.1 Human Health Protection Standards",
+    "title": "BC Contaminated Sites Regulation — Schedule 3.1",
     "regulation": "B.C. Reg. 375/96",
-    "schedule": "Schedule 3.1 — Part 1 (Matrix 1 – 40)",
     "last_amended": "October 27, 2025",
-    "units": {
-      "soil": "μg/g (micrograms per gram dry weight)",
-      "groundwater": "μg/L (micrograms per litre)"
-    },
-    "special_values": {
+    "soil_unit": "μg/g",
+    "gw_unit": "μg/L",
+    "notes": {
       "NS": "No Standard established in regulation",
-      "pH-dep.": "pH-dependent standard — consult the specific Matrix in Schedule 3.1 for the full pH-banded table",
-      "> 1 000 mg/g": "Exceeds upper soil reporting limit — effectively unrestricted at this land use"
-    },
-    "land_use_codes": {
-      "WLN": "Wildlands Natural",
-      "WLR": "Wildlands Reverted",
-      "AL": "Agricultural",
-      "PL": "Urban Park",
-      "RLLD": "Residential Low Density",
-      "RLHD": "Residential High Density",
-      "CL": "Commercial",
-      "IL": "Industrial"
+      "pH-dep.": "pH-dependent — consult Schedule 3.1 for the full pH-banded table",
+      "unrestricted": "Exceeds upper reporting limit — effectively unrestricted at this land use"
     }
   },
-  "substances": [
+  "landUseTypes": [
+    { "id": "RLLD", "label": "Residential Low Density", "description": "Single-family homes, duplexes, and similar low-density residential uses" },
+    { "id": "RLHD", "label": "Residential High Density", "description": "Apartments, condominiums, and similar high-density residential uses" },
+    { "id": "AL",   "label": "Agricultural",            "description": "Farms, orchards, market gardens, and similar agricultural uses" },
+    { "id": "PL",   "label": "Urban Park",              "description": "City parks, greenways, recreational fields, and similar public green space" },
+    { "id": "CL",   "label": "Commercial",              "description": "Retail, office, restaurants, and similar commercial uses" },
+    { "id": "IL",   "label": "Industrial",              "description": "Factories, warehouses, heavy industrial operations" },
+    { "id": "WLN",  "label": "Wildlands Natural",       "description": "Undisturbed natural areas, forests, and wildlife habitat" },
+    { "id": "WLR",  "label": "Wildlands Reverted",      "description": "Previously disturbed lands reverting to a natural state" }
+  ],
+  "soilTypes": [
+    { "id": "coarse", "label": "Coarse (Sand / Gravel)",  "description": "High permeability — contaminants migrate more readily to groundwater" },
+    { "id": "fine",   "label": "Fine (Silt / Clay)",      "description": "Low permeability — contaminants tend to bind and migrate more slowly" },
+    { "id": "mixed",  "label": "Mixed / Unknown",          "description": "Variable permeability — conservative assumptions apply" }
+  ],
+  "bcMunicipalities": [
+    "Abbotsford","Armstrong","Burnaby","Campbell River","Castlegar",
+    "Chilliwack","Colwood","Coquitlam","Courtenay","Cranbrook",
+    "Dawson Creek","Delta","Duncan","Fernie","Fort St. John",
+    "Grand Forks","Kamloops","Kelowna","Kimberley","Kitimat",
+    "Langford","Langley (City)","Langley (Township)","Maple Ridge",
+    "Merritt","Mission","Nanaimo","Nelson","New Westminster",
+    "North Cowichan","North Saanich","North Vancouver (City)",
+    "North Vancouver (District)","Oak Bay","Parksville","Penticton",
+    "Pitt Meadows","Port Alberni","Port Coquitlam","Port Moody",
+    "Powell River","Prince George","Prince Rupert","Quesnel",
+    "Revelstoke","Richmond","Rossland","Saanich","Salmon Arm",
+    "Sechelt","Sidney","Smithers","Squamish","Surrey","Terrace",
+    "Trail","Vancouver","Vernon","Victoria","West Kelowna",
+    "West Vancouver","White Rock","Williams Lake","Rural / Unincorporated"
+  ],
+  "contaminantCategories": {
+    "Polycyclic Aromatic Hydrocarbons (PAHs)": {
+      "description": "Complex organic compounds from combustion, coal tar, and creosote. Common at former gas works, rail yards, and wood treatment sites.",
+      "relevantLandUse": ["RLLD","RLHD","AL","PL","CL","IL","WLN","WLR"]
+    },
+    "BTEX & Petroleum VOCs": {
+      "description": "Benzene, Toluene, Ethylbenzene, and Xylenes — volatile compounds found in gasoline and petroleum products. High mobility and toxicity.",
+      "relevantLandUse": ["RLLD","RLHD","AL","PL","CL","IL","WLN","WLR"]
+    },
+    "Metals & Metalloids": {
+      "description": "Inorganic contaminants including heavy metals. Found at mining sites, smelters, industrial operations, and some agricultural lands.",
+      "relevantLandUse": ["RLLD","RLHD","AL","PL","CL","IL","WLN","WLR"]
+    },
+    "Chlorinated Compounds": {
+      "description": "Synthetic chlorinated chemicals used as solvents, pesticides, and industrial reagents. Persistent in soil and groundwater.",
+      "relevantLandUse": ["RLLD","RLHD","AL","PL","CL","IL","WLN","WLR"]
+    },
+    "Other Organics & Emerging Contaminants": {
+      "description": "Includes legacy pesticides (DDT), industrial chemicals, PFAS compounds, and other regulated organic substances.",
+      "relevantLandUse": ["RLLD","RLHD","AL","PL","CL","IL","WLN","WLR"]
+    }
+  },
+  "contaminants": [
     {
-      "matrix": 1,
-      "substance": "Anthracene",
-      "cas_number": "120-12-7",
-      "soil_ug_per_g": {
-        "WLN": "25 000",
-        "WLR": "25 000",
-        "AL": "10 000",
-        "PL": "25 000",
-        "RLLD": "10 000",
-        "RLHD": "25 000",
-        "CL": "75 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "anthracene",
+      "name": "Anthracene",
+      "cas": "120-12-7",
+      "category": "Polycyclic Aromatic Hydrocarbons (PAHs)",
+      "description": "A three-ring PAH found in coal tar and creosote. Less toxic than higher-ring PAHs.",
+      "thresholds": {
+        "RLLD": { "soil": 10000,        "gw": null },
+        "RLHD": { "soil": 25000,        "gw": null },
+        "AL":   { "soil": 10000,        "gw": null },
+        "PL":   { "soil": 25000,        "gw": null },
+        "CL":   { "soil": 75000,        "gw": null },
+        "IL":   { "soil": "unrestricted","gw": null },
+        "WLN":  { "soil": 25000,        "gw": null },
+        "WLR":  { "soil": 25000,        "gw": null }
       }
     },
     {
-      "matrix": 2,
-      "substance": "Arsenic",
-      "cas_number": "7440-38-2",
-      "soil_ug_per_g": {
-        "WLN": "40",
-        "WLR": "40",
-        "AL": "20",
-        "PL": "40",
-        "RLLD": "20",
-        "RLHD": "40",
-        "CL": "150",
-        "IL": "400"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "10",
-        "WLR": "10",
-        "AL": "10",
-        "PL": "10",
-        "RLLD": "10",
-        "RLHD": "10",
-        "CL": "10",
-        "IL": "10"
+      "id": "benzo_a_pyrene",
+      "name": "Benzo(a)pyrene",
+      "cas": "50-32-8",
+      "category": "Polycyclic Aromatic Hydrocarbons (PAHs)",
+      "description": "A potent carcinogen and the most regulated PAH. Present in coal tar, creosote, and combustion products.",
+      "thresholds": {
+        "RLLD": { "soil": 5,   "gw": null },
+        "RLHD": { "soil": 10,  "gw": null },
+        "AL":   { "soil": 5,   "gw": null },
+        "PL":   { "soil": 10,  "gw": null },
+        "CL":   { "soil": 30,  "gw": null },
+        "IL":   { "soil": 50,  "gw": null },
+        "WLN":  { "soil": 10,  "gw": null },
+        "WLR":  { "soil": 10,  "gw": null }
       }
     },
     {
-      "matrix": 3,
-      "substance": "Barium",
-      "cas_number": "7440-39-3",
-      "soil_ug_per_g": {
-        "WLN": "15 000",
-        "WLR": "15 000",
-        "AL": "8 500",
-        "PL": "15 000",
-        "RLLD": "8 500",
-        "RLHD": "15 000",
-        "CL": "50 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "350",
-        "WLR": "350",
-        "AL": "350",
-        "PL": "350",
-        "RLLD": "350",
-        "RLHD": "350",
-        "CL": "350",
-        "IL": "350"
+      "id": "fluoranthene",
+      "name": "Fluoranthene",
+      "cas": "206-44-0",
+      "category": "Polycyclic Aromatic Hydrocarbons (PAHs)",
+      "description": "A four-ring PAH found in combustion emissions, coal tar, and petroleum. Less carcinogenic than benzo(a)pyrene.",
+      "thresholds": {
+        "RLLD": { "soil": 1500,   "gw": null },
+        "RLHD": { "soil": 3500,   "gw": null },
+        "AL":   { "soil": 1500,   "gw": null },
+        "PL":   { "soil": 3500,   "gw": null },
+        "CL":   { "soil": 10000,  "gw": null },
+        "IL":   { "soil": 300000, "gw": null },
+        "WLN":  { "soil": 3500,   "gw": null },
+        "WLR":  { "soil": 3500,   "gw": null }
       }
     },
     {
-      "matrix": 4,
-      "substance": "Benzene",
-      "cas_number": "71-43-2",
-      "soil_ug_per_g": {
-        "WLN": "350",
-        "WLR": "350",
-        "AL": "150",
-        "PL": "350",
-        "RLLD": "150",
-        "RLHD": "350",
-        "CL": "1 000",
-        "IL": "6 500"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "0.035",
-        "WLR": "0.035",
-        "AL": "0.035",
-        "PL": "0.035",
-        "RLLD": "0.035",
-        "RLHD": "0.035",
-        "CL": "0.035",
-        "IL": "0.035"
+      "id": "naphthalene",
+      "name": "Naphthalene",
+      "cas": "91-20-3",
+      "category": "Polycyclic Aromatic Hydrocarbons (PAHs)",
+      "description": "The simplest PAH, with relatively high mobility. Found in coal tar, petroleum, and combustion products.",
+      "thresholds": {
+        "RLLD": { "soil": 850,    "gw": 100 },
+        "RLHD": { "soil": 1500,   "gw": 100 },
+        "AL":   { "soil": 850,    "gw": 100 },
+        "PL":   { "soil": 1500,   "gw": 100 },
+        "CL":   { "soil": 5000,   "gw": 100 },
+        "IL":   { "soil": 150000, "gw": 100 },
+        "WLN":  { "soil": 1500,   "gw": 100 },
+        "WLR":  { "soil": 1500,   "gw": 100 }
       }
     },
     {
-      "matrix": 5,
-      "substance": "Benzo(a)pyrene",
-      "cas_number": "50-32-8",
-      "soil_ug_per_g": {
-        "WLN": "10",
-        "WLR": "10",
-        "AL": "5",
-        "PL": "10",
-        "RLLD": "5",
-        "RLHD": "10",
-        "CL": "30",
-        "IL": "50"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "pcdds_pcdfs",
+      "name": "PCDDs/PCDFs (Dioxins & Furans, Total)",
+      "cas": "1746-01-6",
+      "category": "Polycyclic Aromatic Hydrocarbons (PAHs)",
+      "description": "Highly toxic chlorinated compounds formed during combustion and industrial processes. Persistent in the environment.",
+      "thresholds": {
+        "RLLD": { "soil": 0.000095, "gw": null },
+        "RLHD": { "soil": 0.0002,   "gw": null },
+        "AL":   { "soil": 0.000095, "gw": null },
+        "PL":   { "soil": 0.0002,   "gw": null },
+        "CL":   { "soil": 0.0006,   "gw": null },
+        "IL":   { "soil": 0.015,    "gw": null },
+        "WLN":  { "soil": 0.0002,   "gw": null },
+        "WLR":  { "soil": 0.0002,   "gw": null }
       }
     },
     {
-      "matrix": 6,
-      "substance": "Beryllium",
-      "cas_number": "7440-41-7",
-      "soil_ug_per_g": {
-        "WLN": "150",
-        "WLR": "150",
-        "AL": "85",
-        "PL": "150",
-        "RLLD": "85",
-        "RLHD": "150",
-        "CL": "500",
-        "IL": "15 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "benzene",
+      "name": "Benzene",
+      "cas": "71-43-2",
+      "category": "BTEX & Petroleum VOCs",
+      "description": "A known human carcinogen and the most regulated BTEX compound. Found in gasoline and fuel products.",
+      "thresholds": {
+        "RLLD": { "soil": 150,  "gw": 0.035 },
+        "RLHD": { "soil": 350,  "gw": 0.035 },
+        "AL":   { "soil": 150,  "gw": 0.035 },
+        "PL":   { "soil": 350,  "gw": 0.035 },
+        "CL":   { "soil": 1000, "gw": 0.035 },
+        "IL":   { "soil": 6500, "gw": 0.035 },
+        "WLN":  { "soil": 350,  "gw": 0.035 },
+        "WLR":  { "soil": 350,  "gw": 0.035 }
       }
     },
     {
-      "matrix": 7,
-      "substance": "Cadmium",
-      "cas_number": "7440-43-9",
-      "soil_ug_per_g": {
-        "WLN": "40",
-        "WLR": "40",
-        "AL": "20",
-        "PL": "40",
-        "RLLD": "20",
-        "RLHD": "40",
-        "CL": "150",
-        "IL": "3 500"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "ethylbenzene",
+      "name": "Ethylbenzene",
+      "cas": "100-41-4",
+      "category": "BTEX & Petroleum VOCs",
+      "description": "A BTEX compound found in petroleum products. Can affect the liver and kidneys at elevated concentrations.",
+      "thresholds": {
+        "RLLD": { "soil": 4000,   "gw": 15 },
+        "RLHD": { "soil": 8500,   "gw": 15 },
+        "AL":   { "soil": 4000,   "gw": 15 },
+        "PL":   { "soil": 8500,   "gw": 15 },
+        "CL":   { "soil": 25000,  "gw": 15 },
+        "IL":   { "soil": 700000, "gw": 15 },
+        "WLN":  { "soil": 8500,   "gw": 15 },
+        "WLR":  { "soil": 8500,   "gw": 15 }
       }
     },
     {
-      "matrix": 8,
-      "substance": "Chloride Ion",
-      "cas_number": "16887-00-6",
-      "soil_ug_per_g": {
-        "WLN": "> 1 000 mg/g",
-        "WLR": "> 1 000 mg/g",
-        "AL": "> 1 000 mg/g",
-        "PL": "> 1 000 mg/g",
-        "RLLD": "> 1 000 mg/g",
-        "RLHD": "> 1 000 mg/g",
-        "CL": "> 1 000 mg/g",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "100",
-        "WLR": "100",
-        "AL": "100",
-        "PL": "100",
-        "RLLD": "100",
-        "RLHD": "100",
-        "CL": "100",
-        "IL": "100"
+      "id": "toluene",
+      "name": "Toluene",
+      "cas": "108-88-3",
+      "category": "BTEX & Petroleum VOCs",
+      "description": "A common solvent in petroleum products. Associated with neurological effects at high concentrations.",
+      "thresholds": {
+        "RLLD": { "soil": 3500,   "gw": 6 },
+        "RLHD": { "soil": 6500,   "gw": 6 },
+        "AL":   { "soil": 3500,   "gw": 6 },
+        "PL":   { "soil": 6500,   "gw": 6 },
+        "CL":   { "soil": 20000,  "gw": 6 },
+        "IL":   { "soil": 550000, "gw": 6 },
+        "WLN":  { "soil": 6500,   "gw": 6 },
+        "WLR":  { "soil": 6500,   "gw": 6 }
       }
     },
     {
-      "matrix": 9,
-      "substance": "Chromium",
-      "cas_number": "7440-47-3",
-      "soil_ug_per_g": {
-        "WLN": "250",
-        "WLR": "250",
-        "AL": "100",
-        "PL": "250",
-        "RLLD": "100",
-        "RLHD": "250",
-        "CL": "750",
-        "IL": "20 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "xylenes",
+      "name": "Xylenes (Total)",
+      "cas": "1330-20-7",
+      "category": "BTEX & Petroleum VOCs",
+      "description": "A group of isomeric BTEX compounds found in petroleum. Can cause neurological effects.",
+      "thresholds": {
+        "RLLD": { "soil": 8500,          "gw": 6.5 },
+        "RLHD": { "soil": 15000,         "gw": 6.5 },
+        "AL":   { "soil": 8500,          "gw": 6.5 },
+        "PL":   { "soil": 15000,         "gw": 6.5 },
+        "CL":   { "soil": 50000,         "gw": 6.5 },
+        "IL":   { "soil": "unrestricted", "gw": 6.5 },
+        "WLN":  { "soil": 15000,         "gw": 6.5 },
+        "WLR":  { "soil": 15000,         "gw": 6.5 }
       }
     },
     {
-      "matrix": 10,
-      "substance": "Cobalt",
-      "cas_number": "7440-48-4",
-      "soil_ug_per_g": {
-        "WLN": "25",
-        "WLR": "25",
-        "AL": "25",
-        "PL": "25",
-        "RLLD": "25",
-        "RLHD": "25",
-        "CL": "75",
-        "IL": "2 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "25",
-        "WLR": "25",
-        "AL": "25",
-        "PL": "25",
-        "RLLD": "25",
-        "RLHD": "25",
-        "CL": "25",
-        "IL": "25"
+      "id": "arsenic",
+      "name": "Arsenic",
+      "cas": "7440-38-2",
+      "category": "Metals & Metalloids",
+      "description": "A naturally occurring metalloid and known carcinogen. Elevated at mining sites, smelters, and some agricultural lands.",
+      "thresholds": {
+        "RLLD": { "soil": 20,  "gw": 10 },
+        "RLHD": { "soil": 40,  "gw": 10 },
+        "AL":   { "soil": 20,  "gw": 10 },
+        "PL":   { "soil": 40,  "gw": 10 },
+        "CL":   { "soil": 150, "gw": 10 },
+        "IL":   { "soil": 400, "gw": 10 },
+        "WLN":  { "soil": 40,  "gw": 10 },
+        "WLR":  { "soil": 40,  "gw": 10 }
       }
     },
     {
-      "matrix": 11,
-      "substance": "Copper",
-      "cas_number": "7440-50-8",
-      "soil_ug_per_g": {
-        "WLN": "7 500",
-        "WLR": "7 500",
-        "AL": "3 500",
-        "PL": "7 500",
-        "RLLD": "3 500",
-        "RLHD": "7 500",
-        "CL": "25 000",
-        "IL": "700 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "barium",
+      "name": "Barium",
+      "cas": "7440-39-3",
+      "category": "Metals & Metalloids",
+      "description": "A naturally occurring alkaline earth metal. Elevated at oil & gas facilities and industrial operations.",
+      "thresholds": {
+        "RLLD": { "soil": 8500,          "gw": 350 },
+        "RLHD": { "soil": 15000,         "gw": 350 },
+        "AL":   { "soil": 8500,          "gw": 350 },
+        "PL":   { "soil": 15000,         "gw": 350 },
+        "CL":   { "soil": 50000,         "gw": 350 },
+        "IL":   { "soil": "unrestricted", "gw": 350 },
+        "WLN":  { "soil": 15000,         "gw": 350 },
+        "WLR":  { "soil": 15000,         "gw": 350 }
       }
     },
     {
-      "matrix": 12,
-      "substance": "Cyanide",
-      "cas_number": "57-12-5",
-      "soil_ug_per_g": {
-        "WLN": "50",
-        "WLR": "50",
-        "AL": "25",
-        "PL": "50",
-        "RLLD": "25",
-        "RLHD": "50",
-        "CL": "150",
-        "IL": "4 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "6.5",
-        "WLR": "6.5",
-        "AL": "6.5",
-        "PL": "6.5",
-        "RLLD": "6.5",
-        "RLHD": "6.5",
-        "CL": "6.5",
-        "IL": "6.5"
+      "id": "beryllium",
+      "name": "Beryllium",
+      "cas": "7440-41-7",
+      "category": "Metals & Metalloids",
+      "description": "A toxic lightweight metal used in aerospace and electronics industries. A known human carcinogen.",
+      "thresholds": {
+        "RLLD": { "soil": 85,    "gw": "pH-dep." },
+        "RLHD": { "soil": 150,   "gw": "pH-dep." },
+        "AL":   { "soil": 85,    "gw": "pH-dep." },
+        "PL":   { "soil": 150,   "gw": "pH-dep." },
+        "CL":   { "soil": 500,   "gw": "pH-dep." },
+        "IL":   { "soil": 15000, "gw": "pH-dep." },
+        "WLN":  { "soil": 150,   "gw": "pH-dep." },
+        "WLR":  { "soil": 150,   "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 13,
-      "substance": "DDT (Dichlorodiphenyltrichloroethane, Total)",
-      "cas_number": "NS",
-      "soil_ug_per_g": {
-        "WLN": "40",
-        "WLR": "40",
-        "AL": "20",
-        "PL": "40",
-        "RLLD": "20",
-        "RLHD": "40",
-        "CL": "150",
-        "IL": "1 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "cadmium",
+      "name": "Cadmium",
+      "cas": "7440-43-9",
+      "category": "Metals & Metalloids",
+      "description": "A toxic heavy metal associated with mining, smelting, and phosphate fertilizers. Accumulates in the kidneys.",
+      "thresholds": {
+        "RLLD": { "soil": 20,   "gw": "pH-dep." },
+        "RLHD": { "soil": 40,   "gw": "pH-dep." },
+        "AL":   { "soil": 20,   "gw": "pH-dep." },
+        "PL":   { "soil": 40,   "gw": "pH-dep." },
+        "CL":   { "soil": 150,  "gw": "pH-dep." },
+        "IL":   { "soil": 3500, "gw": "pH-dep." },
+        "WLN":  { "soil": 40,   "gw": "pH-dep." },
+        "WLR":  { "soil": 40,   "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 14,
-      "substance": "DIPA (Diisopropanolamine)",
-      "cas_number": "110-97-4",
-      "soil_ug_per_g": {
-        "WLN": "30 000",
-        "WLR": "30 000",
-        "AL": "15 000",
-        "PL": "30 000",
-        "RLLD": "15 000",
-        "RLHD": "30 000",
-        "CL": "100 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "1.5",
-        "WLR": "1.5",
-        "AL": "1.5",
-        "PL": "1.5",
-        "RLLD": "1.5",
-        "RLHD": "1.5",
-        "CL": "1.5",
-        "IL": "1.5"
+      "id": "chromium",
+      "name": "Chromium",
+      "cas": "7440-47-3",
+      "category": "Metals & Metalloids",
+      "description": "A metal used in industrial processes. Hexavalent chromium (Cr VI) is a potent carcinogen.",
+      "thresholds": {
+        "RLLD": { "soil": 100,   "gw": "pH-dep." },
+        "RLHD": { "soil": 250,   "gw": "pH-dep." },
+        "AL":   { "soil": 100,   "gw": "pH-dep." },
+        "PL":   { "soil": 250,   "gw": "pH-dep." },
+        "CL":   { "soil": 750,   "gw": "pH-dep." },
+        "IL":   { "soil": 20000, "gw": "pH-dep." },
+        "WLN":  { "soil": 250,   "gw": "pH-dep." },
+        "WLR":  { "soil": 250,   "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 15,
-      "substance": "Ethylbenzene",
-      "cas_number": "100-41-4",
-      "soil_ug_per_g": {
-        "WLN": "8 500",
-        "WLR": "8 500",
-        "AL": "4 000",
-        "PL": "8 500",
-        "RLLD": "4 000",
-        "RLHD": "8 500",
-        "CL": "25 000",
-        "IL": "700 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "15",
-        "WLR": "15",
-        "AL": "15",
-        "PL": "15",
-        "RLLD": "15",
-        "RLHD": "15",
-        "CL": "15",
-        "IL": "15"
+      "id": "cobalt",
+      "name": "Cobalt",
+      "cas": "7440-48-4",
+      "category": "Metals & Metalloids",
+      "description": "A metal found at mining sites and industrial facilities. Can cause respiratory and cardiac effects.",
+      "thresholds": {
+        "RLLD": { "soil": 25,   "gw": 25 },
+        "RLHD": { "soil": 25,   "gw": 25 },
+        "AL":   { "soil": 25,   "gw": 25 },
+        "PL":   { "soil": 25,   "gw": 25 },
+        "CL":   { "soil": 75,   "gw": 25 },
+        "IL":   { "soil": 2000, "gw": 25 },
+        "WLN":  { "soil": 25,   "gw": 25 },
+        "WLR":  { "soil": 25,   "gw": 25 }
       }
     },
     {
-      "matrix": 16,
-      "substance": "Ethylene Glycol",
-      "cas_number": "107-21-1",
-      "soil_ug_per_g": {
-        "WLN": "150 000",
-        "WLR": "150 000",
-        "AL": "85 000",
-        "PL": "150 000",
-        "RLLD": "85 000",
-        "RLHD": "150 000",
-        "CL": "500 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "10",
-        "WLR": "10",
-        "AL": "10",
-        "PL": "10",
-        "RLLD": "10",
-        "RLHD": "10",
-        "CL": "10",
-        "IL": "10"
+      "id": "copper",
+      "name": "Copper",
+      "cas": "7440-50-8",
+      "category": "Metals & Metalloids",
+      "description": "An essential micronutrient at low levels, toxic at elevated concentrations. Found at mining and industrial sites.",
+      "thresholds": {
+        "RLLD": { "soil": 3500,   "gw": "pH-dep." },
+        "RLHD": { "soil": 7500,   "gw": "pH-dep." },
+        "AL":   { "soil": 3500,   "gw": "pH-dep." },
+        "PL":   { "soil": 7500,   "gw": "pH-dep." },
+        "CL":   { "soil": 25000,  "gw": "pH-dep." },
+        "IL":   { "soil": 700000, "gw": "pH-dep." },
+        "WLN":  { "soil": 7500,   "gw": "pH-dep." },
+        "WLR":  { "soil": 7500,   "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 17,
-      "substance": "Fluoranthene",
-      "cas_number": "206-44-0",
-      "soil_ug_per_g": {
-        "WLN": "3 500",
-        "WLR": "3 500",
-        "AL": "1 500",
-        "PL": "3 500",
-        "RLLD": "1 500",
-        "RLHD": "3 500",
-        "CL": "10 000",
-        "IL": "300 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "lead",
+      "name": "Lead",
+      "cas": "7439-92-1",
+      "category": "Metals & Metalloids",
+      "description": "A toxic heavy metal with no safe exposure level. Common at former industrial sites, shooting ranges, and areas with legacy leaded paint.",
+      "thresholds": {
+        "RLLD": { "soil": 120,  "gw": "pH-dep." },
+        "RLHD": { "soil": 120,  "gw": "pH-dep." },
+        "AL":   { "soil": 120,  "gw": "pH-dep." },
+        "PL":   { "soil": 120,  "gw": "pH-dep." },
+        "CL":   { "soil": 150,  "gw": "pH-dep." },
+        "IL":   { "soil": 4000, "gw": "pH-dep." },
+        "WLN":  { "soil": 120,  "gw": "pH-dep." },
+        "WLR":  { "soil": 120,  "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 18,
-      "substance": "Lead",
-      "cas_number": "7439-92-1",
-      "soil_ug_per_g": {
-        "WLN": "120",
-        "WLR": "120",
-        "AL": "120",
-        "PL": "120",
-        "RLLD": "120",
-        "RLHD": "120",
-        "CL": "150",
-        "IL": "4 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "manganese",
+      "name": "Manganese",
+      "cas": "7439-96-5",
+      "category": "Metals & Metalloids",
+      "description": "Naturally occurring metal that is toxic at elevated levels. Found at mining sites and some industrial operations.",
+      "thresholds": {
+        "RLLD": { "soil": 6000,          "gw": 2000 },
+        "RLHD": { "soil": 10000,         "gw": 2000 },
+        "AL":   { "soil": 6000,          "gw": 2000 },
+        "PL":   { "soil": 10000,         "gw": 2000 },
+        "CL":   { "soil": 35000,         "gw": 2000 },
+        "IL":   { "soil": "unrestricted", "gw": 2000 },
+        "WLN":  { "soil": 10000,         "gw": 2000 },
+        "WLR":  { "soil": 10000,         "gw": 2000 }
       }
     },
     {
-      "matrix": 19,
-      "substance": "Manganese",
-      "cas_number": "7439-96-5",
-      "soil_ug_per_g": {
-        "WLN": "10 000",
-        "WLR": "10 000",
-        "AL": "6 000",
-        "PL": "10 000",
-        "RLLD": "6 000",
-        "RLHD": "10 000",
-        "CL": "35 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "2 000",
-        "WLR": "2 000",
-        "AL": "2 000",
-        "PL": "2 000",
-        "RLLD": "2 000",
-        "RLHD": "2 000",
-        "CL": "2 000",
-        "IL": "2 000"
+      "id": "mercury",
+      "name": "Mercury",
+      "cas": "7439-97-6",
+      "category": "Metals & Metalloids",
+      "description": "A highly toxic heavy metal. Found at former industrial sites, chlor-alkali plants, and gold mining operations.",
+      "thresholds": {
+        "RLLD": { "soil": 10,   "gw": null },
+        "RLHD": { "soil": 25,   "gw": null },
+        "AL":   { "soil": 10,   "gw": null },
+        "PL":   { "soil": 25,   "gw": null },
+        "CL":   { "soil": 75,   "gw": null },
+        "IL":   { "soil": 2000, "gw": null },
+        "WLN":  { "soil": 25,   "gw": null },
+        "WLR":  { "soil": 25,   "gw": null }
       }
     },
     {
-      "matrix": 20,
-      "substance": "Mercury",
-      "cas_number": "7439-97-6",
-      "soil_ug_per_g": {
-        "WLN": "25",
-        "WLR": "25",
-        "AL": "10",
-        "PL": "25",
-        "RLLD": "10",
-        "RLHD": "25",
-        "CL": "75",
-        "IL": "2 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "molybdenum",
+      "name": "Molybdenum",
+      "cas": "7439-98-7",
+      "category": "Metals & Metalloids",
+      "description": "A trace element that is toxic at elevated concentrations. Found near mining and industrial operations.",
+      "thresholds": {
+        "RLLD": { "soil": 200,   "gw": 15 },
+        "RLHD": { "soil": 400,   "gw": 15 },
+        "AL":   { "soil": 200,   "gw": 15 },
+        "PL":   { "soil": 400,   "gw": 15 },
+        "CL":   { "soil": 1500,  "gw": 15 },
+        "IL":   { "soil": 35000, "gw": 15 },
+        "WLN":  { "soil": 400,   "gw": 15 },
+        "WLR":  { "soil": 400,   "gw": 15 }
       }
     },
     {
-      "matrix": 21,
-      "substance": "Methanol",
-      "cas_number": "67-56-1",
-      "soil_ug_per_g": {
-        "WLN": "40 000",
-        "WLR": "40 000",
-        "AL": "20 000",
-        "PL": "40 000",
-        "RLLD": "20 000",
-        "RLHD": "40 000",
-        "CL": "150 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "15",
-        "WLR": "15",
-        "AL": "15",
-        "PL": "15",
-        "RLLD": "15",
-        "RLHD": "15",
-        "CL": "15",
-        "IL": "15"
+      "id": "nickel",
+      "name": "Nickel",
+      "cas": "7440-02-0",
+      "category": "Metals & Metalloids",
+      "description": "A metal elevated near smelters and industrial operations. Can cause allergic reactions and lung problems.",
+      "thresholds": {
+        "RLLD": { "soil": 450,   "gw": "pH-dep." },
+        "RLHD": { "soil": 900,   "gw": "pH-dep." },
+        "AL":   { "soil": 450,   "gw": "pH-dep." },
+        "PL":   { "soil": 900,   "gw": "pH-dep." },
+        "CL":   { "soil": 3000,  "gw": "pH-dep." },
+        "IL":   { "soil": 80000, "gw": "pH-dep." },
+        "WLN":  { "soil": 900,   "gw": "pH-dep." },
+        "WLR":  { "soil": 900,   "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 22,
-      "substance": "Molybdenum",
-      "cas_number": "7439-98-7",
-      "soil_ug_per_g": {
-        "WLN": "400",
-        "WLR": "400",
-        "AL": "200",
-        "PL": "400",
-        "RLLD": "200",
-        "RLHD": "400",
-        "CL": "1 500",
-        "IL": "35 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "15",
-        "WLR": "15",
-        "AL": "15",
-        "PL": "15",
-        "RLLD": "15",
-        "RLHD": "15",
-        "CL": "15",
-        "IL": "15"
+      "id": "selenium",
+      "name": "Selenium",
+      "cas": "7782-49-2",
+      "category": "Metals & Metalloids",
+      "description": "An essential trace element at low levels, toxic at higher concentrations. Found at coal processing and mining sites.",
+      "thresholds": {
+        "RLLD": { "soil": 200,   "gw": 1 },
+        "RLHD": { "soil": 400,   "gw": 1 },
+        "AL":   { "soil": 200,   "gw": 1 },
+        "PL":   { "soil": 400,   "gw": 1 },
+        "CL":   { "soil": 1500,  "gw": 1 },
+        "IL":   { "soil": 35000, "gw": 1 },
+        "WLN":  { "soil": 400,   "gw": 1 },
+        "WLR":  { "soil": 400,   "gw": 1 }
       }
     },
     {
-      "matrix": 23,
-      "substance": "Naphthalene",
-      "cas_number": "91-20-3",
-      "soil_ug_per_g": {
-        "WLN": "1 500",
-        "WLR": "1 500",
-        "AL": "850",
-        "PL": "1 500",
-        "RLLD": "850",
-        "RLHD": "1 500",
-        "CL": "5 000",
-        "IL": "150 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "100",
-        "WLR": "100",
-        "AL": "100",
-        "PL": "100",
-        "RLLD": "100",
-        "RLHD": "100",
-        "CL": "100",
-        "IL": "100"
+      "id": "uranium",
+      "name": "Uranium",
+      "cas": "7440-61-1",
+      "category": "Metals & Metalloids",
+      "description": "A naturally occurring radioactive heavy metal. Elevated near uranium mining and processing sites.",
+      "thresholds": {
+        "RLLD": { "soil": 100,   "gw": 30 },
+        "RLHD": { "soil": 250,   "gw": 30 },
+        "AL":   { "soil": 100,   "gw": 30 },
+        "PL":   { "soil": 250,   "gw": 30 },
+        "CL":   { "soil": 750,   "gw": 30 },
+        "IL":   { "soil": 20000, "gw": 30 },
+        "WLN":  { "soil": 250,   "gw": 30 },
+        "WLR":  { "soil": 250,   "gw": 30 }
       }
     },
     {
-      "matrix": 24,
-      "substance": "Nickel",
-      "cas_number": "7440-02-0",
-      "soil_ug_per_g": {
-        "WLN": "900",
-        "WLR": "900",
-        "AL": "450",
-        "PL": "900",
-        "RLLD": "450",
-        "RLHD": "900",
-        "CL": "3 000",
-        "IL": "80 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "vanadium",
+      "name": "Vanadium",
+      "cas": "7440-62-2",
+      "category": "Metals & Metalloids",
+      "description": "A metal found naturally in soils and elevated near oil refining and industrial operations.",
+      "thresholds": {
+        "RLLD": { "soil": 200,   "gw": 100 },
+        "RLHD": { "soil": 400,   "gw": 100 },
+        "AL":   { "soil": 200,   "gw": 100 },
+        "PL":   { "soil": 400,   "gw": 100 },
+        "CL":   { "soil": 1500,  "gw": 100 },
+        "IL":   { "soil": 35000, "gw": 100 },
+        "WLN":  { "soil": 400,   "gw": 100 },
+        "WLR":  { "soil": 400,   "gw": 100 }
       }
     },
     {
-      "matrix": 25,
-      "substance": "Nonylphenol and Nonylphenol Ethoxylates",
-      "cas_number": "NS",
-      "soil_ug_per_g": {
-        "WLN": "400",
-        "WLR": "400",
-        "AL": "200",
-        "PL": "400",
-        "RLLD": "200",
-        "RLHD": "400",
-        "CL": "1 000",
-        "IL": "35 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "20",
-        "WLR": "20",
-        "AL": "20",
-        "PL": "20",
-        "RLLD": "20",
-        "RLHD": "20",
-        "CL": "20",
-        "IL": "20"
+      "id": "zinc",
+      "name": "Zinc",
+      "cas": "7440-66-6",
+      "category": "Metals & Metalloids",
+      "description": "An essential micronutrient that is toxic at elevated concentrations. Found at smelter sites and galvanizing operations.",
+      "thresholds": {
+        "RLLD": { "soil": 10000,         "gw": "pH-dep." },
+        "RLHD": { "soil": 25000,         "gw": "pH-dep." },
+        "AL":   { "soil": 10000,         "gw": "pH-dep." },
+        "PL":   { "soil": 25000,         "gw": "pH-dep." },
+        "CL":   { "soil": 75000,         "gw": "pH-dep." },
+        "IL":   { "soil": "unrestricted", "gw": "pH-dep." },
+        "WLN":  { "soil": 25000,         "gw": "pH-dep." },
+        "WLR":  { "soil": 25000,         "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 26,
-      "substance": "Pentachlorophenol (PCP)",
-      "cas_number": "87-86-5",
-      "soil_ug_per_g": {
-        "WLN": "200",
-        "WLR": "200",
-        "AL": "90",
-        "PL": "200",
-        "RLLD": "90",
-        "RLHD": "200",
-        "CL": "550",
-        "IL": "900"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "chloride",
+      "name": "Chloride Ion",
+      "cas": "16887-00-6",
+      "category": "Chlorinated Compounds",
+      "description": "Naturally present in soil and water; elevated concentrations associated with road salt, brine, and industrial discharges.",
+      "thresholds": {
+        "RLLD": { "soil": "unrestricted", "gw": 100 },
+        "RLHD": { "soil": "unrestricted", "gw": 100 },
+        "AL":   { "soil": "unrestricted", "gw": 100 },
+        "PL":   { "soil": "unrestricted", "gw": 100 },
+        "CL":   { "soil": "unrestricted", "gw": 100 },
+        "IL":   { "soil": "unrestricted", "gw": 100 },
+        "WLN":  { "soil": "unrestricted", "gw": 100 },
+        "WLR":  { "soil": "unrestricted", "gw": 100 }
       }
     },
     {
-      "matrix": 27,
-      "substance": "PFOS (Perfluorooctane Sulfonate)",
-      "cas_number": "1763-23-1",
-      "soil_ug_per_g": {
-        "WLN": "2.5",
-        "WLR": "2.5",
-        "AL": "1",
-        "PL": "2.5",
-        "RLLD": "1",
-        "RLHD": "2.5",
-        "CL": "7.5",
-        "IL": "200"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "0.35",
-        "WLR": "0.35",
-        "AL": "0.35",
-        "PL": "0.35",
-        "RLLD": "0.35",
-        "RLHD": "0.35",
-        "CL": "0.35",
-        "IL": "0.35"
+      "id": "pcbs",
+      "name": "PCBs (Polychlorinated Biphenyls, Total)",
+      "cas": "1336-36-3",
+      "category": "Chlorinated Compounds",
+      "description": "Persistent industrial chemicals used in electrical equipment. Banned since the 1970s but still found at many industrial sites.",
+      "thresholds": {
+        "RLLD": { "soil": 5,   "gw": null },
+        "RLHD": { "soil": 10,  "gw": null },
+        "AL":   { "soil": 5,   "gw": null },
+        "PL":   { "soil": 10,  "gw": null },
+        "CL":   { "soil": 35,  "gw": null },
+        "IL":   { "soil": 900, "gw": null },
+        "WLN":  { "soil": 10,  "gw": null },
+        "WLR":  { "soil": 10,  "gw": null }
       }
     },
     {
-      "matrix": 28,
-      "substance": "Phenol",
-      "cas_number": "108-95-2",
-      "soil_ug_per_g": {
-        "WLN": "25 000",
-        "WLR": "25 000",
-        "AL": "10 000",
-        "PL": "25 000",
-        "RLLD": "10 000",
-        "RLHD": "25 000",
-        "CL": "75 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "7.5",
-        "WLR": "7.5",
-        "AL": "7.5",
-        "PL": "7.5",
-        "RLLD": "7.5",
-        "RLHD": "7.5",
-        "CL": "7.5",
-        "IL": "7.5"
+      "id": "pce",
+      "name": "Tetrachloroethylene (PCE)",
+      "cas": "127-18-4",
+      "category": "Chlorinated Compounds",
+      "description": "A common dry cleaning solvent and industrial degreaser. A probable human carcinogen with significant groundwater mobility.",
+      "thresholds": {
+        "RLLD": { "soil": 250,   "gw": 2.5 },
+        "RLHD": { "soil": 500,   "gw": 2.5 },
+        "AL":   { "soil": 250,   "gw": 2.5 },
+        "PL":   { "soil": 500,   "gw": 2.5 },
+        "CL":   { "soil": 1500,  "gw": 2.5 },
+        "IL":   { "soil": 40000, "gw": 2.5 },
+        "WLN":  { "soil": 500,   "gw": 2.5 },
+        "WLR":  { "soil": 500,   "gw": 2.5 }
       }
     },
     {
-      "matrix": 29,
-      "substance": "PCBs (Polychlorinated Biphenyls, Total)",
-      "cas_number": "1336-36-3",
-      "soil_ug_per_g": {
-        "WLN": "10",
-        "WLR": "10",
-        "AL": "5",
-        "PL": "10",
-        "RLLD": "5",
-        "RLHD": "10",
-        "CL": "35",
-        "IL": "900"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "tce",
+      "name": "Trichloroethylene (TCE)",
+      "cas": "79-01-6",
+      "category": "Chlorinated Compounds",
+      "description": "A widely used industrial degreaser and one of the most common groundwater contaminants. A known human carcinogen.",
+      "thresholds": {
+        "RLLD": { "soil": 20,   "gw": 15   },
+        "RLHD": { "soil": 40,   "gw": 25   },
+        "AL":   { "soil": 20,   "gw": 1.5  },
+        "PL":   { "soil": 40,   "gw": 15   },
+        "CL":   { "soil": 150,  "gw": 25   },
+        "IL":   { "soil": 3500, "gw": null  },
+        "WLN":  { "soil": 40,   "gw": 8    },
+        "WLR":  { "soil": 40,   "gw": 15   }
       }
     },
     {
-      "matrix": 30,
-      "substance": "PCDDs/PCDFs (Polychlorinated Dioxins and Furans, Total)",
-      "cas_number": "1746-01-6",
-      "soil_ug_per_g": {
-        "WLN": "0.0002",
-        "WLR": "0.0002",
-        "AL": "0.000095",
-        "PL": "0.0002",
-        "RLLD": "0.000095",
-        "RLHD": "0.0002",
-        "CL": "0.0006",
-        "IL": "0.015"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "NS",
-        "WLR": "NS",
-        "AL": "NS",
-        "PL": "NS",
-        "RLLD": "NS",
-        "RLHD": "NS",
-        "CL": "NS",
-        "IL": "NS"
+      "id": "cyanide",
+      "name": "Cyanide",
+      "cas": "57-12-5",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A highly toxic inorganic compound found at mining, electroplating, and gas works sites.",
+      "thresholds": {
+        "RLLD": { "soil": 25,   "gw": 6.5 },
+        "RLHD": { "soil": 50,   "gw": 6.5 },
+        "AL":   { "soil": 25,   "gw": 6.5 },
+        "PL":   { "soil": 50,   "gw": 6.5 },
+        "CL":   { "soil": 150,  "gw": 6.5 },
+        "IL":   { "soil": 4000, "gw": 6.5 },
+        "WLN":  { "soil": 50,   "gw": 6.5 },
+        "WLR":  { "soil": 50,   "gw": 6.5 }
       }
     },
     {
-      "matrix": 31,
-      "substance": "Selenium",
-      "cas_number": "7782-49-2",
-      "soil_ug_per_g": {
-        "WLN": "400",
-        "WLR": "400",
-        "AL": "200",
-        "PL": "400",
-        "RLLD": "200",
-        "RLHD": "400",
-        "CL": "1 500",
-        "IL": "35 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "1",
-        "WLR": "1",
-        "AL": "1",
-        "PL": "1",
-        "RLLD": "1",
-        "RLHD": "1",
-        "CL": "1",
-        "IL": "1"
+      "id": "ddt",
+      "name": "DDT (Dichlorodiphenyltrichloroethane, Total)",
+      "cas": "NS",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A legacy organochlorine pesticide banned in Canada. Persists in the environment and accumulates in the food chain.",
+      "thresholds": {
+        "RLLD": { "soil": 20,   "gw": null },
+        "RLHD": { "soil": 40,   "gw": null },
+        "AL":   { "soil": 20,   "gw": null },
+        "PL":   { "soil": 40,   "gw": null },
+        "CL":   { "soil": 150,  "gw": null },
+        "IL":   { "soil": 1000, "gw": null },
+        "WLN":  { "soil": 40,   "gw": null },
+        "WLR":  { "soil": 40,   "gw": null }
       }
     },
     {
-      "matrix": 32,
-      "substance": "Sodium Ion",
-      "cas_number": "17341-25-2",
-      "soil_ug_per_g": {
-        "WLN": "> 1 000 mg/g",
-        "WLR": "> 1 000 mg/g",
-        "AL": "> 1 000 mg/g",
-        "PL": "> 1 000 mg/g",
-        "RLLD": "> 1 000 mg/g",
-        "RLHD": "> 1 000 mg/g",
-        "CL": "> 1 000 mg/g",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "15 000",
-        "WLR": "15 000",
-        "AL": "15 000",
-        "PL": "15 000",
-        "RLLD": "15 000",
-        "RLHD": "15 000",
-        "CL": "15 000",
-        "IL": "15 000"
+      "id": "dipa",
+      "name": "DIPA (Diisopropanolamine)",
+      "cas": "110-97-4",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "An industrial chemical used in natural gas processing and other applications.",
+      "thresholds": {
+        "RLLD": { "soil": 15000,         "gw": 1.5 },
+        "RLHD": { "soil": 30000,         "gw": 1.5 },
+        "AL":   { "soil": 15000,         "gw": 1.5 },
+        "PL":   { "soil": 30000,         "gw": 1.5 },
+        "CL":   { "soil": 100000,        "gw": 1.5 },
+        "IL":   { "soil": "unrestricted", "gw": 1.5 },
+        "WLN":  { "soil": 30000,         "gw": 1.5 },
+        "WLR":  { "soil": 30000,         "gw": 1.5 }
       }
     },
     {
-      "matrix": 33,
-      "substance": "Sulfolane",
-      "cas_number": "126-33-0",
-      "soil_ug_per_g": {
-        "WLN": "800",
-        "WLR": "800",
-        "AL": "400",
-        "PL": "800",
-        "RLLD": "400",
-        "RLHD": "800",
-        "CL": "2 500",
-        "IL": "70 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "0.1",
-        "WLR": "0.1",
-        "AL": "0.1",
-        "PL": "0.1",
-        "RLLD": "0.1",
-        "RLHD": "0.1",
-        "CL": "0.1",
-        "IL": "0.1"
+      "id": "ethylene_glycol",
+      "name": "Ethylene Glycol",
+      "cas": "107-21-1",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A common antifreeze and de-icing chemical. Found at airports, vehicle maintenance facilities, and industrial sites.",
+      "thresholds": {
+        "RLLD": { "soil": 85000,         "gw": 10 },
+        "RLHD": { "soil": 150000,        "gw": 10 },
+        "AL":   { "soil": 85000,         "gw": 10 },
+        "PL":   { "soil": 150000,        "gw": 10 },
+        "CL":   { "soil": 500000,        "gw": 10 },
+        "IL":   { "soil": "unrestricted", "gw": 10 },
+        "WLN":  { "soil": 150000,        "gw": 10 },
+        "WLR":  { "soil": 150000,        "gw": 10 }
       }
     },
     {
-      "matrix": 34,
-      "substance": "Tetrachloroethylene",
-      "cas_number": "127-18-4",
-      "soil_ug_per_g": {
-        "WLN": "500",
-        "WLR": "500",
-        "AL": "250",
-        "PL": "500",
-        "RLLD": "250",
-        "RLHD": "500",
-        "CL": "1 500",
-        "IL": "40 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "2.5",
-        "WLR": "2.5",
-        "AL": "2.5",
-        "PL": "2.5",
-        "RLLD": "2.5",
-        "RLHD": "2.5",
-        "CL": "2.5",
-        "IL": "2.5"
+      "id": "methanol",
+      "name": "Methanol",
+      "cas": "67-56-1",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A common industrial solvent and fuel additive. Toxic if ingested or inhaled at high concentrations.",
+      "thresholds": {
+        "RLLD": { "soil": 20000,         "gw": 15 },
+        "RLHD": { "soil": 40000,         "gw": 15 },
+        "AL":   { "soil": 20000,         "gw": 15 },
+        "PL":   { "soil": 40000,         "gw": 15 },
+        "CL":   { "soil": 150000,        "gw": 15 },
+        "IL":   { "soil": "unrestricted", "gw": 15 },
+        "WLN":  { "soil": 40000,         "gw": 15 },
+        "WLR":  { "soil": 40000,         "gw": 15 }
       }
     },
     {
-      "matrix": 35,
-      "substance": "Toluene",
-      "cas_number": "108-88-3",
-      "soil_ug_per_g": {
-        "WLN": "6 500",
-        "WLR": "6 500",
-        "AL": "3 500",
-        "PL": "6 500",
-        "RLLD": "3 500",
-        "RLHD": "6 500",
-        "CL": "20 000",
-        "IL": "550 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "6",
-        "WLR": "6",
-        "AL": "6",
-        "PL": "6",
-        "RLLD": "6",
-        "RLHD": "6",
-        "CL": "6",
-        "IL": "6"
+      "id": "nonylphenol",
+      "name": "Nonylphenol & Ethoxylates",
+      "cas": "NS",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "Industrial surfactants and their breakdown products. Endocrine-disrupting compounds found in industrial and municipal effluents.",
+      "thresholds": {
+        "RLLD": { "soil": 200,   "gw": 20 },
+        "RLHD": { "soil": 400,   "gw": 20 },
+        "AL":   { "soil": 200,   "gw": 20 },
+        "PL":   { "soil": 400,   "gw": 20 },
+        "CL":   { "soil": 1000,  "gw": 20 },
+        "IL":   { "soil": 35000, "gw": 20 },
+        "WLN":  { "soil": 400,   "gw": 20 },
+        "WLR":  { "soil": 400,   "gw": 20 }
       }
     },
     {
-      "matrix": 36,
-      "substance": "Trichloroethylene",
-      "cas_number": "79-01-6",
-      "soil_ug_per_g": {
-        "WLN": "40",
-        "WLR": "40",
-        "AL": "20",
-        "PL": "40",
-        "RLLD": "20",
-        "RLHD": "40",
-        "CL": "150",
-        "IL": "3 500"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "8",
-        "WLR": "15",
-        "AL": "1.5",
-        "PL": "15",
-        "RLLD": "15",
-        "RLHD": "25",
-        "CL": "25",
-        "IL": "NS"
+      "id": "pcp",
+      "name": "Pentachlorophenol (PCP)",
+      "cas": "87-86-5",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A wood preservative and pesticide. Found at wood treatment facilities, utility poles, and railway ties.",
+      "thresholds": {
+        "RLLD": { "soil": 90,  "gw": "pH-dep." },
+        "RLHD": { "soil": 200, "gw": "pH-dep." },
+        "AL":   { "soil": 90,  "gw": "pH-dep." },
+        "PL":   { "soil": 200, "gw": "pH-dep." },
+        "CL":   { "soil": 550, "gw": "pH-dep." },
+        "IL":   { "soil": 900, "gw": "pH-dep." },
+        "WLN":  { "soil": 200, "gw": "pH-dep." },
+        "WLR":  { "soil": 200, "gw": "pH-dep." }
       }
     },
     {
-      "matrix": 37,
-      "substance": "Uranium",
-      "cas_number": "7440-61-1",
-      "soil_ug_per_g": {
-        "WLN": "250",
-        "WLR": "250",
-        "AL": "100",
-        "PL": "250",
-        "RLLD": "100",
-        "RLHD": "250",
-        "CL": "750",
-        "IL": "20 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "30",
-        "WLR": "30",
-        "AL": "30",
-        "PL": "30",
-        "RLLD": "30",
-        "RLHD": "30",
-        "CL": "30",
-        "IL": "30"
+      "id": "pfos",
+      "name": "PFOS (Perfluorooctane Sulfonate)",
+      "cas": "1763-23-1",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "A persistent PFAS compound used in fire-fighting foams and industrial products. An emerging contaminant of major concern.",
+      "thresholds": {
+        "RLLD": { "soil": 1,   "gw": 0.35 },
+        "RLHD": { "soil": 2.5, "gw": 0.35 },
+        "AL":   { "soil": 1,   "gw": 0.35 },
+        "PL":   { "soil": 2.5, "gw": 0.35 },
+        "CL":   { "soil": 7.5, "gw": 0.35 },
+        "IL":   { "soil": 200, "gw": 0.35 },
+        "WLN":  { "soil": 2.5, "gw": 0.35 },
+        "WLR":  { "soil": 2.5, "gw": 0.35 }
       }
     },
     {
-      "matrix": 38,
-      "substance": "Vanadium",
-      "cas_number": "7440-62-2",
-      "soil_ug_per_g": {
-        "WLN": "400",
-        "WLR": "400",
-        "AL": "200",
-        "PL": "400",
-        "RLLD": "200",
-        "RLHD": "400",
-        "CL": "1 500",
-        "IL": "35 000"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "100",
-        "WLR": "100",
-        "AL": "100",
-        "PL": "100",
-        "RLLD": "100",
-        "RLHD": "100",
-        "CL": "100",
-        "IL": "100"
+      "id": "phenol",
+      "name": "Phenol",
+      "cas": "108-95-2",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "An industrial chemical found at former gas works, coking plants, and chemical manufacturing sites.",
+      "thresholds": {
+        "RLLD": { "soil": 10000,         "gw": 7.5 },
+        "RLHD": { "soil": 25000,         "gw": 7.5 },
+        "AL":   { "soil": 10000,         "gw": 7.5 },
+        "PL":   { "soil": 25000,         "gw": 7.5 },
+        "CL":   { "soil": 75000,         "gw": 7.5 },
+        "IL":   { "soil": "unrestricted", "gw": 7.5 },
+        "WLN":  { "soil": 25000,         "gw": 7.5 },
+        "WLR":  { "soil": 25000,         "gw": 7.5 }
       }
     },
     {
-      "matrix": 39,
-      "substance": "Xylenes",
-      "cas_number": "1330-20-7",
-      "soil_ug_per_g": {
-        "WLN": "15 000",
-        "WLR": "15 000",
-        "AL": "8 500",
-        "PL": "15 000",
-        "RLLD": "8 500",
-        "RLHD": "15 000",
-        "CL": "50 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "6.5",
-        "WLR": "6.5",
-        "AL": "6.5",
-        "PL": "6.5",
-        "RLLD": "6.5",
-        "RLHD": "6.5",
-        "CL": "6.5",
-        "IL": "6.5"
+      "id": "sodium",
+      "name": "Sodium Ion",
+      "cas": "17341-25-2",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "Elevated sodium in groundwater associated with road salt, brine disposal, and softened water discharge.",
+      "thresholds": {
+        "RLLD": { "soil": "unrestricted", "gw": 15000 },
+        "RLHD": { "soil": "unrestricted", "gw": 15000 },
+        "AL":   { "soil": "unrestricted", "gw": 15000 },
+        "PL":   { "soil": "unrestricted", "gw": 15000 },
+        "CL":   { "soil": "unrestricted", "gw": 15000 },
+        "IL":   { "soil": "unrestricted", "gw": 15000 },
+        "WLN":  { "soil": "unrestricted", "gw": 15000 },
+        "WLR":  { "soil": "unrestricted", "gw": 15000 }
       }
     },
     {
-      "matrix": 40,
-      "substance": "Zinc",
-      "cas_number": "7440-66-6",
-      "soil_ug_per_g": {
-        "WLN": "25 000",
-        "WLR": "25 000",
-        "AL": "10 000",
-        "PL": "25 000",
-        "RLLD": "10 000",
-        "RLHD": "25 000",
-        "CL": "75 000",
-        "IL": "> 1 000 mg/g"
-      },
-      "gw_drinking_ug_per_L": {
-        "WLN": "pH-dep.",
-        "WLR": "pH-dep.",
-        "AL": "pH-dep.",
-        "PL": "pH-dep.",
-        "RLLD": "pH-dep.",
-        "RLHD": "pH-dep.",
-        "CL": "pH-dep.",
-        "IL": "pH-dep."
+      "id": "sulfolane",
+      "name": "Sulfolane",
+      "cas": "126-33-0",
+      "category": "Other Organics & Emerging Contaminants",
+      "description": "An industrial solvent used in natural gas and petrochemical processing. Highly mobile in groundwater.",
+      "thresholds": {
+        "RLLD": { "soil": 400,   "gw": 0.1 },
+        "RLHD": { "soil": 800,   "gw": 0.1 },
+        "AL":   { "soil": 400,   "gw": 0.1 },
+        "PL":   { "soil": 800,   "gw": 0.1 },
+        "CL":   { "soil": 2500,  "gw": 0.1 },
+        "IL":   { "soil": 70000, "gw": 0.1 },
+        "WLN":  { "soil": 800,   "gw": 0.1 },
+        "WLR":  { "soil": 800,   "gw": 0.1 }
       }
     }
   ]

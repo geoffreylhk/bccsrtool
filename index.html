@@ -4,42 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BC CSR Screening Tool</title>
+    <link rel="icon" type="image/png" href="assets/images/bccsr_logo.png">
+    <script src="theme.js"></script>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-
-    <nav>
-      <div class="logo">
-        <img src="logo2.png" alt="BC logo">
-          BC CSR Tool
+  <body class="landing-page">
+    <nav class="site-nav">
+      <a class="brand" href="index.html" aria-label="BC CSR Screening Tool home">
+        <img src="assets/images/logo.png" alt="BC logo">
+        <span>CSR Screening Tool</span>
+      </a>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
+          <svg class="icon icon-md moon-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#moon"></use></svg>
+          <svg class="icon icon-md sun-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#sun"></use></svg>
+        </button>
       </div>
-      <a href="#">About</a>
     </nav>
 
     <main class="landing">
-
+      <div class="hero-mark" aria-hidden="true">
+        <svg class="icon icon-xl"><use href="assets/icons/ui-sprite.svg#leaf"></use></svg>
+      </div>
       <h1>BC CSR Screening Tool</h1>
-      <p class="subtitle">Screen contaminated sites against BC Schedule 3.1 
-      thresholds and determine whether a Phase II ESA may be warranted.</p>
+      <p class="subtitle">
+        Screen contaminated sites against BC Schedule 3.1 thresholds and
+        determine whether a Phase II ESA may be warranted.
+      </p>
 
-      <div class="disclaimer-box">
-        <p><strong>⚠ Educational Use Only</strong></p>
-        <p>This tool is for academic purposes and does not constitute 
-        professional environmental advice or a formal ESA under the BC 
-        Contaminated Sites Regulation. Threshold values are from Schedule 
-        3.1 but may not reflect current amendments. Always consult a 
-        qualified Approved Professional for site-specific work.</p>
-      </div>
+      <section class="notice-card" aria-labelledby="educational-title">
+        <h2 id="educational-title">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
+          Educational Use Only
+        </h2>
+        <p>
+          This tool is for academic purposes and does not constitute professional
+          environmental advice or a formal ESA under the BC Contaminated Sites
+          Regulation. Threshold values are from Schedule 3.1 but may not reflect
+          current amendments. Always consult a qualified Approved Professional
+          for site-specific work.
+        </p>
+      </section>
 
-      <div class="checkbox-box">
+      <label class="agreement-card" for="agree">
         <input type="checkbox" id="agree">
-        <label for="agree">I understand this tool is for educational 
-        purposes only and will not use its output as a substitute for 
-        professional advice.</label>
-      </div>
+        <span>
+          I understand this tool is for educational purposes only and will not
+          use its output as a substitute for professional advice.
+        </span>
+      </label>
 
-      <button id="beginBtn" disabled>Begin Assessment</button>
-
+      <button id="beginBtn" class="primary-action" disabled>Begin Assessment</button>
+      <a class="about-link" href="about.html">About this tool</a>
     </main>
 
     <footer>
@@ -47,6 +64,5 @@
     </footer>
 
     <script src="script.js"></script>
-
   </body>
 </html>

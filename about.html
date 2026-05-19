@@ -1,18 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="style.css"> <!-- CSS Stylesheet-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BC CSR Screening Tool — About</title>
+    <link rel="icon" type="image/png" href="assets/images/bccsr_logo.png">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
+  <body class="about-page">
+    <main class="workflow-main about-main">
+      <a href="index.html" class="back-link">
+        <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+        Back
+      </a>
 
-  <body>
-    <h1></h1>
-    <h2></h2>
-    <p></p>
+      <header class="page-header">
+        <h1>About This Tool</h1>
+        <p class="subtitle">
+          An educational tool for Environmental Science students to apply BC
+          Schedule 3.1 contamination thresholds in a Phase I ESA context.
+        </p>
+      </header>
 
-    <script src="script.js"></script> <!-- JavaScript file -->
+      <section class="info-card">
+        <h2 class="card-heading-with-icon">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#book-open"></use></svg>
+          BC Contaminated Sites Regulation
+        </h2>
+        <p>
+          The CSR governs site remediation in BC. Schedule 3.1 sets numerical
+          concentration limits for soil and groundwater based on land use and
+          site conditions.
+        </p>
+      </section>
+
+      <section class="info-card">
+        <h2 class="card-heading-with-icon">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#graduation-cap"></use></svg>
+          Phase I &amp; II ESAs
+        </h2>
+        <p>
+          <strong>Phase I:</strong> Non-intrusive historical review to identify
+          potential contaminants of concern. No sampling.
+        </p>
+        <p>
+          <strong>Phase II:</strong> Physical sampling analyzed by a lab to
+          confirm contamination.
+        </p>
+        <p>
+          This tool bridges Phase I and II by helping users understand applicable
+          thresholds and screen preliminary lab results.
+        </p>
+      </section>
+
+      <section class="notice-card limitation-card">
+        <h2>
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#shield-alert"></use></svg>
+          Limitations
+        </h2>
+        <ul>
+          <li>Does not include all regulated substances</li>
+          <li>Does not account for background concentrations</li>
+          <li>Simplifies pathway applicability</li>
+          <li>Threshold data may not reflect current regulatory amendments</li>
+        </ul>
+      </section>
+
+      <section class="resource-section">
+        <h2>Official Resources</h2>
+        <a href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/375_96_00" target="_blank" rel="noreferrer">
+          BC Gov: Contaminated Sites Regulation
+          <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#external-link"></use></svg>
+        </a>
+      </section>
+    </main>
   </body>
-
 </html>

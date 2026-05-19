@@ -1,18 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="style.css"> <!-- CSS Stylesheet-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BC CSR Screening Tool — Results</title>
+    <link rel="icon" type="image/png" href="assets/images/bccsr_logo.png">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
+  <body class="assessment-page results-page">
+    <nav class="site-nav no-print">
+      <a class="brand" href="index.html" aria-label="BC CSR Screening Tool home">
+        <img src="assets/images/logo.png" alt="BC logo">
+        <span>CSR Screening Tool</span>
+      </a>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
+          <svg class="icon icon-md moon-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#moon"></use></svg>
+          <svg class="icon icon-md sun-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#sun"></use></svg>
+        </button>
+      </div>
+    </nav>
 
-  <body>
-    <h1></h1>
-    <h2></h2>
-    <p></p>
+    <div class="progress-bar no-print" aria-label="Assessment progress">
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Site Info</div>
+      </div>
+      <div class="step-line completed"></div>
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Contaminants</div>
+      </div>
+      <div class="step-line completed"></div>
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Lab Data</div>
+      </div>
+      <div class="step-line completed"></div>
+      <div class="step active">
+        <div class="step-circle">4</div>
+        <div class="step-label">Results</div>
+      </div>
+    </div>
 
-    <script src="script.js"></script> <!-- JavaScript file -->
+    <main class="workflow-main wide-main results-main">
+      <header class="results-heading">
+        <div>
+          <h1>Screening Results</h1>
+          <p id="resultsSubtitle" class="subtitle">BC CSR Schedule 3.1 standards</p>
+        </div>
+        <div class="results-actions no-print">
+          <a href="labdata.html" class="secondary-action">
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+            Back
+          </a>
+          <button id="printBtn" class="secondary-action" type="button">
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
+            Export PDF
+          </button>
+          <button id="newAssessmentBtn" class="primary-action" type="button">
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
+            New Assessment
+          </button>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Assessment summary">
+        <article class="summary-card">
+          <h2 class="card-heading-with-icon">
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#map"></use></svg>
+            Land Use
+          </h2>
+          <dl>
+            <div>
+              <dt>Current</dt>
+              <dd id="currentUse">Not provided</dd>
+            </div>
+            <div>
+              <dt>Proposed</dt>
+              <dd id="proposedUse">Not provided</dd>
+            </div>
+          </dl>
+          <p id="thresholdNote" class="summary-note"></p>
+        </article>
+
+        <article class="summary-card">
+          <h2 class="card-heading-with-icon">
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#droplets"></use></svg>
+            Site Conditions
+          </h2>
+          <dl>
+            <div>
+              <dt>Water proximity</dt>
+              <dd id="waterProximity">Not provided</dd>
+            </div>
+            <div>
+              <dt>Contaminants</dt>
+              <dd id="contaminantCount">0 selected</dd>
+            </div>
+            <div>
+              <dt>Lab data</dt>
+              <dd id="labDataCount">0 values</dd>
+            </div>
+          </dl>
+        </article>
+      </section>
+
+      <section class="notice-card compact-notice">
+        <h2>
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
+          Educational tool only.
+        </h2>
+        <p>
+          Results do not constitute a formal Phase I/II ESA. Consult a qualified
+          Approved Professional before making regulatory or transactional decisions.
+        </p>
+      </section>
+
+      <section class="table-card">
+        <div class="table-card-header table-card-header-split">
+          <div>
+            <h2>Threshold Comparison</h2>
+            <p id="comparisonMeta">Selected contaminants · per-substance units</p>
+          </div>
+          <a href="labdata.html" class="secondary-action compact-action no-print">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#flask-conical"></use></svg>
+            Edit Lab Values
+          </a>
+        </div>
+        <div class="results-table" id="resultsTable" aria-live="polite">
+          <p class="loading-message">Loading results...</p>
+        </div>
+      </section>
+
+      <section id="recommendation" class="recommendation-card" aria-live="polite"></section>
+    </main>
+
+    <footer class="no-print">
+      <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
+    </footer>
+
+    <script src="data-utils.js"></script>
+    <script src="results.js"></script>
   </body>
-
 </html>

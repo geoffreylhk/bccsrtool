@@ -1,18 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="style.css"> <!-- CSS Stylesheet-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BC CSR Screening Tool — Assessment</title>
+    <link rel="icon" type="image/png" href="assets/images/bccsr_logo.png">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
+  <body class="assessment-page">
+    <nav class="site-nav">
+      <a class="brand" href="index.html" aria-label="BC CSR Screening Tool home">
+        <img src="assets/images/logo.png" alt="BC logo">
+        <span>CSR Screening Tool</span>
+      </a>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
+          <svg class="icon icon-md moon-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#moon"></use></svg>
+          <svg class="icon icon-md sun-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#sun"></use></svg>
+        </button>
+      </div>
+    </nav>
 
-  <body>
-    <h1></h1>
-    <h2></h2>
-    <p></p>
+    <div class="progress-bar" aria-label="Assessment progress">
+      <div class="step active">
+        <div class="step-circle">1</div>
+        <div class="step-label">Site Info</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <div class="step-label">Contaminants</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <div class="step-label">Lab Data</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-label">Results</div>
+      </div>
+    </div>
 
-    <script src="script.js"></script> <!-- JavaScript file -->
+    <main class="workflow-main narrow-main">
+      <header class="page-header">
+        <h1>Site Information</h1>
+        <p class="subtitle">Your answers determine which CSR thresholds apply.</p>
+      </header>
+
+      <section class="card form-card">
+        <div class="form-group">
+          <label for="currentLandUse">Current Land Use</label>
+          <select id="currentLandUse">
+            <option value="">Select current use</option>
+            <option value="WLN">Wildlands Natural</option>
+            <option value="WLR">Wildlands Reverted</option>
+            <option value="AL">Agricultural</option>
+            <option value="PL">Urban Park</option>
+            <option value="RLLD">Residential Low Density</option>
+            <option value="RLHD">Residential High Density</option>
+            <option value="CL">Commercial</option>
+            <option value="IL">Industrial</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="proposedLandUse">Proposed Land Use</label>
+          <select id="proposedLandUse">
+            <option value="">Select proposed use</option>
+            <option value="WLN">Wildlands Natural</option>
+            <option value="WLR">Wildlands Reverted</option>
+            <option value="AL">Agricultural</option>
+            <option value="PL">Urban Park</option>
+            <option value="RLLD">Residential Low Density</option>
+            <option value="RLHD">Residential High Density</option>
+            <option value="CL">Commercial</option>
+            <option value="IL">Industrial</option>
+          </select>
+        </div>
+
+        <fieldset class="form-group">
+          <legend>Near a water body? <span class="hint">(within 500 m)</span></legend>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="waterBody" value="yes">
+              <span>Yes</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="waterBody" value="no">
+              <span>No</span>
+            </label>
+          </div>
+        </fieldset>
+      </section>
+
+      <div class="nav-buttons">
+        <a href="index.html" class="secondary-action">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+          Back
+        </a>
+        <button id="nextBtn" class="primary-action" disabled>
+          Next
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+      <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
+    </footer>
+
+    <script src="script.js"></script>
   </body>
-
 </html>

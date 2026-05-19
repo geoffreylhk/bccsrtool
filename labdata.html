@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BC CSR Screening Tool — Lab Data</title>
+    <link rel="icon" type="image/png" href="assets/images/bccsr_logo.png">
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="assessment-page lab-page">
+    <nav class="site-nav">
+      <a class="brand" href="index.html" aria-label="BC CSR Screening Tool home">
+        <img src="assets/images/logo.png" alt="BC logo">
+        <span>CSR Screening Tool</span>
+      </a>
+      <div class="nav-links">
+        <a href="about.html">About</a>
+        <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
+          <svg class="icon icon-md moon-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#moon"></use></svg>
+          <svg class="icon icon-md sun-icon" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#sun"></use></svg>
+        </button>
+      </div>
+    </nav>
+
+    <div class="progress-bar" aria-label="Assessment progress">
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Site Info</div>
+      </div>
+      <div class="step-line completed"></div>
+      <div class="step completed">
+        <div class="step-circle">✓</div>
+        <div class="step-label">Contaminants</div>
+      </div>
+      <div class="step-line completed"></div>
+      <div class="step active">
+        <div class="step-circle">3</div>
+        <div class="step-label">Lab Data</div>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <div class="step-label">Results</div>
+      </div>
+    </div>
+
+    <main class="workflow-main wide-main">
+      <header class="page-header lab-header">
+        <div>
+          <h1 class="page-title-with-icon">
+            <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#flask-conical"></use></svg>
+            Lab Concentrations
+          </h1>
+          <p class="subtitle">
+            Enter measured concentrations and choose the unit for each substance.
+            Values will be compared against BC CSR Schedule 3.1 thresholds.
+          </p>
+        </div>
+        <span class="info-mark" title="Leave values blank to view thresholds only.">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#info"></use></svg>
+        </span>
+      </header>
+
+      <section class="table-card">
+        <div class="table-card-header">
+          <h2>Enter Concentrations</h2>
+          <span id="filledCount">0 of 0 filled</span>
+        </div>
+        <div class="lab-table" id="labTable" aria-live="polite">
+          <p class="loading-message">Loading selected contaminants...</p>
+        </div>
+      </section>
+
+      <div class="nav-buttons">
+        <a href="contaminants.html" class="secondary-action">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+          Back
+        </a>
+        <button id="resultsBtn" class="primary-action">
+          <span id="resultsBtnText">Show Thresholds Only</span>
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
+        </button>
+      </div>
+    </main>
+
+    <footer>
+      <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
+    </footer>
+
+    <script src="data-utils.js"></script>
+    <script src="labdata.js"></script>
+  </body>
+</html>
