@@ -657,6 +657,7 @@ html.dark .contaminant-item:hover {
 }
 
 .category-count {
+  grid-column: 4;
   justify-self: end;
   color: var(--primary);
   padding: 2px 8px;
@@ -671,6 +672,7 @@ html.dark .contaminant-item:hover {
 }
 
 .select-all-btn {
+  grid-column: 5;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1362,6 +1364,118 @@ html.dark .result-group-title {
   .primary-action,
   .secondary-action {
     width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .about-main {
+    width: 100%;
+    padding: 24px 16px 40px;
+  }
+
+  .about-main .back-link {
+    min-height: 36px;
+    margin-bottom: 18px;
+    font-size: 0.9375rem;
+  }
+
+  .about-main .page-header {
+    margin-bottom: 22px;
+  }
+
+  .about-main .page-header h1 {
+    margin-bottom: 8px;
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .about-main .subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .about-main .info-card,
+  .about-main .notice-card {
+    padding: 18px;
+  }
+
+  .about-main .info-card {
+    margin-bottom: 14px;
+  }
+
+  .about-main .card-heading-with-icon,
+  .about-main .limitation-card h2 {
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.35;
+  }
+
+  .about-main .card-heading-with-icon .icon,
+  .about-main .limitation-card h2 .icon {
+    margin-top: 2px;
+  }
+
+  .about-main .info-card h2,
+  .about-main .limitation-card h2 {
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+  }
+
+  .about-main .info-card p,
+  .about-main .limitation-card li {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .about-main .info-card p {
+    margin-bottom: 12px;
+  }
+
+  .about-main .info-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-main .limitation-card {
+    margin-top: 14px;
+  }
+
+  .about-main .limitation-card ul {
+    padding-left: 20px;
+  }
+
+  .about-main .limitation-card li + li {
+    margin-top: 4px;
+  }
+
+  .about-main .resource-section {
+    margin-top: 22px;
+    padding-top: 18px;
+  }
+
+  .about-main .resource-section a {
+    align-items: flex-start;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+  }
+
+  .about-main .resource-section a .icon {
+    margin-top: 3px;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-main {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .about-main .page-header h1 {
+    font-size: 1.875rem;
+  }
+
+  .about-main .info-card,
+  .about-main .notice-card {
+    padding: 16px;
   }
 }
 
