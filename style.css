@@ -1365,6 +1365,19 @@ html.dark .result-group-title {
   .secondary-action {
     width: 100%;
   }
+
+  .site-info-page .nav-buttons {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .site-info-page .nav-buttons .primary-action,
+  .site-info-page .nav-buttons .secondary-action {
+    flex: 1 1 0;
+    width: auto;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
 }
 
 @media (max-width: 560px) {
