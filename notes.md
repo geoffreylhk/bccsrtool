@@ -2,7 +2,7 @@
 
 ## Git workflow (use every time you make changes)
 git add .
-git commit -m "describe what you changed"
+git commit -m "describe"
 git push
 
 ## Connect local folder to GitHub (one time setup, already done)
