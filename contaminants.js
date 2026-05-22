@@ -2,15 +2,20 @@ const contaminantList = document.getElementById('contaminantList');
 const searchInput = document.getElementById('searchInput');
 const expandBtn = document.getElementById('expandBtn');
 const nextBtn = document.getElementById('nextBtn');
+const selectedPanel = document.querySelector('.selected-panel');
 const selectedList = document.getElementById('selectedList');
 const selectedCount = document.getElementById('selectedCount');
 const clearSelectionBtn = document.getElementById('clearSelectionBtn');
+
+const SELECTED_PANEL_COLLAPSE_THRESHOLD = 5;
 
 let csrData = null;
 let siteInfo = getStoredSiteInfo();
 let categoryEntries = [];
 let allContaminants = [];
 let searchQuery = '';
+let selectedPanelExpanded = false;
+let previousSelectedCount = 0;
 
 const collapsedCategories = new Set();
 const selectedIds = new Set();
@@ -114,24 +119,48 @@ function renderContaminants() {
 }
 
 function renderSelectedPanel() {
-  const selected = allContaminants.filter((contaminant) => selectedIds.has(contaminant.id));
+  const selectedGroups = categoryEntries
+    .map(([categoryName]) => ({
+      categoryName,
+      contaminants: getCategoryContaminants(categoryName).filter((contaminant) => selectedIds.has(contaminant.id)),
+    }))
+    .filter((group) => group.contaminants.length > 0);
+  const selectedCountTotal = selectedGroups.reduce((total, group) => total + group.contaminants.length, 0);
+  const canCollapseSelectedPanel = selectedCountTotal > SELECTED_PANEL_COLLAPSE_THRESHOLD;
 
-  selectedCount.textContent = selected.length ? `(${selected.length})` : '';
-  clearSelectionBtn.hidden = selected.length === 0;
-  nextBtn.disabled = selected.length === 0;
+  if (!canCollapseSelectedPanel) {
+    selectedPanelExpanded = false;
+  } else if (previousSelectedCount <= SELECTED_PANEL_COLLAPSE_THRESHOLD) {
+    selectedPanelExpanded = false;
+  }
 
-  if (!selected.length) {
+  const selectedPanelCollapsed = canCollapseSelectedPanel && !selectedPanelExpanded;
+
+  selectedCount.textContent = selectedCountTotal ? `(${selectedCountTotal})` : '';
+  clearSelectionBtn.hidden = selectedCountTotal === 0;
+  nextBtn.disabled = selectedCountTotal === 0;
+  selectedPanel.classList.toggle('is-collapsible', canCollapseSelectedPanel);
+  selectedPanel.classList.toggle('is-collapsed', selectedPanelCollapsed);
+  selectedPanel.setAttribute('aria-expanded', String(!selectedPanelCollapsed));
+  selectedPanel.title = canCollapseSelectedPanel ? 'Click to expand or collapse selected contaminants' : '';
+  previousSelectedCount = selectedCountTotal;
+
+  if (!selectedCountTotal) {
     selectedList.innerHTML = '<p class="no-selection">No substances selected yet.<br>Check items from the list.</p>';
     return;
   }
 
-  selectedList.innerHTML = selected.map((contaminant) => `
-    <div class="selected-tag">
-      <span>
-        <strong>${escapeHtml(contaminant.name)}</strong>
-        <small>${escapeHtml(contaminant.category)}</small>
-      </span>
-      <button type="button" data-action="remove" data-id="${escapeHtml(contaminant.id)}" aria-label="Remove ${escapeHtml(contaminant.name)}">×</button>
+  selectedList.innerHTML = selectedGroups.map((group) => `
+    <div class="selected-group">
+      <div class="selected-group-title">${escapeHtml(group.categoryName)}</div>
+      ${group.contaminants.map((contaminant) => `
+        <div class="selected-tag">
+          <span>
+            <strong>${escapeHtml(contaminant.name)}</strong>
+          </span>
+          <button type="button" data-action="remove" data-id="${escapeHtml(contaminant.id)}" aria-label="Remove ${escapeHtml(contaminant.name)}">×</button>
+        </div>
+      `).join('')}
     </div>
   `).join('');
 }
@@ -191,6 +220,15 @@ selectedList.addEventListener('click', (event) => {
   selectedIds.delete(removeButton.dataset.id);
   saveSelectedContaminants(csrData, selectedIds);
   renderContaminants();
+});
+
+selectedPanel.addEventListener('click', (event) => {
+  if (!selectedPanel.classList.contains('is-collapsible') || event.target.closest('button')) {
+    return;
+  }
+
+  selectedPanelExpanded = selectedPanel.classList.contains('is-collapsed');
+  renderSelectedPanel();
 });
 
 clearSelectionBtn.addEventListener('click', () => {
