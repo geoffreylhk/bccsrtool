@@ -192,10 +192,10 @@ function renderRecommendation(exceedCount, selectedCount, filledCount, threshold
     recommendation.innerHTML = `
       <h2 class="card-heading-with-icon">
         <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
-        Phase II ESA Recommended
+        Detailed Site Investigation Recommended
       </h2>
       <p>${exceedCount} of ${filledCount} evaluated contaminants exceed BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
-      <p>One or more contaminants exceed applicable Schedule 3.1 thresholds. A Phase II ESA is recommended to characterize the contamination.</p>
+      <p>One or more contaminants exceed applicable Schedule 3.1 thresholds. A qualified professional should review the results and determine the appropriate scope for a Detailed Site Investigation to characterize the location, extent, and degree of contamination.</p>
     `;
     return;
   }
@@ -204,10 +204,10 @@ function renderRecommendation(exceedCount, selectedCount, filledCount, threshold
   recommendation.innerHTML = `
     <h2 class="card-heading-with-icon">
       <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#check-circle"></use></svg>
-      Phase II ESA Not Indicated
+      No Exceedance Identified in This Screening
     </h2>
     <p>0 of ${filledCount} evaluated contaminants exceed applicable BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
-    <p>Professional review is still recommended prior to any property transaction or redevelopment.</p>
+    <p>This screening did not identify concentrations above the selected Schedule 3.1 thresholds. Professional review is still recommended prior to any property transaction or redevelopment.</p>
   `;
 }
 

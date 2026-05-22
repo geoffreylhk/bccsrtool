@@ -231,6 +231,7 @@ fetch('data.json')
       return categoryEntries.some(([categoryName]) => contaminant.category === categoryName);
     });
 
+    categoryEntries.forEach(([categoryName]) => collapsedCategories.add(categoryName));
     restoreSelections(data);
     renderContaminants();
   })
