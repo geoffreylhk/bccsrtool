@@ -1,72 +1,76 @@
-const LAND_USE_LABELS = {
-  WLN: 'Wildlands Natural',
-  WLR: 'Wildlands Reverted',
-  AL: 'Agricultural',
-  PL: 'Urban Park',
-  RLLD: 'Residential Low Density',
-  RLHD: 'Residential High Density',
-  CL: 'Commercial',
-  IL: 'Industrial'
-};
-
 const checkbox = document.getElementById('agree');
 const beginBtn = document.getElementById('beginBtn');
+const resumeBtn = document.getElementById('resumeBtn');
 
-if (checkbox && beginBtn) {
-  checkbox.addEventListener('change', () => {
-    beginBtn.disabled = !checkbox.checked;
-  });
+function setLandingButtonState() {
+  const accepted = !checkbox || checkbox.checked;
+  const saved = typeof hasSavedProgress === 'function' && hasSavedProgress();
 
+  if (beginBtn) beginBtn.disabled = !accepted;
+
+  if (resumeBtn) {
+    resumeBtn.hidden = !saved;
+    resumeBtn.disabled = !accepted || !saved;
+  }
+}
+
+if (checkbox) {
+  checkbox.addEventListener('change', setLandingButtonState);
+}
+
+if (beginBtn) {
   beginBtn.addEventListener('click', () => {
+    if (beginBtn.disabled) return;
+
+    if (hasSavedProgress() && !window.confirm('Start a fresh assessment? This will clear the saved local assessment in this browser.')) {
+      return;
+    }
+
+    clearAssessment();
+    markAssessmentStarted();
     window.location.href = 'assessment.html';
   });
 }
 
+if (resumeBtn) {
+  resumeBtn.addEventListener('click', () => {
+    if (resumeBtn.disabled) return;
+    window.location.href = 'assessment.html';
+  });
+}
+
+setLandingButtonState();
+
 const currentLandUse = document.getElementById('currentLandUse');
 const proposedLandUse = document.getElementById('proposedLandUse');
 const siteNextBtn = document.getElementById('nextBtn');
-const waterBodyOptions = document.querySelectorAll('input[name="waterBody"]');
 
-if (currentLandUse && proposedLandUse && siteNextBtn && waterBodyOptions.length) {
-  const getWaterBodyValue = () => {
-    const selected = document.querySelector('input[name="waterBody"]:checked');
-    return selected ? selected.value : '';
-  };
+if (currentLandUse && proposedLandUse && siteNextBtn) {
+  const activeProfile = getActiveProfile();
+
+  currentLandUse.value = activeProfile.currentLandUse || '';
+  proposedLandUse.value = activeProfile.proposedLandUse || activeProfile.thresholdLandUse || '';
 
   const validateSiteForm = () => {
-    const isComplete = Boolean(
-      currentLandUse.value &&
-      proposedLandUse.value &&
-      getWaterBodyValue()
-    );
-
-    siteNextBtn.disabled = !isComplete;
+    siteNextBtn.disabled = !(currentLandUse.value && proposedLandUse.value);
   };
 
-  currentLandUse.addEventListener('change', validateSiteForm);
-  proposedLandUse.addEventListener('change', validateSiteForm);
-  waterBodyOptions.forEach((option) => {
-    option.addEventListener('change', validateSiteForm);
-  });
+  const saveSiteInfo = () => {
+    updateActiveProfileData({
+      currentLandUse: currentLandUse.value,
+      currentLandUseLabel: LAND_USE_LABELS[currentLandUse.value] || '',
+      proposedLandUse: proposedLandUse.value,
+      proposedLandUseLabel: LAND_USE_LABELS[proposedLandUse.value] || ''
+    });
+    validateSiteForm();
+  };
+
+  currentLandUse.addEventListener('change', saveSiteInfo);
+  proposedLandUse.addEventListener('change', saveSiteInfo);
 
   siteNextBtn.addEventListener('click', () => {
-    if (siteNextBtn.disabled) {
-      return;
-    }
-
-    const waterBody = getWaterBodyValue();
-
-    localStorage.setItem('siteInfo', JSON.stringify({
-      currentLandUse: currentLandUse.value,
-      currentLandUseLabel: LAND_USE_LABELS[currentLandUse.value],
-      proposedLandUse: proposedLandUse.value,
-      proposedLandUseLabel: LAND_USE_LABELS[proposedLandUse.value],
-      thresholdLandUse: proposedLandUse.value,
-      thresholdLandUseLabel: LAND_USE_LABELS[proposedLandUse.value],
-      waterBody,
-      waterBodyLabel: waterBody === 'yes' ? 'Within 500 m' : 'Greater than 500 m'
-    }));
-
+    if (siteNextBtn.disabled) return;
+    saveSiteInfo();
     window.location.href = 'contaminants.html';
   });
 

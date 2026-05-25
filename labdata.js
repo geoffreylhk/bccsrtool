@@ -2,19 +2,17 @@ const labTable = document.getElementById('labTable');
 const filledCount = document.getElementById('filledCount');
 const resultsBtn = document.getElementById('resultsBtn');
 const resultsBtnText = document.getElementById('resultsBtnText');
+const csvImportBtn = document.getElementById('csvImportBtn');
+const csvModal = document.getElementById('csvModal');
+const csvText = document.getElementById('csvText');
+const csvFile = document.getElementById('csvFile');
+const previewCsvBtn = document.getElementById('previewCsvBtn');
+const applyCsvBtn = document.getElementById('applyCsvBtn');
+const csvPreview = document.getElementById('csvPreview');
 
 let csrData = null;
 let selectedContaminants = [];
-const siteInfo = getStoredSiteInfo();
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
-}
+let latestImportPreview = [];
 
 function groupSelected(contaminants) {
   return contaminants.reduce((groups, contaminant) => {
@@ -30,22 +28,28 @@ function getSavedLabValues() {
   return getStoredObject('labValues');
 }
 
+function getValueFromRow(row) {
+  const concentration = row.querySelector('.concentration-input').value.trim();
+  const unit = row.querySelector('.unit-select').value;
+
+  if (!concentration) return null;
+
+  return {
+    unit,
+    value: Number(concentration)
+  };
+}
+
 function saveLabValues() {
   const values = {};
+
   document.querySelectorAll('.lab-row').forEach((row) => {
     const id = row.dataset.id;
-    const concentration = row.querySelector('.concentration-input').value.trim();
-    const unit = row.querySelector('.unit-select').value;
-
-    if (concentration) {
-      values[id] = {
-        value: Number(concentration),
-        unit
-      };
-    }
+    const labValue = getValueFromRow(row);
+    if (labValue) values[id] = labValue;
   });
 
-  localStorage.setItem('labValues', JSON.stringify(values));
+  updateActiveProfileData({ labValues: values });
   updateFilledCount();
 }
 
@@ -60,7 +64,7 @@ function updateFilledCount() {
 }
 
 function renderUnitOptions(savedUnit) {
-  const availableUnits = getAvailableUnits(siteInfo.nearWater);
+  const availableUnits = getAvailableUnits();
   const soilOptions = availableUnits.filter((unit) => unit.category === 'soil').map((unit) => {
     return `<option value="${unit.id}" ${savedUnit === unit.id ? 'selected' : ''}>${unit.label}</option>`;
   }).join('');
@@ -72,7 +76,9 @@ function renderUnitOptions(savedUnit) {
     <optgroup label="Soil">
       ${soilOptions}
     </optgroup>
-    ${waterOptions ? `<optgroup label="Water">${waterOptions}</optgroup>` : ''}
+    <optgroup label="Water">
+      ${waterOptions}
+    </optgroup>
   `;
 }
 
@@ -90,6 +96,7 @@ function renderLabRows() {
     return;
   }
 
+  resultsBtn.disabled = false;
   const grouped = groupSelected(selectedContaminants);
   const rows = Object.entries(grouped).map(([groupName, contaminants]) => {
     const itemRows = contaminants.map((contaminant) => {
@@ -99,7 +106,9 @@ function renderLabRows() {
       return `
         <div class="lab-row" data-id="${escapeHtml(contaminant.id)}">
           <div class="lab-substance">
-            <strong>${escapeHtml(contaminant.name)}</strong>
+            <button class="text-button lab-info-btn" type="button" data-action="info" data-id="${escapeHtml(contaminant.id)}">
+              ${escapeHtml(contaminant.name)}
+            </button>
             ${contaminant.cas !== 'NS' ? `<span>CAS ${escapeHtml(contaminant.cas)}</span>` : ''}
           </div>
           <input
@@ -136,17 +145,226 @@ function renderLabRows() {
     ${rows}
   `;
 
-  document.querySelectorAll('.concentration-input, .unit-select').forEach((field) => {
-    field.addEventListener('input', saveLabValues);
-    field.addEventListener('change', saveLabValues);
-  });
-
   updateFilledCount();
 }
+
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let cell = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i += 1) {
+    const char = text[i];
+    const next = text[i + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      cell += '"';
+      i += 1;
+      continue;
+    }
+
+    if (char === '"') {
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    if (char === ',' && !inQuotes) {
+      row.push(cell.trim());
+      cell = '';
+      continue;
+    }
+
+    if ((char === '\n' || char === '\r') && !inQuotes) {
+      if (char === '\r' && next === '\n') i += 1;
+      row.push(cell.trim());
+      if (row.some((value) => value !== '')) rows.push(row);
+      row = [];
+      cell = '';
+      continue;
+    }
+
+    cell += char;
+  }
+
+  row.push(cell.trim());
+  if (row.some((value) => value !== '')) rows.push(row);
+  return rows;
+}
+
+function getColumnIndex(headers, names) {
+  const normalizedHeaders = headers.map(normalizeText);
+  return normalizedHeaders.findIndex((header) => names.some((name) => header === normalizeText(name)));
+}
+
+function findContaminantByImportRow(row, columns) {
+  const id = row[columns.id] || '';
+  const name = row[columns.name] || '';
+  const cas = row[columns.cas] || '';
+  const normalizedName = normalizeText(name);
+
+  return selectedContaminants.find((contaminant) => {
+    return (
+      (id && contaminant.id === id) ||
+      (name && contaminant.name.toLowerCase() === name.toLowerCase()) ||
+      (cas && contaminant.cas === cas) ||
+      (normalizedName && normalizeText(contaminant.name) === normalizedName)
+    );
+  }) || null;
+}
+
+function getUnitFromCsv(unitText) {
+  if (!unitText) return DEFAULT_LAB_UNIT;
+  const normalized = normalizeText(unitText);
+  const matched = LAB_UNITS.find((unit) => {
+    return normalizeText(unit.id) === normalized || normalizeText(unit.label) === normalized || normalizeText(unit.detail) === normalized;
+  });
+  return matched?.id || DEFAULT_LAB_UNIT;
+}
+
+function buildImportPreview(text) {
+  const rows = parseCsv(text);
+  if (rows.length < 2) return [];
+
+  const headers = rows[0];
+  const columns = {
+    id: getColumnIndex(headers, ['id', 'contaminant_id', 'substance_id']),
+    name: getColumnIndex(headers, ['contaminant', 'substance', 'name']),
+    cas: getColumnIndex(headers, ['cas', 'cas_number', 'cas no']),
+    value: getColumnIndex(headers, ['value', 'concentration', 'result']),
+    unit: getColumnIndex(headers, ['unit', 'units'])
+  };
+
+  return rows.slice(1).map((row, index) => {
+    const contaminant = findContaminantByImportRow(row, columns);
+    const rawValue = columns.value >= 0 ? row[columns.value] : '';
+    const unit = getUnitFromCsv(columns.unit >= 0 ? row[columns.unit] : '');
+    const cleanedValue = String(rawValue || '').trim();
+    const hasValue = cleanedValue !== '';
+    const numericValue = hasValue ? Number(cleanedValue) : undefined;
+    const invalidValue = hasValue && Number.isNaN(numericValue);
+
+    return {
+      rowNumber: index + 2,
+      contaminant,
+      rawName: row[columns.name] || row[columns.cas] || row[columns.id] || `Row ${index + 2}`,
+      value: invalidValue ? undefined : numericValue,
+      unit,
+      invalidValue,
+      matched: Boolean(contaminant)
+    };
+  });
+}
+
+function renderCsvPreview(preview) {
+  const matched = preview.filter((row) => row.matched && !row.invalidValue);
+  const unmatched = preview.filter((row) => !row.matched);
+  const invalid = preview.filter((row) => row.invalidValue);
+
+  applyCsvBtn.disabled = matched.length === 0;
+
+  if (!preview.length) {
+    csvPreview.innerHTML = '<p class="empty-state">Add CSV text with a header row, then preview the import.</p>';
+    return;
+  }
+
+  csvPreview.innerHTML = `
+    <div class="preview-summary">
+      <span>${matched.length} matched</span>
+      <span>${unmatched.length} unmatched</span>
+      <span>${invalid.length} invalid values</span>
+    </div>
+    <div class="preview-list">
+      ${preview.map((row) => `
+        <div class="preview-row ${row.matched && !row.invalidValue ? 'is-ok' : 'needs-review'}">
+          <strong>${escapeHtml(row.contaminant?.name || row.rawName)}</strong>
+          <span>
+            ${row.matched ? 'Matched' : 'Unmatched'}
+            ${row.invalidValue ? ' · invalid numeric value' : ''}
+            ${row.value !== undefined ? ` · ${escapeHtml(row.value)} ${escapeHtml(getUnitDef(row.unit).label)}` : ''}
+          </span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function openCsvModal() {
+  csvModal.classList.add('is-open');
+  csvModal.setAttribute('aria-hidden', 'false');
+  csvText.focus();
+  renderCsvPreview(latestImportPreview);
+}
+
+function closeCsvModal() {
+  csvModal.classList.remove('is-open');
+  csvModal.setAttribute('aria-hidden', 'true');
+  csvImportBtn.focus();
+}
+
+labTable.addEventListener('input', (event) => {
+  if (event.target.matches('.concentration-input')) saveLabValues();
+});
+
+labTable.addEventListener('change', (event) => {
+  if (event.target.matches('.unit-select')) saveLabValues();
+});
+
+labTable.addEventListener('click', (event) => {
+  const infoButton = event.target.closest('[data-action="info"]');
+  if (!infoButton) return;
+  const contaminant = selectedContaminants.find((item) => item.id === infoButton.dataset.id);
+  openContaminantDrawer(contaminant, infoButton);
+});
 
 resultsBtn.addEventListener('click', () => {
   saveLabValues();
   window.location.href = 'results.html';
+});
+
+csvImportBtn.addEventListener('click', openCsvModal);
+csvModal.addEventListener('csv-close', closeCsvModal);
+
+csvModal.addEventListener('click', (event) => {
+  if (event.target.closest('[data-close-csv]')) {
+    closeCsvModal();
+  }
+});
+
+csvFile.addEventListener('change', () => {
+  const file = csvFile.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.addEventListener('load', () => {
+    csvText.value = String(reader.result || '');
+  });
+  reader.readAsText(file);
+});
+
+previewCsvBtn.addEventListener('click', () => {
+  latestImportPreview = buildImportPreview(csvText.value);
+  renderCsvPreview(latestImportPreview);
+});
+
+applyCsvBtn.addEventListener('click', () => {
+  const labValues = getSavedLabValues();
+
+  latestImportPreview
+    .filter((row) => row.matched && !row.invalidValue)
+    .forEach((row) => {
+      labValues[row.contaminant.id] = {
+        unit: row.unit
+      };
+
+      if (row.value !== undefined) {
+        labValues[row.contaminant.id].value = row.value;
+      }
+    });
+
+  updateActiveProfileData({ labValues });
+  closeCsvModal();
+  renderLabRows();
 });
 
 fetch('data.json')

@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool — Assessment</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260522-ui">
+    <link rel="stylesheet" href="style.css?v=20260524-features">
   </head>
   <body class="assessment-page site-info-page">
     <nav class="site-nav">
@@ -49,7 +49,12 @@
 
       <section class="card form-card">
         <div class="form-group">
-          <label for="currentLandUse">Current Land Use</label>
+          <div class="field-label-row">
+            <label for="currentLandUse">Current Land Use</label>
+                    <button class="field-info" type="button" aria-label="What current land use means" data-tooltip="How the land is being used today, or what the land was previously used for before redevelopment. Identifies what contaminants may already be present from past or existing activities.">
+              i
+            </button>
+          </div>
           <select id="currentLandUse">
             <option value="">Select current use</option>
             <option value="WLN">Wildlands Natural</option>
@@ -64,7 +69,12 @@
         </div>
 
         <div class="form-group">
-          <label for="proposedLandUse">Proposed Land Use</label>
+          <div class="field-label-row">
+            <label for="proposedLandUse">Proposed Land Use</label>
+                    <button class="field-info" type="button" aria-label="What proposed land use means" data-tooltip="What the land is planning to become, or what the site is currently being assessed as. Different land uses have different safety standards, so this determines which CSR thresholds apply.">
+              i
+            </button>
+          </div>
           <select id="proposedLandUse">
             <option value="">Select proposed use</option>
             <option value="WLN">Wildlands Natural</option>
@@ -77,20 +87,6 @@
             <option value="IL">Industrial</option>
           </select>
         </div>
-
-        <fieldset class="form-group">
-          <legend>Near a water body? <span class="hint">(within 500 m)</span></legend>
-          <div class="radio-group">
-            <label class="radio-label">
-              <input type="radio" name="waterBody" value="yes">
-              <span>Yes</span>
-            </label>
-            <label class="radio-label">
-              <input type="radio" name="waterBody" value="no">
-              <span>No</span>
-            </label>
-          </div>
-        </fieldset>
       </section>
 
       <div class="nav-buttons">
@@ -115,6 +111,7 @@
       <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
     </footer>
 
+    <script src="data-utils.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

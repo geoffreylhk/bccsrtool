@@ -24,6 +24,11 @@
     <path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.83-2.29 3.76S3 11.09 3 12.25c0 2.22 1.8 4.05 4 4.05Z"/>
     <path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a7 7 0 0 1-11.93 4.95"/>
   </symbol>
+  <symbol id="download" viewBox="0 0 24 24">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <path d="M7 10l5 5 5-5"/>
+    <path d="M12 15V3"/>
+  </symbol>
   <symbol id="external-link" viewBox="0 0 24 24">
     <path d="M15 3h6v6"/>
     <path d="M10 14 21 3"/>
@@ -35,6 +40,13 @@
     <path d="M8.5 2h7"/>
     <path d="M14 9.31 20.1 20a2 2 0 0 1-1.73 3H5.63a2 2 0 0 1-1.73-3L10 9.31"/>
     <path d="M7.5 16h9"/>
+  </symbol>
+  <symbol id="file-text" viewBox="0 0 24 24">
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+    <path d="M14 2v6h6"/>
+    <path d="M16 13H8"/>
+    <path d="M16 17H8"/>
+    <path d="M10 9H8"/>
   </symbol>
   <symbol id="graduation-cap" viewBox="0 0 24 24">
     <path d="M22 10v6"/>
@@ -84,5 +96,10 @@
     <path d="M20 12h2"/>
     <path d="m6.34 17.66-1.41 1.41"/>
     <path d="m19.07 4.93-1.41 1.41"/>
+  </symbol>
+  <symbol id="upload" viewBox="0 0 24 24">
+    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+    <path d="M17 8l-5-5-5 5"/>
+    <path d="M12 3v12"/>
   </symbol>
 </svg>

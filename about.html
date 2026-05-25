@@ -6,79 +6,265 @@
     <title>BC CSR Screening Tool — About</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260522-ui">
+    <link rel="stylesheet" href="style.css?v=20260524-features">
+    <link rel="stylesheet" href="about.css?v=20260525-story">
   </head>
   <body class="about-page">
-    <main class="workflow-main about-main">
+    <nav class="site-nav">
+      <a class="brand" href="index.html" aria-label="BC CSR Screening Tool home">
+        <img src="assets/images/logo.png" alt="BC logo">
+        <span>CSR Screening Tool</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+      </div>
+    </nav>
+
+    <main class="about-story">
       <a href="index.html" class="back-link">
         <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
         Back
       </a>
 
-      <header class="page-header">
-        <h1>About This Tool</h1>
-        <p class="subtitle">
-          An educational tool for Environmental Science students to apply BC
-          Schedule 3.1 contamination thresholds in a Phase I ESA context.
-        </p>
+      <header class="cinematic-hero" aria-labelledby="aboutHeroTitle">
+        <div class="hero-copy">
+          <span class="story-kicker" data-reveal>Methodology</span>
+          <h1 id="aboutHeroTitle" data-reveal>From Phase I observations to screening thresholds — in one workflow.</h1>
+          <p data-reveal>
+            This tool helps students and early-career environmental professionals connect
+            land use, contaminants of concern, lab results, and BC CSR Schedule 3.1 thresholds
+            without getting lost in tables first.
+          </p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="map-frame">
+            <span class="map-pin pin-one"></span>
+            <span class="map-pin pin-two"></span>
+            <span class="plume"></span>
+            <span class="contours"></span>
+          </div>
+        </div>
       </header>
 
-      <section class="info-card">
-        <h2 class="card-heading-with-icon">
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#book-open"></use></svg>
-          BC Contaminated Sites Regulation
-        </h2>
+      <section class="purpose-panel story-card" data-reveal>
+        <div class="purpose-statement">
+          <span class="story-kicker">Why I built this</span>
+          <h2>Make the screening logic easier to see.</h2>
+        </div>
         <p>
-          The CSR governs site remediation in BC. Schedule 3.1 sets numerical
-          concentration limits for soil and groundwater based on land use and
-          site conditions.
+          I built this project to make contaminated sites screening easier to understand.
+          Instead of reading threshold tables in isolation, users can walk through the same
+          logic used in an early environmental assessment: land use, contaminants of concern,
+          lab results, and screening outcomes.
         </p>
       </section>
 
-      <section class="info-card">
-        <h2 class="card-heading-with-icon">
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#graduation-cap"></use></svg>
-          Phase I, II &amp; III ESAs
-        </h2>
-        <p>
-          <strong>Phase I:</strong> Non-intrusive historical review to identify
-          potential contaminants of concern. No sampling.
-        </p>
-        <p>
-          <strong>Phase II:</strong> Physical sampling analyzed by a lab to
-          confirm contamination.
-        </p>
-        <p>
-          This tool bridges Phase I and II by helping users understand applicable
-          thresholds and screen preliminary lab results.
-        </p>
-        <p>
-          <strong>Phase III:</strong> Detailed investigation and remediation planning
-          to define the extent of contamination and identify appropriate next steps.
-        </p>
+      <section class="scroll-story" aria-labelledby="workflowTitle">
+        <div class="story-sticky" data-reveal>
+          <span class="story-kicker">Workflow</span>
+          <h2 id="workflowTitle">Four decisions, one screening path</h2>
+          <p>Each step mirrors a small part of how early ESA information gets organized.</p>
+        </div>
+        <div class="workflow-timeline" aria-label="Screening workflow">
+          <div class="timeline-rail" aria-hidden="true"><span></span></div>
+          <article class="workflow-step-card is-active" data-step="0" data-reveal>
+            <span class="step-number">01</span>
+            <div>
+              <h3>Land Use</h3>
+              <p>Different land uses carry different risk assumptions. A residential site usually has stricter limits than an industrial property because people may live there long-term.</p>
+            </div>
+          </article>
+          <article class="workflow-step-card" data-step="1" data-reveal>
+            <span class="step-number">02</span>
+            <div>
+              <h3>Contaminants</h3>
+              <p>Site history points toward likely contaminants. A former gas station suggests BTEX and petroleum VOCs; a dry cleaner suggests chlorinated solvents.</p>
+            </div>
+          </article>
+          <article class="workflow-step-card" data-step="2" data-reveal>
+            <span class="step-number">03</span>
+            <div>
+              <h3>Lab Data</h3>
+              <p>Measured concentrations are entered with units. Non-detects can be marked when a lab did not detect a substance above its reporting limit.</p>
+            </div>
+          </article>
+          <article class="workflow-step-card" data-step="3" data-reveal>
+            <span class="step-number">04</span>
+            <div>
+              <h3>Screening Results</h3>
+              <p>The tool compares the value against the selected threshold and flags below, borderline, exceedance, non-detect, or review.</p>
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section class="notice-card limitation-card">
-        <h2>
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#shield-alert"></use></svg>
-          Limitations
-        </h2>
-        <ul>
-          <li>Does not include all regulated substances</li>
-          <li>Does not account for background concentrations</li>
-          <li>Simplifies pathway applicability</li>
-          <li>Threshold data may not reflect current regulatory amendments</li>
-          <li>Only uses Schedule 3.1 right now; more standards may be added in the future</li>
-        </ul>
+      <section class="story-section">
+        <div class="story-heading" data-reveal>
+          <span class="story-kicker">Site history clues</span>
+          <h2>Site history gives the contaminant list a starting point</h2>
+          <p>Phase I observations rarely give a final answer, but they help narrow the first screening list.</p>
+        </div>
+        <div class="clue-grid">
+          <article class="clue-card" data-reveal>
+            <span class="clue-icon">Fuel</span>
+            <strong>Former gas station</strong>
+            <p>BTEX and petroleum VOCs often become the first substances to check.</p>
+            <small>Why it matters: fuel releases can affect soil, groundwater, and vapour pathways.</small>
+          </article>
+          <article class="clue-card" data-reveal>
+            <span class="clue-icon">Solvent</span>
+            <strong>Former dry cleaner</strong>
+            <p>PCE/TCE chlorinated solvents are common screening candidates.</p>
+            <small>Why it matters: solvents can be mobile and persistent.</small>
+          </article>
+          <article class="clue-card" data-reveal>
+            <span class="clue-icon">Rail</span>
+            <strong>Rail yard or wood treatment</strong>
+            <p>PAHs, metals, and creosote-related contaminants may be relevant.</p>
+            <small>Why it matters: historical handling areas can leave mixed impacts.</small>
+          </article>
+          <article class="clue-card" data-reveal>
+            <span class="clue-icon">Fill</span>
+            <strong>Fill material or industrial land</strong>
+            <p>Metals and miscellaneous regulated substances are often worth reviewing.</p>
+            <small>Why it matters: imported fill can carry a different site history.</small>
+          </article>
+        </div>
       </section>
 
-      <section class="resource-section">
-        <h2>Official Resources</h2>
-        <a href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/375_96_00" target="_blank" rel="noreferrer">
-          BC Gov: Contaminated Sites Regulation
-          <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#external-link"></use></svg>
-        </a>
+      <section class="method-section story-card" aria-labelledby="methodTitle">
+        <div class="story-heading" data-reveal>
+          <span class="story-kicker">Method</span>
+          <h2 id="methodTitle">Threshold logic, made visible</h2>
+          <p>Different land uses, matrices, and units change which Schedule 3.1 standard is used.</p>
+        </div>
+        <div class="method-split">
+          <div class="method-copy" data-reveal>
+            <div>
+              <h3>Proposed land use selects the standard.</h3>
+              <p>The same concentration can screen differently under residential, commercial, or industrial assumptions.</p>
+            </div>
+            <div>
+              <h3>Units point to the matrix.</h3>
+              <p>Soil units compare against soil thresholds. Water units compare against groundwater thresholds.</p>
+            </div>
+            <div>
+              <h3>Near-threshold values deserve attention.</h3>
+              <p>Borderline means the value is close to the threshold and should be reviewed carefully.</p>
+            </div>
+            <div>
+              <h3>Non-detect does not mean zero.</h3>
+              <p>It means the lab did not detect the substance above its reporting limit. In this educational screen, non-detects are not treated as exceedances.</p>
+            </div>
+          </div>
+          <aside class="matrix-visual" data-reveal aria-label="Matrix selector visual">
+            <span class="matrix-title">Matrix selector</span>
+            <div class="matrix-row"><strong>µg/g</strong><span>Soil threshold</span></div>
+            <div class="matrix-row"><strong>mg/kg</strong><span>Soil threshold</span></div>
+            <div class="matrix-row"><strong>µg/L</strong><span>Groundwater threshold</span></div>
+            <div class="matrix-row"><strong>mg/L</strong><span>Groundwater threshold</span></div>
+            <div class="threshold-example">
+              <span>Example</span>
+              <dl>
+                <div><dt>Benzene</dt><dd>0.05 µg/L</dd></div>
+                <div><dt>RLHD groundwater threshold</dt><dd>0.035 µg/L</dd></div>
+                <div><dt>Result</dt><dd>Exceeds</dd></div>
+              </dl>
+            </div>
+          </aside>
+        </div>
+
+        <div class="threshold-demo" data-reveal aria-label="Animated threshold comparison">
+          <div class="threshold-demo-copy">
+            <span class="story-kicker">Threshold moment</span>
+            <h3>The same lab value can pass under one land use and exceed under another.</h3>
+          </div>
+          <div class="threshold-track" aria-hidden="true">
+            <span class="zone zone-below">Below</span>
+            <span class="zone zone-borderline">Borderline</span>
+            <span class="zone zone-exceeds">Exceeds</span>
+            <span class="threshold-marker"><em>Threshold</em></span>
+            <span class="threshold-measure"><em>Measured value</em></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="esa-context story-section">
+        <div class="story-heading" data-reveal>
+          <span class="story-kicker">ESA context</span>
+          <h2>Where this fits in a real assessment workflow</h2>
+          <p>This tool simplifies that workflow into an educational screening interface.</p>
+        </div>
+        <ol class="esa-flow-v2" data-reveal>
+          <li><span>Phase I ESA</span></li>
+          <li><span>Potential contaminants identified</span></li>
+          <li><span>Applicable land use selected</span></li>
+          <li><span>Preliminary lab results screened</span></li>
+          <li><span>Potential exceedances flagged for review</span></li>
+        </ol>
+      </section>
+
+      <section class="data-status-card" data-reveal>
+        <div class="status-dot" aria-hidden="true"></div>
+        <div>
+          <span>Current tool data</span>
+          <strong>Schedule 3.1 — Oct 27, 2025 amendment</strong>
+          <p>This badge signals the dataset version used by the tool, but users should always verify against official BC regulations before professional use.</p>
+        </div>
+      </section>
+
+      <section class="responsible-use story-card" data-reveal>
+        <div class="story-heading">
+          <span class="story-kicker">Responsible use</span>
+          <h2>Clear enough to learn from. Limited enough to respect.</h2>
+        </div>
+        <div class="responsible-grid">
+          <div>
+            <h3>Educational simplifications</h3>
+            <ul>
+              <li>Not all regulated substances or exposure pathways are included.</li>
+              <li>Background concentrations are not evaluated.</li>
+              <li>Pathway applicability is intentionally simplified.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Regulatory limitations</h3>
+            <ul>
+              <li>Thresholds must be verified against official regulations.</li>
+              <li>Schedule 3.1 is the current focus; more standards may be added later.</li>
+              <li>This is not a replacement for a qualified professional or Approved Professional review.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="resources-story story-section">
+        <div class="story-heading" data-reveal>
+          <span class="story-kicker">Official resources</span>
+          <h2>Verify the source material</h2>
+          <p>Use official BC resources for regulatory decisions and professional work.</p>
+        </div>
+        <div class="resource-grid-v2">
+          <a class="resource-card-v2" href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/375_96_00" target="_blank" rel="noreferrer" data-reveal>
+            <span>BC Laws</span>
+            <strong>Contaminated Sites Regulation</strong>
+            <small>Official regulation text, including Schedule 3.1.</small>
+            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#external-link"></use></svg>
+          </a>
+          <a class="resource-card-v2" href="https://www2.gov.bc.ca/gov/content/environment/air-land-water/site-remediation/guidance-resources" target="_blank" rel="noreferrer" data-reveal>
+            <span>Province of B.C.</span>
+            <strong>Contaminated sites guidance and resources</strong>
+            <small>Government guidance, expectations, and site remediation resources.</small>
+            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#external-link"></use></svg>
+          </a>
+        </div>
       </section>
     </main>
+
+    <script src="data-utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+    <script src="about-animations.js?v=20260525-story" defer></script>
   </body>
 </html>

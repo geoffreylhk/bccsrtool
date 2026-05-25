@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool — Contaminants</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260522-ui">
+    <link rel="stylesheet" href="style.css?v=20260524-features">
   </head>
   <body class="assessment-page">
     <nav class="site-nav">
@@ -52,6 +52,17 @@
           <span aria-hidden="true">Search</span>
           <input type="search" id="searchInput" placeholder="Search by name or CAS number...">
         </label>
+        <div class="sort-controls" aria-label="Contaminant sort controls">
+          <label class="sr-only" for="sortSelect">Sort contaminants</label>
+          <select id="sortSelect">
+            <option value="category">By category</option>
+            <option value="default">Order added</option>
+            <option value="alpha">A to Z</option>
+          </select>
+          <button id="sortDirectionBtn" class="icon-square" type="button" aria-label="Toggle sort direction" aria-pressed="false">
+            ↓
+          </button>
+        </div>
         <button id="expandBtn" class="secondary-action compact-action" type="button">+ Expand all</button>
       </div>
 
@@ -82,6 +93,28 @@
         </button>
       </div>
     </main>
+
+    <button id="quickAddBtn" class="floating-add no-print" type="button" aria-haspopup="dialog">
+      + Add
+    </button>
+
+    <div id="commandPalette" class="command-palette" aria-hidden="true">
+      <div class="command-backdrop" data-close-palette></div>
+      <section class="command-panel" role="dialog" aria-modal="true" aria-labelledby="commandTitle">
+        <div class="command-header">
+          <div>
+            <p class="eyebrow">Quick add</p>
+            <h2 id="commandTitle">Find a contaminant</h2>
+          </div>
+          <button class="drawer-close" type="button" data-close-palette aria-label="Close quick add">×</button>
+        </div>
+        <label class="search-bar command-search" for="paletteSearchInput">
+          <span aria-hidden="true">Search</span>
+          <input id="paletteSearchInput" type="search" placeholder="Search name, CAS, or category...">
+        </label>
+        <div id="paletteResults" class="palette-results" role="listbox" aria-label="Quick add results"></div>
+      </section>
+    </div>
 
     <footer>
       <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>

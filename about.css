@@ -1,0 +1,937 @@
+:root {
+  --story-max: 1120px;
+  --story-wide: 1280px;
+  --story-progress: 1;
+  --measure-progress: 1;
+}
+
+.about-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(248, 247, 243, 0.72), rgba(248, 247, 243, 0.5)),
+    url("assets/images/background-image.avif") center / cover fixed;
+}
+
+.about-page .site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  backdrop-filter: blur(16px);
+}
+
+.about-story {
+  width: min(calc(100% - 48px), var(--story-wide));
+  margin: 0 auto;
+  padding: 28px 0 80px;
+}
+
+.about-story .back-link {
+  width: fit-content;
+  margin-bottom: 28px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.story-kicker {
+  display: inline-flex;
+  width: fit-content;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.cinematic-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  align-items: center;
+  gap: clamp(28px, 5vw, 80px);
+  min-height: min(760px, calc(100vh - 120px));
+  margin-bottom: 36px;
+  padding: clamp(34px, 6vw, 76px);
+  overflow: hidden;
+  border: 1px solid rgba(222, 216, 204, 0.88);
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(236, 245, 239, 0.84)),
+    var(--surface);
+  box-shadow: 0 26px 80px rgba(44, 36, 31, 0.16);
+}
+
+.cinematic-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+  background:
+    repeating-radial-gradient(ellipse at 82% 18%, transparent 0 24px, rgba(47, 93, 70, 0.18) 25px 26px, transparent 27px 54px),
+    linear-gradient(120deg, transparent 0 45%, rgba(47, 93, 70, 0.12) 46% 47%, transparent 48%);
+  pointer-events: none;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 18px;
+}
+
+.hero-copy h1 {
+  max-width: 880px;
+  margin: 0;
+  color: var(--primary);
+  font-size: clamp(2.55rem, 5.6vw, 5.6rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.hero-copy p {
+  max-width: 690px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+  line-height: 1.6;
+}
+
+.hero-visual {
+  position: relative;
+  z-index: 1;
+  min-height: 480px;
+}
+
+.map-frame {
+  position: absolute;
+  inset: 6% 0 4% 4%;
+  overflow: hidden;
+  border: 1px solid rgba(47, 93, 70, 0.22);
+  border-radius: 22px;
+  background:
+    linear-gradient(140deg, rgba(47, 93, 70, 0.08), rgba(255, 255, 255, 0.66)),
+    radial-gradient(circle at 64% 38%, rgba(175, 133, 88, 0.22), transparent 35%),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68), 0 24px 60px rgba(47, 93, 70, 0.16);
+}
+
+.map-frame::before,
+.map-frame::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 1px solid rgba(47, 93, 70, 0.18);
+  border-radius: 42% 58% 51% 49%;
+  transform: rotate(-16deg);
+}
+
+.map-frame::after {
+  inset: 26% 8% 18% 28%;
+  border-color: rgba(129, 117, 104, 0.22);
+  transform: rotate(21deg);
+}
+
+.contours {
+  position: absolute;
+  inset: -18%;
+  background:
+    repeating-radial-gradient(ellipse at 48% 52%, transparent 0 26px, rgba(47, 93, 70, 0.16) 27px 28px, transparent 29px 58px);
+  transform: rotate(-12deg);
+}
+
+.plume {
+  position: absolute;
+  right: 4%;
+  bottom: 18%;
+  width: 72%;
+  height: 34%;
+  border-radius: 999px 38% 999px 48%;
+  background: linear-gradient(90deg, rgba(37, 131, 76, 0.14), rgba(179, 58, 47, 0.2));
+  filter: blur(1px);
+  transform: rotate(-11deg);
+}
+
+.map-pin {
+  position: absolute;
+  z-index: 3;
+  width: 12px;
+  height: 12px;
+  border: 3px solid var(--surface);
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 0 0 8px rgba(47, 93, 70, 0.14);
+}
+
+.pin-one {
+  top: 34%;
+  left: 30%;
+}
+
+.pin-two {
+  right: 24%;
+  bottom: 32%;
+}
+
+.story-card,
+.story-section,
+.scroll-story,
+.data-status-card {
+  width: min(100%, var(--story-max));
+  margin: 0 auto 56px;
+}
+
+.purpose-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(22px, 5vw, 60px);
+  align-items: center;
+  padding: clamp(26px, 4vw, 46px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 54px rgba(44, 36, 31, 0.11);
+}
+
+.purpose-statement h2,
+.story-heading h2,
+.story-sticky h2,
+.threshold-demo-copy h3 {
+  margin: 8px 0 0;
+  color: var(--text);
+  font-size: clamp(1.9rem, 4vw, 3.8rem);
+  line-height: 1.03;
+  letter-spacing: -0.035em;
+}
+
+.purpose-panel p,
+.story-heading p,
+.story-sticky p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 1.03rem;
+  line-height: 1.72;
+}
+
+.scroll-story {
+  --story-progress: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(34px, 6vw, 86px);
+  min-height: 210vh;
+  padding: 64px 0;
+}
+
+.story-sticky {
+  position: sticky;
+  top: 118px;
+  align-self: start;
+  display: grid;
+  gap: 12px;
+  min-height: 360px;
+  padding-top: 16px;
+}
+
+.workflow-timeline {
+  position: relative;
+  display: grid;
+  gap: 44px;
+  padding: 24vh 0 24vh 46px;
+}
+
+.timeline-rail {
+  position: absolute;
+  top: 24vh;
+  bottom: 24vh;
+  left: 14px;
+  width: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(199, 188, 173, 0.78);
+}
+
+.timeline-rail span {
+  display: block;
+  width: 100%;
+  height: calc(var(--story-progress) * 100%);
+  border-radius: inherit;
+  background: linear-gradient(var(--primary), #88a985);
+}
+
+.workflow-step-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 20px;
+  align-items: start;
+  min-height: 260px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(222, 216, 204, 0.92);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 16px 46px rgba(44, 36, 31, 0.09);
+  transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+}
+
+.workflow-step-card::before {
+  content: "";
+  position: absolute;
+  top: 44px;
+  left: -38px;
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--surface);
+  border-radius: 999px;
+  background: var(--border-strong);
+  box-shadow: 0 0 0 1px var(--border);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.workflow-step-card.is-active,
+.workflow-step-card.is-complete {
+  border-color: rgba(47, 93, 70, 0.45);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.workflow-step-card.is-active {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 24px 70px rgba(47, 93, 70, 0.16);
+}
+
+.workflow-step-card.is-active::before,
+.workflow-step-card.is-complete::before {
+  background: var(--primary);
+  box-shadow: 0 0 0 7px rgba(47, 93, 70, 0.12);
+}
+
+.step-number {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-weight: 850;
+}
+
+.workflow-step-card.is-active .step-number {
+  background: var(--primary);
+  color: #fff;
+}
+
+.workflow-step-card h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1.1;
+}
+
+.workflow-step-card p,
+.method-copy p,
+.clue-card p,
+.clue-card small,
+.resource-card-v2 small,
+.data-status-card p,
+.responsible-grid li {
+  color: var(--text-muted);
+  line-height: 1.62;
+}
+
+.story-heading {
+  display: grid;
+  gap: 10px;
+  max-width: 780px;
+  margin-bottom: 24px;
+}
+
+.clue-grid,
+.responsible-grid,
+.resource-grid-v2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.clue-card,
+.resource-card-v2 {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 38px rgba(44, 36, 31, 0.09);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.clue-card:hover,
+.clue-card:focus-within,
+.resource-card-v2:hover,
+.resource-card-v2:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(47, 93, 70, 0.45);
+  box-shadow: 0 22px 54px rgba(47, 93, 70, 0.14);
+}
+
+.clue-icon {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 5px 10px;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.clue-card strong,
+.resource-card-v2 strong {
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1.22;
+}
+
+.clue-card p,
+.clue-card small {
+  margin: 0;
+}
+
+.clue-card small {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+.method-section {
+  padding: clamp(26px, 5vw, 52px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(241, 238, 231, 0.84)),
+    var(--surface);
+  box-shadow: 0 22px 70px rgba(44, 36, 31, 0.12);
+}
+
+.method-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.85fr);
+  gap: clamp(24px, 5vw, 56px);
+  align-items: start;
+}
+
+.method-copy {
+  display: grid;
+  gap: 0;
+}
+
+.method-copy div {
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+
+.method-copy div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.method-copy h3 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+.method-copy p {
+  margin: 0;
+}
+
+.matrix-visual {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid rgba(47, 93, 70, 0.22);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.matrix-title {
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.matrix-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.matrix-row strong {
+  color: var(--text);
+}
+
+.matrix-row span {
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.threshold-example {
+  margin-top: 8px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--primary-soft);
+  color: var(--text);
+}
+
+.threshold-example > span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.threshold-example dl {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.threshold-example div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.threshold-example dd {
+  margin: 0;
+  font-weight: 850;
+}
+
+.threshold-example div:last-child dd {
+  color: var(--danger);
+}
+
+.threshold-demo {
+  display: grid;
+  gap: 24px;
+  margin-top: 42px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(47, 93, 70, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.threshold-demo-copy h3 {
+  max-width: 680px;
+  font-size: clamp(1.55rem, 3vw, 2.45rem);
+}
+
+.threshold-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: 62% 18% 20%;
+  min-height: 124px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.zone {
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  color: rgba(44, 36, 31, 0.68);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.zone-below {
+  background: linear-gradient(180deg, rgba(37, 131, 76, 0.16), rgba(37, 131, 76, 0.06));
+}
+
+.zone-borderline {
+  background: linear-gradient(180deg, rgba(217, 154, 0, 0.22), rgba(217, 154, 0, 0.08));
+}
+
+.zone-exceeds {
+  background: linear-gradient(180deg, rgba(179, 58, 47, 0.22), rgba(179, 58, 47, 0.08));
+}
+
+.threshold-marker {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 62%;
+  width: 2px;
+  background: var(--text);
+}
+
+.threshold-marker em {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.threshold-measure {
+  position: absolute;
+  left: 0;
+  top: 52px;
+  width: min(calc(var(--measure-progress) * 82%), 82%);
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--success), #d99a00 74%, var(--danger));
+  box-shadow: 0 10px 22px rgba(47, 93, 70, 0.18);
+}
+
+.threshold-measure em {
+  position: absolute;
+  left: 14px;
+  bottom: 24px;
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.esa-flow-v2 {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: esa-step;
+}
+
+.esa-flow-v2 li {
+  position: relative;
+  min-height: 122px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 34px rgba(44, 36, 31, 0.08);
+}
+
+.esa-flow-v2 li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  width: 12px;
+  height: 2px;
+  background: var(--border-strong);
+}
+
+.esa-flow-v2 li::before {
+  counter-increment: esa-step;
+  content: counter(esa-step);
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.esa-flow-v2 span {
+  color: var(--text);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.data-status-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 24px;
+  border: 1px solid rgba(47, 93, 70, 0.3);
+  border-radius: 18px;
+  background: rgba(231, 241, 235, 0.9);
+  box-shadow: 0 14px 44px rgba(47, 93, 70, 0.12);
+}
+
+.status-dot {
+  width: 14px;
+  height: 14px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--success);
+  box-shadow: 0 0 0 8px rgba(37, 131, 76, 0.12);
+}
+
+.data-status-card span {
+  display: block;
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.data-status-card strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--text);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+}
+
+.data-status-card p {
+  max-width: 760px;
+  margin: 8px 0 0;
+}
+
+.responsible-use {
+  padding: clamp(24px, 4vw, 42px);
+  border: 1px solid var(--warning-border);
+  border-radius: 18px;
+  background: rgba(248, 235, 227, 0.88);
+  box-shadow: 0 14px 42px rgba(138, 74, 35, 0.08);
+}
+
+.responsible-grid {
+  margin-top: 18px;
+}
+
+.responsible-grid > div {
+  padding: 20px;
+  border: 1px solid rgba(231, 181, 149, 0.9);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.54);
+}
+
+.responsible-grid h3 {
+  margin: 0 0 10px;
+  color: var(--warning-text);
+}
+
+.responsible-grid ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.responsible-grid li + li {
+  margin-top: 8px;
+}
+
+.resource-card-v2 {
+  position: relative;
+  min-height: 170px;
+  padding-right: 54px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.resource-card-v2 span {
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.resource-card-v2 .icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  color: var(--primary);
+}
+
+html.dark .about-page,
+html.dark.about-page {
+  background:
+    linear-gradient(rgba(29, 24, 21, 0.82), rgba(29, 24, 21, 0.74)),
+    url("assets/images/background-image.avif") center / cover fixed;
+}
+
+html.dark .cinematic-hero,
+html.dark .purpose-panel,
+html.dark .workflow-step-card,
+html.dark .clue-card,
+html.dark .method-section,
+html.dark .matrix-visual,
+html.dark .threshold-demo,
+html.dark .esa-flow-v2 li,
+html.dark .resource-card-v2 {
+  background: rgba(40, 33, 29, 0.94);
+}
+
+html.dark .threshold-track,
+html.dark .matrix-row {
+  background: var(--surface-soft);
+}
+
+html.dark .data-status-card {
+  background: rgba(32, 56, 43, 0.92);
+}
+
+html.dark .responsible-use {
+  background: rgba(56, 41, 31, 0.9);
+}
+
+@media (max-width: 980px) {
+  .cinematic-hero,
+  .purpose-panel,
+  .scroll-story,
+  .method-split {
+    grid-template-columns: 1fr;
+  }
+
+  .cinematic-hero {
+    min-height: auto;
+  }
+
+  .hero-visual {
+    min-height: 360px;
+  }
+
+  .scroll-story {
+    min-height: auto;
+    padding: 32px 0;
+  }
+
+  .story-sticky {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+
+  .workflow-timeline {
+    padding: 12px 0 0 42px;
+  }
+
+  .timeline-rail {
+    top: 12px;
+    bottom: 0;
+  }
+
+  .clue-grid,
+  .responsible-grid,
+  .resource-grid-v2,
+  .esa-flow-v2 {
+    grid-template-columns: 1fr;
+  }
+
+  .esa-flow-v2 li:not(:last-child)::after {
+    top: auto;
+    right: auto;
+    bottom: -12px;
+    left: 32px;
+    width: 2px;
+    height: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .about-story {
+    width: min(calc(100% - 28px), var(--story-wide));
+    padding-bottom: 56px;
+  }
+
+  .cinematic-hero,
+  .method-section,
+  .purpose-panel,
+  .responsible-use {
+    border-radius: 14px;
+    padding: 22px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.15rem, 11.5vw, 3.25rem);
+  }
+
+  .hero-visual {
+    min-height: 250px;
+  }
+
+  .map-frame {
+    inset: 0;
+  }
+
+  .workflow-timeline {
+    gap: 18px;
+    padding-left: 34px;
+  }
+
+  .workflow-step-card {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 14px;
+  }
+
+  .workflow-step-card::before {
+    left: -29px;
+  }
+
+  .step-number {
+    width: 44px;
+    height: 44px;
+  }
+
+  .threshold-track {
+    grid-template-columns: 60% 20% 20%;
+    min-height: 150px;
+  }
+
+  .zone {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 10px 6px;
+    font-size: 0.66rem;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .threshold-marker {
+    left: 60%;
+  }
+
+  .threshold-marker em {
+    left: -64px;
+    top: -4px;
+  }
+
+  .threshold-measure em {
+    left: 8px;
+  }
+
+  .matrix-row,
+  .threshold-example div {
+    display: grid;
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .animations-ready [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .workflow-step-card,
+  .clue-card,
+  .resource-card-v2 {
+    transition: none;
+  }
+}

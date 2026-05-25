@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool — Lab Data</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260522-ui">
+    <link rel="stylesheet" href="style.css?v=20260524-features">
   </head>
   <body class="assessment-page lab-page">
     <nav class="site-nav">
@@ -53,9 +53,6 @@
             Values will be compared against BC CSR Schedule 3.1 thresholds.
           </p>
         </div>
-        <span class="info-mark" title="Leave values blank to view thresholds only.">
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#info"></use></svg>
-        </span>
       </header>
 
       <section class="table-card">
@@ -73,12 +70,55 @@
           <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
           Back
         </a>
-        <button id="resultsBtn" class="primary-action">
-          <span id="resultsBtnText">Show Thresholds Only</span>
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
-        </button>
+        <div class="nav-button-group">
+          <button
+            id="csvImportBtn"
+            class="secondary-action"
+            type="button"
+            title="Paste or upload lab results, preview matches, then apply them to the rows below."
+            aria-label="Import CSV. Paste or upload lab results, preview matches, then apply them to the rows below."
+          >
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#upload"></use></svg>
+            Import CSV
+          </button>
+          <button id="resultsBtn" class="primary-action">
+            <span id="resultsBtnText">Show Thresholds Only</span>
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
+          </button>
+        </div>
       </div>
     </main>
+
+    <div id="csvModal" class="csv-modal" aria-hidden="true">
+      <div class="modal-scrim" data-close-csv></div>
+      <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="csvModalTitle">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Batch import</p>
+            <h2 id="csvModalTitle">Import lab results from CSV</h2>
+          </div>
+          <button class="drawer-close" type="button" data-close-csv aria-label="Close CSV import">×</button>
+        </div>
+
+        <div class="csv-grid">
+          <label class="form-group" for="csvText">
+            <span>Paste CSV text</span>
+            <textarea id="csvText" rows="8" placeholder="contaminant,cas,value,unit&#10;Benzene,71-43-2,0.02,ug_g"></textarea>
+          </label>
+          <label class="form-group" for="csvFile">
+            <span>Or upload a .csv file</span>
+            <input id="csvFile" type="file" accept=".csv,text/csv">
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button id="previewCsvBtn" class="secondary-action compact-action" type="button">Preview Import</button>
+          <button id="applyCsvBtn" class="primary-action compact-action" type="button" disabled>Apply Matched Rows</button>
+        </div>
+
+        <div id="csvPreview" class="csv-preview" aria-live="polite"></div>
+      </section>
+    </div>
 
     <footer>
       <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>

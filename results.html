@@ -6,7 +6,8 @@
     <title>BC CSR Screening Tool — Results</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260522-ui">
+    <link rel="stylesheet" href="style.css?v=20260524-features">
+    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" defer></script>
   </head>
   <body class="assessment-page results-page">
     <nav class="site-nav no-print">
@@ -46,17 +47,35 @@
         <div>
           <h1>Screening Results</h1>
           <p id="resultsSubtitle" class="subtitle">BC CSR Schedule 3.1 standards</p>
+          <p id="reportDate" class="report-date">Generated today</p>
         </div>
         <div class="results-actions no-print">
           <a href="labdata.html" class="secondary-action">
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
             Back
           </a>
-          <button id="printBtn" class="secondary-action" type="button">
-            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
-            Export PDF
-          </button>
-          <button id="newAssessmentBtn" class="primary-action" type="button">
+          <div class="export-menu">
+            <button class="secondary-action" type="button" data-export-menu-btn aria-haspopup="menu" aria-expanded="false">
+              <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
+              Export
+              <span aria-hidden="true">▾</span>
+            </button>
+            <div class="export-menu-list" role="menu" hidden>
+              <button type="button" role="menuitem" data-print-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
+                Export PDF
+              </button>
+              <button type="button" role="menuitem" data-csv-export-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
+                Export CSV
+              </button>
+              <button type="button" role="menuitem" data-word-export-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#file-text"></use></svg>
+                Export Word
+              </button>
+            </div>
+          </div>
+          <button class="primary-action" type="button" data-new-assessment-btn>
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
             New Assessment
           </button>
@@ -89,8 +108,8 @@
           </h2>
           <dl>
             <div>
-              <dt>Water proximity</dt>
-              <dd id="waterProximity">Not provided</dd>
+              <dt>Groundwater</dt>
+              <dd id="groundwaterStatus">Thresholds shown</dd>
             </div>
             <div>
               <dt>Contaminants</dt>
@@ -110,9 +129,28 @@
           Educational tool only.
         </h2>
         <p>
-          Results do not constitute a formal Phase I/II ESA. Consult a qualified
-          Approved Professional before making regulatory or transactional decisions.
+          Results do not constitute a formal Phase I/II ESA. Verify official
+          requirements before making regulatory or transactional decisions.
         </p>
+      </section>
+
+      <section class="results-panel no-print">
+        <label class="toggle-row" for="exceedanceOnlyToggle">
+          <input id="exceedanceOnlyToggle" type="checkbox">
+          <span>Show exceedances only</span>
+        </label>
+      </section>
+
+      <section class="table-card results-chart-card" aria-labelledby="chartTitle">
+        <div class="table-card-header table-card-header-split">
+          <div>
+            <h2 id="chartTitle">Results Summary Chart</h2>
+            <p>Measured value compared with the threshold used for the entered unit.</p>
+          </div>
+        </div>
+        <div id="resultsChart" class="results-chart" aria-live="polite">
+          <p class="loading-message">Loading chart...</p>
+        </div>
       </section>
 
       <section class="table-card">
@@ -132,6 +170,40 @@
       </section>
 
       <section id="recommendation" class="recommendation-card" aria-live="polite"></section>
+
+      <div class="results-bottom-actions no-print">
+        <a href="labdata.html" class="secondary-action">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+          Back
+        </a>
+        <div class="results-bottom-right">
+          <div class="export-menu export-menu-up">
+            <button id="exportMenuBtn" class="secondary-action" type="button" data-export-menu-btn aria-haspopup="menu" aria-expanded="false">
+              <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
+              Export
+              <span aria-hidden="true">▾</span>
+            </button>
+            <div id="exportMenuList" class="export-menu-list" role="menu" hidden>
+              <button id="printBtn" type="button" role="menuitem" data-print-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
+                Export PDF
+              </button>
+              <button id="csvExportBtn" type="button" role="menuitem" data-csv-export-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
+                Export CSV
+              </button>
+              <button id="wordExportBtn" type="button" role="menuitem" data-word-export-btn>
+                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#file-text"></use></svg>
+                Export Word
+              </button>
+            </div>
+          </div>
+          <button id="newAssessmentBtn" class="primary-action" type="button" data-new-assessment-btn>
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
+            New Assessment
+          </button>
+        </div>
+      </div>
     </main>
 
     <footer class="no-print">
