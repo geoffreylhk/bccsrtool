@@ -59,18 +59,6 @@
     });
   });
 
-  gsap.to('.hero-visual', {
-    yPercent: -8,
-    scale: 1.035,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '.cinematic-hero',
-      start: 'top top',
-      end: 'bottom top',
-      scrub: 0.8
-    }
-  });
-
   const story = document.querySelector('.scroll-story');
   const steps = gsap.utils.toArray('.workflow-step-card');
 

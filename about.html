@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="stylesheet" href="style.css?v=20260524-features">
-    <link rel="stylesheet" href="about.css?v=20260525-story">
+    <link rel="stylesheet" href="about.css?v=20260525-banner-hero">
   </head>
   <body class="about-page">
     <nav class="site-nav">
@@ -16,17 +16,16 @@
         <span>CSR Screening Tool</span>
       </a>
       <div class="nav-links">
-        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
       </div>
     </nav>
 
     <main class="about-story">
-      <a href="index.html" class="back-link">
-        <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
-        Back
-      </a>
-
       <header class="cinematic-hero" aria-labelledby="aboutHeroTitle">
+        <a href="index.html" class="back-link">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+          Back
+        </a>
         <div class="hero-copy">
           <span class="story-kicker" data-reveal>Methodology</span>
           <h1 id="aboutHeroTitle" data-reveal>From Phase I observations to screening thresholds — in one workflow.</h1>
@@ -36,14 +35,14 @@
             without getting lost in tables first.
           </p>
         </div>
-        <div class="hero-visual" aria-hidden="true">
-          <div class="map-frame">
-            <span class="map-pin pin-one"></span>
-            <span class="map-pin pin-two"></span>
-            <span class="plume"></span>
-            <span class="contours"></span>
-          </div>
-        </div>
+        <!-- Do not use this CC BY-NC image if the site becomes commercial, paid, client-facing, or monetized unless separate permission is obtained. -->
+        <p class="image-credit">
+          Image credit:
+          <a href="https://esesis.net/environmental-site-assessments/" target="_blank" rel="noopener">“Phase 1 ESA”</a>
+          by
+          <a href="https://esesis.net/" target="_blank" rel="noopener">ESESIS Environmental</a>,
+          <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>.
+        </p>
       </header>
 
       <section class="purpose-panel story-card" data-reveal>
@@ -59,7 +58,7 @@
         </p>
       </section>
 
-      <section class="scroll-story" aria-labelledby="workflowTitle">
+      <section class="scroll-story" id="workflow-story" aria-labelledby="workflowTitle">
         <div class="story-sticky" data-reveal>
           <span class="story-kicker">Workflow</span>
           <h2 id="workflowTitle">Four decisions, one screening path</h2>
@@ -216,7 +215,7 @@
       <section class="responsible-use story-card" data-reveal>
         <div class="story-heading">
           <span class="story-kicker">Responsible use</span>
-          <h2>Clear enough to learn from. Limited enough to respect.</h2>
+          <h2>Simplify early screening decisions.</h2>
         </div>
         <div class="responsible-grid">
           <div>
