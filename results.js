@@ -116,10 +116,15 @@ function renderSummary(rows) {
 }
 
 function renderChart(rows) {
-  const visibleRows = getShowExceedancesOnly() ? rows.filter((row) => row.result.status === 'Exceeds') : rows;
+  const measuredRows = rows.filter((row) => row.hasLabValue);
+  const visibleRows = getShowExceedancesOnly()
+    ? measuredRows.filter((row) => row.result.status === 'Exceeds')
+    : measuredRows;
 
   if (!visibleRows.length) {
-    resultsChart.innerHTML = '<p class="empty-state">No rows to chart with the current filter.</p>';
+    resultsChart.innerHTML = getShowExceedancesOnly()
+      ? '<p class="empty-state">No entered lab values exceed the selected thresholds.</p>'
+      : '<p class="empty-state">Enter lab concentrations to show measured values in the chart.</p>';
     return;
   }
 

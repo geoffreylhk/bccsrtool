@@ -335,7 +335,7 @@ function openPalette() {
 function closePalette() {
   commandPalette.classList.remove('is-open');
   commandPalette.setAttribute('aria-hidden', 'true');
-  quickAddBtn.focus();
+  quickAddBtn?.focus();
 }
 
 function getPaletteMatches() {
@@ -510,7 +510,7 @@ if (sortDirectionBtn) {
   });
 }
 
-quickAddBtn.addEventListener('click', openPalette);
+quickAddBtn?.addEventListener('click', openPalette);
 commandPalette.addEventListener('palette-close', closePalette);
 
 commandPalette.addEventListener('click', (event) => {
