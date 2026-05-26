@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool — Contaminants</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260524-features">
+    <link rel="stylesheet" href="style.css?v=20260526-selected-sort">
   </head>
   <body class="assessment-page">
     <nav class="site-nav">
@@ -47,34 +47,34 @@
         <p class="subtitle">Select all contaminants identified in your Phase I ESA.</p>
       </header>
 
-      <div class="search-row">
-        <label class="search-bar" for="searchInput">
-          <span aria-hidden="true">Search</span>
-          <input type="search" id="searchInput" placeholder="Search by name or CAS number...">
-        </label>
-        <div class="sort-controls" aria-label="Contaminant sort controls">
-          <label class="sr-only" for="sortSelect">Sort contaminants</label>
-          <select id="sortSelect">
-            <option value="category">By category</option>
-            <option value="default">Order added</option>
-            <option value="alpha">A to Z</option>
-          </select>
-          <button id="sortDirectionBtn" class="icon-square" type="button" aria-label="Toggle sort direction" aria-pressed="false">
-            ↓
-          </button>
-        </div>
-        <button id="expandBtn" class="secondary-action compact-action" type="button">+ Expand all</button>
-      </div>
-
       <div class="contaminants-layout">
-        <section class="contaminant-list" id="contaminantList" aria-live="polite">
-          <p class="loading-message">Loading contaminants...</p>
-        </section>
+        <div class="contaminant-workspace">
+          <div class="search-row">
+            <label class="search-bar" for="searchInput">
+              <span aria-hidden="true">Search</span>
+              <input type="search" id="searchInput" placeholder="Search by name or CAS number...">
+            </label>
+            <button id="expandBtn" class="secondary-action compact-action" type="button">+ Expand all</button>
+          </div>
+
+          <section class="contaminant-list" id="contaminantList" aria-live="polite">
+            <p class="loading-message">Loading contaminants...</p>
+          </section>
+        </div>
 
         <aside class="selected-panel" aria-label="Selected contaminants">
           <div class="selected-header">
             <span>Selected <strong id="selectedCount"></strong></span>
             <button id="clearSelectionBtn" type="button">Clear all</button>
+          </div>
+          <div class="selected-sort sort-controls" aria-label="Sort contaminants">
+            <label class="sr-only" for="sortSelect">Sort contaminants</label>
+            <select id="sortSelect">
+              <option value="category">By category</option>
+              <option value="default">Order added</option>
+              <option value="alpha">A to Z</option>
+            </select>
+            <button id="sortDirectionBtn" class="icon-square" type="button" aria-label="Toggle sort direction" aria-pressed="false" data-direction="asc">↓</button>
           </div>
           <div id="selectedList">
             <p class="no-selection">No substances selected yet. Check items from the list.</p>

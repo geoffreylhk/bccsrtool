@@ -729,6 +729,16 @@ select:focus,
   align-items: start;
 }
 
+.contaminant-workspace {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.contaminant-workspace .search-row {
+  margin-bottom: 0;
+}
+
 .contaminant-list {
   display: grid;
   gap: 12px;
@@ -803,7 +813,7 @@ html.dark .contaminant-item:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 88px;
+  width: 112px;
   height: 30px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -927,6 +937,30 @@ html.dark .contaminant-item:hover {
 .selected-header strong {
   color: var(--primary);
   font-weight: 600;
+}
+
+.selected-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(244, 241, 234, 0.55);
+}
+
+.selected-sort.sort-controls select {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 30px 0 10px;
+  font-size: 0.75rem;
+}
+
+.selected-sort.sort-controls .icon-square {
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
 }
 
 #selectedList {
@@ -1452,7 +1486,7 @@ html.dark .result-group-title {
 }
 
 .search-row {
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
 }
 
 .sort-controls select {
@@ -1480,7 +1514,7 @@ html.dark .result-group-title {
 }
 
 .category-header {
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) 128px 112px;
   padding: 0 20px;
   cursor: pointer;
 }
@@ -1492,6 +1526,14 @@ html.dark .result-group-title {
 
 .category-count {
   justify-self: end;
+  width: 116px;
+  text-align: center;
+  visibility: visible;
+}
+
+.category-count:empty {
+  display: inline-flex;
+  visibility: hidden;
 }
 
 .category-toggle {

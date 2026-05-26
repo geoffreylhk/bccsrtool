@@ -32,11 +32,17 @@ const undoStack = [];
 const redoStack = [];
 
 function getSortState() {
+  if (!sortSelect || !sortDirectionBtn) {
+    return { type: 'category', direction: 'asc' };
+  }
+
   const state = getAppState();
   return state.ui.contaminantsSort || { type: 'category', direction: 'asc' };
 }
 
 function saveSortState() {
+  if (!sortSelect || !sortDirectionBtn) return;
+
   updateAppUi({
     contaminantsSort: {
       type: sortSelect.value,
@@ -46,6 +52,8 @@ function saveSortState() {
 }
 
 function restoreSortControls() {
+  if (!sortSelect || !sortDirectionBtn) return;
+
   const sort = getSortState();
   sortSelect.value = sort.type || 'category';
   sortDirectionBtn.dataset.direction = sort.direction || 'asc';
@@ -63,13 +71,21 @@ function getDataIndex(contaminant) {
   return allContaminants.findIndex((item) => item.id === contaminant.id);
 }
 
-function getSortedCategoryEntries() {
+function getDefaultSortedContaminants(contaminants) {
+  const sorted = [...contaminants];
+
+  sorted.sort((a, b) => getDataIndex(a) - getDataIndex(b));
+
+  return sorted;
+}
+
+function getCategoryContaminants(categoryName) {
+  return getDefaultSortedContaminants(allContaminants.filter((contaminant) => contaminant.category === categoryName));
+}
+
+function getSelectedCategoryEntries() {
   const sort = getSortState();
   const entries = [...categoryEntries];
-
-  if (sort.type === 'alpha') {
-    entries.sort(([a], [b]) => a.localeCompare(b));
-  }
 
   if (sort.direction === 'desc') {
     entries.reverse();
@@ -78,25 +94,26 @@ function getSortedCategoryEntries() {
   return entries;
 }
 
-function getSortedContaminants(contaminants) {
-  const sort = getSortState();
-  const sorted = [...contaminants];
-
-  if (sort.type === 'alpha') {
-    sorted.sort((a, b) => a.name.localeCompare(b.name));
-  } else {
-    sorted.sort((a, b) => getDataIndex(a) - getDataIndex(b));
-  }
-
-  if (sort.type !== 'category' && sort.direction === 'desc') {
-    sorted.reverse();
-  }
-
-  return sorted;
+function getSelectedContaminantsInAddedOrder() {
+  const contaminantsById = new Map(allContaminants.map((contaminant) => [contaminant.id, contaminant]));
+  return [...selectedIds]
+    .map((id) => contaminantsById.get(id))
+    .filter(Boolean);
 }
 
-function getCategoryContaminants(categoryName) {
-  return getSortedContaminants(allContaminants.filter((contaminant) => contaminant.category === categoryName));
+function getFlatSelectedContaminants() {
+  const sort = getSortState();
+  const contaminants = getSelectedContaminantsInAddedOrder();
+
+  if (sort.type === 'alpha') {
+    contaminants.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  if (sort.direction === 'desc') {
+    contaminants.reverse();
+  }
+
+  return contaminants;
 }
 
 function getVisibleContaminants(contaminants) {
@@ -175,7 +192,7 @@ function setContaminantSelected(id, isSelected) {
 }
 
 function renderContaminants() {
-  const markup = getSortedCategoryEntries().map(([categoryName]) => {
+  const markup = categoryEntries.map(([categoryName]) => {
     const categoryContaminants = getCategoryContaminants(categoryName);
     const visibleContaminants = getVisibleContaminants(categoryContaminants);
 
@@ -228,13 +245,17 @@ function renderContaminants() {
 }
 
 function renderSelectedPanel() {
-  const selectedGroups = getSortedCategoryEntries()
+  const sort = getSortState();
+  const selectedGroups = sort.type === 'category' ? getSelectedCategoryEntries()
     .map(([categoryName]) => ({
       categoryName,
       contaminants: getCategoryContaminants(categoryName).filter((contaminant) => selectedIds.has(contaminant.id)),
     }))
-    .filter((group) => group.contaminants.length > 0);
-  const selectedCountTotal = selectedGroups.reduce((total, group) => total + group.contaminants.length, 0);
+    .filter((group) => group.contaminants.length > 0) : [];
+  const flatSelectedContaminants = sort.type === 'category' ? [] : getFlatSelectedContaminants();
+  const selectedCountTotal = sort.type === 'category'
+    ? selectedGroups.reduce((total, group) => total + group.contaminants.length, 0)
+    : flatSelectedContaminants.length;
   const canCollapseSelectedPanel = selectedCountTotal > SELECTED_PANEL_COLLAPSE_THRESHOLD;
 
   if (!canCollapseSelectedPanel) {
@@ -256,6 +277,18 @@ function renderSelectedPanel() {
 
   if (!selectedCountTotal) {
     selectedList.innerHTML = '<p class="no-selection">No substances selected yet.<br>Check items from the list.</p>';
+    return;
+  }
+
+  if (sort.type !== 'category') {
+    selectedList.innerHTML = flatSelectedContaminants.map((contaminant) => `
+      <div class="selected-tag">
+        <span>
+          <strong>${escapeHtml(contaminant.name)}</strong>
+        </span>
+        <button type="button" data-action="remove" data-id="${escapeHtml(contaminant.id)}" aria-label="Remove ${escapeHtml(contaminant.name)}">×</button>
+      </div>
+    `).join('');
     return;
   }
 
@@ -307,7 +340,7 @@ function closePalette() {
 
 function getPaletteMatches() {
   const query = normalizeText(paletteQuery);
-  const sorted = getSortedContaminants(allContaminants);
+  const sorted = getDefaultSortedContaminants(allContaminants);
 
   if (!query) {
     return sorted.slice(0, MAX_PALETTE_RESULTS);
@@ -358,6 +391,13 @@ function redoSelection() {
 
   undoStack.push(action);
   setSelectionFromSnapshot(action.after);
+}
+
+function expandSelectedPanelIfCollapsed() {
+  if (!selectedPanel.classList.contains('is-collapsed')) return;
+
+  selectedPanelExpanded = true;
+  renderSelectedPanel();
 }
 
 contaminantList.addEventListener('click', (event) => {
@@ -411,7 +451,12 @@ selectedList.addEventListener('click', (event) => {
 });
 
 selectedPanel.addEventListener('click', (event) => {
-  if (!selectedPanel.classList.contains('is-collapsible') || event.target.closest('button')) return;
+  if (
+    !selectedPanel.classList.contains('is-collapsible') ||
+    event.target.closest('button, select, input, a, .selected-sort')
+  ) {
+    return;
+  }
 
   selectedPanelExpanded = selectedPanel.classList.contains('is-collapsed');
   renderSelectedPanel();
@@ -440,19 +485,30 @@ expandBtn.addEventListener('click', () => {
   renderContaminants();
 });
 
-sortSelect.addEventListener('change', () => {
-  saveSortState();
-  renderContaminants();
-});
+if (sortSelect) {
+  sortSelect.addEventListener('pointerdown', expandSelectedPanelIfCollapsed);
+  sortSelect.addEventListener('focus', expandSelectedPanelIfCollapsed);
 
-sortDirectionBtn.addEventListener('click', () => {
-  const nextDirection = sortDirectionBtn.dataset.direction === 'desc' ? 'asc' : 'desc';
-  sortDirectionBtn.dataset.direction = nextDirection;
-  sortDirectionBtn.textContent = nextDirection === 'desc' ? '↑' : '↓';
-  sortDirectionBtn.setAttribute('aria-pressed', String(nextDirection === 'desc'));
-  saveSortState();
-  renderContaminants();
-});
+  sortSelect.addEventListener('change', () => {
+    expandSelectedPanelIfCollapsed();
+    saveSortState();
+    renderContaminants();
+  });
+}
+
+if (sortDirectionBtn) {
+  sortDirectionBtn.addEventListener('focus', expandSelectedPanelIfCollapsed);
+
+  sortDirectionBtn.addEventListener('click', () => {
+    expandSelectedPanelIfCollapsed();
+    const nextDirection = sortDirectionBtn.dataset.direction === 'desc' ? 'asc' : 'desc';
+    sortDirectionBtn.dataset.direction = nextDirection;
+    sortDirectionBtn.textContent = nextDirection === 'desc' ? '↑' : '↓';
+    sortDirectionBtn.setAttribute('aria-pressed', String(nextDirection === 'desc'));
+    saveSortState();
+    renderContaminants();
+  });
+}
 
 quickAddBtn.addEventListener('click', openPalette);
 commandPalette.addEventListener('palette-close', closePalette);
