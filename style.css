@@ -214,12 +214,12 @@ html.dark .theme-toggle .sun-icon {
   margin: 0;
   padding: 0 0 48px;
   display: grid;
-  gap: 40px;
+  gap: 28px;
 }
 
 .landing-cinematic-hero {
   position: relative;
-  min-height: clamp(390px, 32vw, 520px);
+  min-height: clamp(320px, 25vw, 430px);
   overflow: hidden;
   isolation: isolate;
   background: var(--primary-dark);
@@ -227,15 +227,15 @@ html.dark .theme-toggle .sun-icon {
   -webkit-mask-image: linear-gradient(
     180deg,
     #000 0%,
-    #000 calc(100% - 88px),
-    rgba(0, 0, 0, 0.78) calc(100% - 38px),
+    #000 calc(100% - 66px),
+    rgba(0, 0, 0, 0.78) calc(100% - 28px),
     rgba(0, 0, 0, 0) 100%
   );
   mask-image: linear-gradient(
     180deg,
     #000 0%,
-    #000 calc(100% - 88px),
-    rgba(0, 0, 0, 0.78) calc(100% - 38px),
+    #000 calc(100% - 66px),
+    rgba(0, 0, 0, 0.78) calc(100% - 28px),
     rgba(0, 0, 0, 0) 100%
   );
 }
@@ -261,11 +261,11 @@ html.dark .theme-toggle .sun-icon {
   position: relative;
   z-index: 2;
   display: grid;
-  gap: 18px;
+  gap: 14px;
   align-content: center;
   max-width: 620px;
   min-height: inherit;
-  padding: clamp(58px, 6vw, 88px) clamp(28px, 6vw, 104px) clamp(40px, 4vw, 58px);
+  padding: clamp(42px, 4.6vw, 68px) clamp(28px, 6vw, 104px) clamp(30px, 3.2vw, 44px);
 }
 
 .landing-hero-copy h1 {
@@ -446,13 +446,17 @@ html.dark .theme-toggle .sun-icon {
 
 @media (max-width: 760px) {
   .landing {
-    gap: 32px;
-    padding-bottom: 40px;
+    gap: 26px;
+    padding-bottom: 34px;
   }
 
   .landing-cinematic-hero {
-    display: grid;
-    min-height: 0;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(360px, 78vw, 440px);
+    background:
+      linear-gradient(180deg, rgba(8, 45, 32, 0.18) 0%, rgba(8, 45, 32, 0.55) 42%, rgba(8, 45, 32, 0.98) 100%),
+      url("assets/images/ESA - example.webp") 62% center / cover no-repeat;
     -webkit-mask-image: none;
     mask-image: none;
   }
@@ -462,25 +466,20 @@ html.dark .theme-toggle .sun-icon {
   }
 
   .landing-hero-photo {
-    position: relative;
-    min-height: 260px;
-    grid-row: 1;
-    background:
-      linear-gradient(180deg, rgba(14, 19, 15, 0.04), rgba(14, 19, 15, 0.2)),
-      url("assets/images/ESA%20-%20example.webp") 62% center / cover no-repeat;
+    display: none;
   }
 
   .landing-hero-copy {
     min-height: auto;
     max-width: none;
-    grid-row: 2;
-    padding: 32px 24px 28px;
-    background: linear-gradient(135deg, #0b2d20 0%, #16412f 100%);
+    width: 100%;
+    padding: 28px 22px 42px;
+    background: transparent;
   }
 
   .landing-hero-copy h1 {
     max-width: 11ch;
-    font-size: clamp(2rem, 10vw, 3rem);
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
   }
 
   .landing-hero-copy p {
@@ -489,12 +488,15 @@ html.dark .theme-toggle .sun-icon {
   }
 
   .landing-image-credit {
-    position: static;
+    position: absolute;
+    right: 16px;
+    bottom: 8px;
     width: auto;
-    padding: 8px 18px 14px;
-    background: #16412f;
+    max-width: calc(100% - 32px);
+    padding: 0;
+    background: transparent;
     color: rgba(248, 247, 243, 0.72);
-    text-align: center;
+    text-align: right;
   }
 
   .landing-start-panel {
