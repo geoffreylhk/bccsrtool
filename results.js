@@ -411,10 +411,6 @@ exportMenus.forEach((menu) => {
     setExportMenuOpen(menu, shouldOpen);
   });
 
-  menu.addEventListener('mouseleave', () => {
-    setExportMenuOpen(menu, false);
-  });
-
   menuList.addEventListener('click', () => {
     setExportMenuOpen(menu, false);
   });

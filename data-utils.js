@@ -1,4 +1,6 @@
 const APP_STORAGE_KEY = 'bcCsrToolState';
+const ASSESSMENT_CLEARED_KEY = 'bcCsrAssessmentCleared';
+const ASSESSMENT_RESUME_READY_KEY = 'bcCsrResumeReady';
 const DEFAULT_PROFILE_ID = 'assessment';
 
 const LAND_USE_LABELS = {
@@ -264,6 +266,7 @@ function saveAppState(nextState, options = {}) {
     updatedAt: new Date().toISOString()
   };
 
+  localStorage.removeItem(ASSESSMENT_CLEARED_KEY);
   localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
   syncLegacyStorage(state);
   window.dispatchEvent(new CustomEvent('bc-csr-state-saved', { detail: state }));
@@ -273,13 +276,20 @@ function saveAppState(nextState, options = {}) {
 
 function clearAssessment() {
   const fresh = getDefaultAppState();
+  localStorage.removeItem(APP_STORAGE_KEY);
   localStorage.removeItem('siteInfo');
   localStorage.removeItem('selectedContaminants');
   localStorage.removeItem('labValues');
-  return saveAppState(fresh, { status: false });
+  localStorage.removeItem(ASSESSMENT_RESUME_READY_KEY);
+  localStorage.setItem(ASSESSMENT_CLEARED_KEY, 'true');
+  window.dispatchEvent(new CustomEvent('bc-csr-state-saved', { detail: fresh }));
+  return fresh;
 }
 
 function hasSavedProgress() {
+  if (localStorage.getItem(ASSESSMENT_CLEARED_KEY) === 'true') return false;
+  if (localStorage.getItem(ASSESSMENT_RESUME_READY_KEY) !== 'true') return false;
+
   const state = getAppState();
   if (!state.workflowStarted) return false;
 
@@ -294,6 +304,7 @@ function hasSavedProgress() {
 }
 
 function markAssessmentStarted() {
+  localStorage.removeItem(ASSESSMENT_CLEARED_KEY);
   const state = getAppState();
   if (state.workflowStarted) return state;
 
@@ -306,6 +317,8 @@ function getActiveProfile(state = getAppState()) {
 }
 
 function updateActiveProfileData(patch) {
+  localStorage.removeItem(ASSESSMENT_CLEARED_KEY);
+  localStorage.setItem(ASSESSMENT_RESUME_READY_KEY, 'true');
   const state = getAppState();
   const profile = getActiveProfile(state);
   const nextProfile = { ...profile, ...patch };

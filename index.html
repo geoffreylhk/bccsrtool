@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260524-features">
+    <link rel="stylesheet" href="style.css?v=20260526-landing-flow">
   </head>
   <body class="landing-page">
     <nav class="site-nav">
@@ -20,49 +20,94 @@
     </nav>
 
     <main class="landing">
-      <div class="hero-mark" aria-hidden="true">
-        <svg class="icon icon-xl"><use href="assets/icons/ui-sprite.svg#leaf"></use></svg>
-      </div>
-      <h1>BC CSR Screening Tool</h1>
-      <p class="subtitle">
-        Screen contaminated sites against BC Schedule 3.1 thresholds and
-        determine whether a Phase II ESA may be warranted.
-      </p>
-
-      <section class="notice-card" aria-labelledby="educational-title">
-        <h2 id="educational-title">
-          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
-          Educational Use Only
-        </h2>
-        <p>
-          This tool is for academic purposes and does not constitute professional
-          environmental advice or a formal ESA under the BC Contaminated Sites
-          Regulation. Threshold values are from Schedule 3.1 but may not reflect
-          current amendments. Always consult a qualified Approved Professional
-          for site-specific work.
+      <section class="landing-cinematic-hero" aria-labelledby="landingHeroTitle">
+        <div class="landing-hero-copy">
+          <h1 id="landingHeroTitle">From Phase I observations to screening thresholds in one workflow.</h1>
+          <p>
+            A user friendly screening tool connecting land use,
+            contaminants of concern, lab data, and BC CSR Schedule 3.1
+            thresholds.
+          </p>
+        </div>
+        <div class="landing-hero-photo" aria-hidden="true"></div>
+        <!-- Do not use this CC BY-NC image if the site becomes commercial, paid, client-facing, or monetized unless separate permission is obtained. -->
+        <p class="landing-image-credit">
+          Image credit:
+          <a href="https://esesis.net/environmental-site-assessments/" target="_blank" rel="noopener">“Phase 1 ESA”</a>
+          by
+          <a href="https://esesis.net/" target="_blank" rel="noopener">ESESIS Environmental</a>,
+          <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>.
         </p>
       </section>
 
-      <label class="agreement-card" for="agree">
-        <span class="required-star" aria-hidden="true">*</span>
-        <input type="checkbox" id="agree">
-        <span>
-          I understand this tool is for educational purposes only and will not
-          use its output as a substitute for professional advice.
-        </span>
-      </label>
+      <section class="landing-start-panel" aria-labelledby="landingHowTitle">
+        <div class="landing-flow">
+          <h2 id="landingHowTitle">How it works</h2>
+          <ol class="landing-flow-list" aria-label="Assessment workflow">
+            <li class="landing-flow-step">
+              <span class="landing-flow-icon" aria-hidden="true">
+                <svg class="icon icon-lg"><use href="assets/icons/ui-sprite.svg#map"></use></svg>
+              </span>
+              <span>
+                <strong>Select land use</strong>
+                <small>Residential, commercial, or industrial</small>
+              </span>
+            </li>
+            <li class="landing-flow-step">
+              <span class="landing-flow-icon" aria-hidden="true">
+                <svg class="icon icon-lg"><use href="assets/icons/ui-sprite.svg#flask-conical"></use></svg>
+              </span>
+              <span>
+                <strong>Choose contaminants</strong>
+                <small>Pick from roughly 40 chemical compounds</small>
+              </span>
+            </li>
+            <li class="landing-flow-step">
+              <span class="landing-flow-icon" aria-hidden="true">
+                <svg class="icon icon-lg"><use href="assets/icons/ui-sprite.svg#file-text"></use></svg>
+              </span>
+              <span>
+                <strong>Enter lab data</strong>
+                <small>Input your measured concentrations</small>
+              </span>
+            </li>
+            <li class="landing-flow-step">
+              <span class="landing-flow-icon" aria-hidden="true">
+                <svg class="icon icon-lg"><use href="assets/icons/ui-sprite.svg#check-circle"></use></svg>
+              </span>
+              <span>
+                <strong>View results</strong>
+                <small>See if thresholds are exceeded</small>
+              </span>
+            </li>
+          </ol>
+        </div>
 
-      <div class="landing-actions">
-        <button id="beginBtn" class="primary-action" disabled>Begin Assessment</button>
-        <button id="resumeBtn" class="secondary-action" type="button" hidden disabled>Continue my assessment</button>
-      </div>
+        <div class="landing-start-actions">
+          <label class="agreement-card" for="agree">
+            <span class="required-star" aria-hidden="true">*</span>
+            <input type="checkbox" id="agree">
+            <span>
+              I understand this tool is for
+              <span class="educational-term" tabindex="0" data-tooltip="This tool is for academic purposes and does not constitute professional environmental advice or a formal ESA under the BC Contaminated Sites Regulation. Threshold values are from Schedule 3.1 but may not reflect current amendments. Always consult a qualified Approved Professional for site-specific work.">educational purposes</span>
+              only and will not
+              use its output as a substitute for professional advice.
+            </span>
+          </label>
+
+          <div class="landing-actions">
+            <button id="beginBtn" class="primary-action" disabled>Begin Assessment</button>
+            <button id="resumeBtn" class="secondary-action" type="button" hidden disabled>Continue my assessment</button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
       <p>BC CSR Screening Tool — Educational use only. Not professional advice.</p>
     </footer>
 
-    <script src="data-utils.js"></script>
-    <script src="script.js"></script>
+    <script src="data-utils.js?v=20260526-resume-marker"></script>
+    <script src="script.js?v=20260526-landing-tooltip-resume"></script>
   </body>
 </html>

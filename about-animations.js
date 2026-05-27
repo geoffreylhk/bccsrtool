@@ -27,23 +27,9 @@
     gsap.ticker.lagSmoothing(0);
   }
 
-  const heroReveal = gsap.utils.toArray('.cinematic-hero [data-reveal]');
-  const revealItems = gsap.utils.toArray('[data-reveal]').filter((element) => !element.closest('.cinematic-hero'));
+  const revealItems = gsap.utils.toArray('[data-reveal]');
 
-  gsap.set(heroReveal, { opacity: 0, y: 34 });
   gsap.set(revealItems, { opacity: 0, y: 34 });
-
-  gsap.to(
-    heroReveal,
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.9,
-      ease: 'power2.out',
-      stagger: 0.14,
-      clearProps: 'transform'
-    }
-  );
 
   revealItems.forEach((element) => {
     gsap.to(element, {

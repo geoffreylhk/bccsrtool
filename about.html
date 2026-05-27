@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="stylesheet" href="style.css?v=20260524-features">
-    <link rel="stylesheet" href="about.css?v=20260526-hero-zoomout">
+    <link rel="stylesheet" href="about.css?v=20260526-phase-circles">
   </head>
   <body class="about-page">
     <nav class="site-nav">
@@ -21,29 +21,38 @@
     </nav>
 
     <main class="about-story">
-      <header class="cinematic-hero" aria-labelledby="aboutHeroTitle">
+      <div class="about-back-row">
         <a href="index.html" class="back-link">
           <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
           Back
         </a>
-        <div class="hero-copy">
-          <span class="story-kicker" data-reveal>Methodology</span>
-          <h1 id="aboutHeroTitle" data-reveal>From Phase I observations to screening thresholds — in one workflow.</h1>
-          <p data-reveal>
-            A student-friendly screening tool that connects land use, contaminants of concern,
-            lab data, and BC CSR Schedule 3.1 thresholds.
-          </p>
+      </div>
+
+      <section class="tool-intro-panel" aria-labelledby="toolIntroTitle" data-reveal>
+        <div class="tool-intro-statement">
+          <span class="story-kicker">What it does</span>
+          <h1 id="toolIntroTitle">What is bccsrtool?</h1>
         </div>
-        <div class="hero-photo" aria-hidden="true"></div>
-        <!-- Do not use this CC BY-NC image if the site becomes commercial, paid, client-facing, or monetized unless separate permission is obtained. -->
-        <p class="image-credit">
-          Image credit:
-          <a href="https://esesis.net/environmental-site-assessments/" target="_blank" rel="noopener">“Phase 1 ESA”</a>
-          by
-          <a href="https://esesis.net/" target="_blank" rel="noopener">ESESIS Environmental</a>,
-          <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>.
-        </p>
-      </header>
+        <div class="tool-intro-copy">
+          <p>
+            bccsrtool.ca uses BC's Contaminated Sites Regulation (CSR) Schedule 3.1 to screen whether a site needs <span class="definition-term" tabindex="0" data-tooltip="Cleanup of hazardous substances dealing with the removal, treatment and containment of pollution or contaminants.">remediation</span>. It covers roughly 40 chemical compounds most likely found at BC industrial sites, currently screening for human health protection with environmental protection coming soon.
+          </p>
+          <div class="tool-phase-circles" aria-label="Screening result phases">
+            <div class="tool-phase-circle">
+              <strong>Phase I</strong>
+              <span>Site review</span>
+            </div>
+            <div class="tool-phase-circle">
+              <strong>Phase II</strong>
+              <span>Soil sampling</span>
+            </div>
+            <div class="tool-phase-circle">
+              <strong>Phase III</strong>
+              <span>Active cleanup</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section class="purpose-panel story-card" data-reveal>
         <div class="purpose-statement">
@@ -260,10 +269,10 @@
       </section>
     </main>
 
-    <script src="data-utils.js"></script>
+    <script src="data-utils.js?v=20260526-resume-marker"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
-    <script src="about-animations.js?v=20260525-story" defer></script>
+    <script src="about-animations.js?v=20260526-no-hero" defer></script>
   </body>
 </html>
