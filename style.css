@@ -3071,6 +3071,15 @@ html.dark .example-result-card {
     padding: 36px 20px 56px;
   }
 
+  .site-info-page .workflow-main {
+    display: grid;
+    justify-items: center;
+  }
+
+  .site-info-page .workflow-main > * {
+    width: min(100%, 820px);
+  }
+
   .site-info-page .form-card {
     grid-template-columns: 1fr;
   }
@@ -3235,8 +3244,6 @@ html.dark .example-result-card {
     width: min(100%, 180px);
   }
 
-  .nav-buttons,
-  .results-actions,
   .compact-notice,
   .lab-header {
     flex-direction: column;
@@ -3245,7 +3252,43 @@ html.dark .example-result-card {
 
   .primary-action,
   .secondary-action {
-    width: 100%;
+    width: auto;
+    min-width: 0;
+    flex: 0 0 auto;
+    padding-right: 18px;
+    padding-left: 18px;
+    white-space: nowrap;
+  }
+
+  .nav-buttons,
+  .results-actions,
+  .results-bottom-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .nav-button-group,
+  .results-bottom-right {
+    display: inline-flex;
+    flex: 0 1 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .lab-page .nav-buttons .nav-button-group,
+  .results-bottom-actions .results-bottom-right {
+    display: contents;
+  }
+
+  .lab-page .nav-buttons #resultsBtn,
+  .results-actions [data-new-assessment-btn],
+  .results-bottom-actions [data-new-assessment-btn] {
+    margin-left: auto;
   }
 
   .site-info-page .nav-buttons {
@@ -3255,10 +3298,9 @@ html.dark .example-result-card {
 
   .site-info-page .nav-buttons .primary-action,
   .site-info-page .nav-buttons .secondary-action {
-    flex: 1 1 0;
+    flex: 0 0 auto;
     width: auto;
-    padding-right: 12px;
-    padding-left: 12px;
+    min-width: 118px;
   }
 
   .nav-links {
@@ -3396,14 +3438,6 @@ html.dark .example-result-card {
 
   .mini-table [role="row"] {
     grid-template-columns: 1fr;
-  }
-
-  .results-bottom-actions,
-  .results-bottom-right,
-  .results-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-content: stretch;
   }
 
   .mini-table [role="cell"]:first-child {
