@@ -897,6 +897,7 @@ html.dark .responsible-use {
   .about-story {
     width: 100%;
     padding-bottom: 56px;
+    overflow-x: hidden;
   }
 
   .method-section,
@@ -910,17 +911,30 @@ html.dark .responsible-use {
   }
 
   .tool-intro-panel {
-    grid-template-columns: minmax(18px, 1fr) minmax(0, 1fr) minmax(18px, 1fr);
-    padding: 44px 0;
+    grid-template-columns: minmax(16px, 1fr) minmax(0, 358px) minmax(16px, 1fr);
+    gap: 24px;
+    padding: 38px 0 46px;
+  }
+
+  .tool-intro-statement,
+  .tool-intro-copy {
+    grid-column: 2;
+    max-width: 100%;
+    min-width: 0;
+    padding-top: 0;
   }
 
   .tool-intro-statement h1 {
-    font-size: clamp(3.05rem, 15vw, 4.9rem);
+    max-width: 100%;
+    font-size: clamp(2.9rem, 13vw, 3.55rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
   }
 
   .tool-intro-copy p {
+    max-width: 100%;
     font-size: 1rem;
-    line-height: 1.75;
+    line-height: 1.68;
   }
 
   .definition-term::after {
@@ -935,13 +949,18 @@ html.dark .responsible-use {
   }
 
   .tool-phase-circles {
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .tool-phase-circle {
-    flex-basis: 102px;
-    width: 102px;
-    height: 102px;
+    width: min(100%, 106px);
+    height: auto;
+    aspect-ratio: 1;
+    justify-self: center;
   }
 
   .tool-phase-circle strong {

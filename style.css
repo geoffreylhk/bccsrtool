@@ -506,8 +506,8 @@ html.dark .theme-toggle .sun-icon {
   .landing-start-panel {
     width: min(calc(100% - 32px), var(--landing-width));
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 6px 0 18px;
+    gap: 24px;
+    padding: 0 0 18px;
   }
 
   .landing-start-actions {
@@ -518,23 +518,32 @@ html.dark .theme-toggle .sun-icon {
   }
 
   .landing-flow-list {
-    gap: 22px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
   }
 
   .landing-flow-list::before {
-    top: 52px;
-    bottom: 52px;
-    left: 25px;
+    display: none;
   }
 
   .landing-flow-step {
-    grid-template-columns: 52px minmax(0, 1fr);
-    gap: 16px;
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
   }
 
   .landing-flow-icon {
-    width: 52px;
-    height: 52px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .landing-flow-step strong {
+    font-size: 0.92rem;
+  }
+
+  .landing-flow-step small {
+    font-size: 0.75rem;
+    line-height: 1.25;
   }
 
   .landing-start-panel .agreement-card {
@@ -1057,6 +1066,7 @@ select:focus,
 
 .search-bar {
   position: relative;
+  min-width: 0;
 }
 
 .search-bar span {
@@ -1095,6 +1105,7 @@ select:focus,
 }
 
 .search-bar input {
+  min-width: 0;
   padding-left: 58px;
 }
 
@@ -3079,6 +3090,19 @@ html.dark .example-result-card {
     display: grid;
   }
 
+  .chart-card-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .chart-filter-toggle {
+    justify-self: start;
+    width: 100%;
+    max-width: 100%;
+    white-space: normal;
+  }
+
   .selected-panel {
     position: static;
   }
@@ -3098,7 +3122,7 @@ html.dark .example-result-card {
   }
 
   .result-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 10px;
     min-width: 0;
     align-items: stretch;
@@ -3194,17 +3218,21 @@ html.dark .example-result-card {
   }
 
   .category-header {
-    grid-template-columns: 24px minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    min-height: auto;
+    padding: 14px;
   }
 
   .category-total,
   .category-count {
-    display: none;
+    display: inline;
   }
 
   .select-all-btn {
-    grid-column: 2 / 4;
+    grid-column: 1;
     justify-self: start;
+    width: min(100%, 180px);
   }
 
   .nav-buttons,
@@ -3248,20 +3276,32 @@ html.dark .example-result-card {
 
   .category-header {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
+    grid-template-columns: 1fr;
+    gap: 12px;
     min-height: auto;
     padding: 10px 14px;
   }
 
   .category-toggle {
     width: 100%;
+    grid-template-columns: 20px minmax(0, 1fr) auto;
     min-height: 34px;
+    justify-content: stretch;
+  }
+
+  .category-title {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .category-total {
+    white-space: nowrap;
   }
 
   .select-all-btn {
-    grid-column: auto;
-    justify-self: end;
+    grid-column: 1;
+    justify-self: start;
   }
 
   .floating-add {
