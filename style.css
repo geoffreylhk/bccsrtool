@@ -412,11 +412,15 @@ html.dark .theme-toggle .sun-icon {
 .landing-start-actions {
   display: grid;
   gap: 26px;
+  justify-items: center;
+  justify-self: center;
+  width: 100%;
   padding-left: clamp(24px, 4vw, 56px);
   border-left: 1px solid rgba(248, 247, 243, 0.2);
 }
 
 .landing-start-panel .agreement-card {
+  justify-self: center;
   width: min(100%, 500px);
   padding: 0;
   border: 0;
@@ -507,6 +511,8 @@ html.dark .theme-toggle .sun-icon {
   }
 
   .landing-start-actions {
+    width: min(100%, 500px);
+    margin-inline: auto;
     padding-left: 0;
     border-left: 0;
   }
@@ -1828,6 +1834,9 @@ html.dark .result-group-title {
 
 .landing-actions {
   display: grid;
+  justify-self: center;
+  justify-items: center;
+  margin-inline: auto;
   width: min(100%, 320px);
   gap: 12px;
 }
