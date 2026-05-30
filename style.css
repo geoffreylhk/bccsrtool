@@ -262,8 +262,7 @@ html.dark .theme-toggle .sun-icon {
   z-index: 2;
   display: grid;
   gap: 14px;
-  align-content: center;
-  max-width: 620px;
+  align-content: start;
   min-height: inherit;
   padding: clamp(42px, 4.6vw, 68px) clamp(28px, 6vw, 104px) clamp(30px, 3.2vw, 44px);
 }
