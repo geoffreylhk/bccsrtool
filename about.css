@@ -1041,6 +1041,184 @@ html.dark .responsible-use {
   }
 }
 
+@media (max-width: 768px) {
+  .about-story {
+    overflow-x: hidden;
+  }
+
+  .about-back-row,
+  .story-card,
+  .story-section,
+  .scroll-story,
+  .data-status-card {
+    width: min(calc(100% - 40px), var(--story-max));
+    max-width: calc(100% - 40px);
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .tool-intro-panel,
+  .purpose-panel {
+    grid-template-columns: 20px minmax(0, 1fr) 20px;
+    gap: 22px;
+    padding-top: 42px;
+    padding-bottom: 46px;
+  }
+
+  .tool-intro-statement,
+  .tool-intro-copy,
+  .purpose-statement,
+  .purpose-panel > p {
+    grid-column: 2;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .tool-intro-copy,
+  .purpose-panel > p {
+    padding-top: 0;
+  }
+
+  .tool-intro-statement h1,
+  .purpose-statement h2,
+  .story-heading h2,
+  .story-sticky h2,
+  .threshold-demo-copy h3 {
+    max-width: 100%;
+    font-size: clamp(1.9rem, 8.6vw, 2rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    overflow-wrap: normal;
+  }
+
+  .tool-intro-copy p,
+  .purpose-panel p,
+  .story-heading p,
+  .story-sticky p,
+  .workflow-step-card p,
+  .clue-card p,
+  .clue-card small,
+  .method-copy p,
+  .data-status-card p,
+  .responsible-grid li {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .tool-phase-circles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .scroll-story {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    gap: 24px;
+    padding-top: 34px;
+    padding-bottom: 46px;
+  }
+
+  .story-sticky {
+    position: relative;
+    top: auto;
+    min-height: 0;
+    padding-top: 0;
+  }
+
+  .workflow-timeline {
+    padding-left: 36px;
+  }
+
+  .timeline-rail {
+    left: 8px;
+  }
+
+  .workflow-step-card {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 22px 20px;
+  }
+
+  .workflow-step-card::before {
+    left: -35px;
+  }
+
+  .workflow-step-card h3 {
+    font-size: 1.45rem;
+  }
+
+  .clue-grid,
+  .responsible-grid,
+  .resource-grid-v2,
+  .method-split,
+  .esa-flow-v2 {
+    grid-template-columns: 1fr;
+  }
+
+  .story-heading {
+    max-width: 100%;
+  }
+
+  .clue-card,
+  .resource-card-v2,
+  .method-section,
+  .responsible-use,
+  .threshold-demo,
+  .data-status-card {
+    border-radius: 14px;
+  }
+
+  .threshold-demo {
+    overflow: hidden;
+  }
+
+  .threshold-track {
+    grid-template-columns: 60% 20% 20%;
+    min-height: 112px;
+    overflow: hidden;
+  }
+
+  .zone {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 8px 4px;
+    font-size: 0.56rem;
+    line-height: 1;
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .threshold-marker {
+    top: 14px;
+    bottom: 14px;
+    left: 60%;
+  }
+
+  .threshold-marker em {
+    top: 0;
+    left: 8px;
+    font-size: 0.7rem;
+  }
+
+  .threshold-measure {
+    top: 52px;
+    max-width: 100%;
+  }
+
+  .threshold-measure em {
+    left: 8px;
+    bottom: 22px;
+    font-size: 0.7rem;
+  }
+
+  .matrix-row,
+  .threshold-example div {
+    display: grid;
+    gap: 4px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
