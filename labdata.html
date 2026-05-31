@@ -6,7 +6,7 @@
     <title>BC CSR Screening Tool — Lab Data</title>
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bccsr_logo.png?v=20260520">
     <link rel="shortcut icon" type="image/png" href="assets/images/bccsr_logo.png?v=20260520">
-    <link rel="stylesheet" href="style.css?v=20260530-mobile-responsive">
+    <link rel="stylesheet" href="style.css?v=20260531-mobile-actions">
   </head>
   <body class="assessment-page lab-page">
     <nav class="site-nav">
@@ -55,6 +55,30 @@
         </div>
       </header>
 
+      <div class="nav-buttons lab-top-actions">
+        <a href="contaminants.html" class="secondary-action">
+          <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
+          Back
+        </a>
+        <div class="nav-button-group">
+          <button
+            id="csvImportTopBtn"
+            class="secondary-action"
+            type="button"
+            data-csv-import
+            title="Import your previously saved csv file"
+            aria-label="Import CSV. Import your previously saved csv file."
+          >
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#upload"></use></svg>
+            Import CSV
+          </button>
+          <button id="resultsTopBtn" class="primary-action" data-results-action>
+            <span data-results-label>Show Thresholds Only</span>
+            <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
+          </button>
+        </div>
+      </div>
+
       <section class="table-card">
         <div class="table-card-header">
           <h2>Enter Concentrations</h2>
@@ -75,14 +99,15 @@
             id="csvImportBtn"
             class="secondary-action"
             type="button"
+            data-csv-import
             title="Import your previously saved csv file"
             aria-label="Import CSV. Import your previously saved csv file."
           >
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#upload"></use></svg>
             Import CSV
           </button>
-          <button id="resultsBtn" class="primary-action">
-            <span id="resultsBtnText">Show Thresholds Only</span>
+          <button id="resultsBtn" class="primary-action" data-results-action>
+            <span id="resultsBtnText" data-results-label>Show Thresholds Only</span>
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-right"></use></svg>
           </button>
         </div>
@@ -125,6 +150,6 @@
     </footer>
 
     <script src="data-utils.js?v=20260527-cache-bust"></script>
-    <script src="labdata.js"></script>
+    <script src="labdata.js?v=20260531-mobile-actions"></script>
   </body>
 </html>

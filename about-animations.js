@@ -73,15 +73,15 @@
 
   gsap.fromTo(
     '.threshold-demo',
-    { '--measure-progress': 0.18 },
+    { '--measure-progress': 0 },
     {
       '--measure-progress': 1,
-      duration: 1,
-      ease: 'power2.out',
+      ease: 'none',
       scrollTrigger: {
         trigger: '.threshold-demo',
-        start: 'top 72%',
-        once: true
+        start: 'top bottom',
+        end: 'center center',
+        scrub: true
       }
     }
   );

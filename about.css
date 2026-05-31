@@ -1065,6 +1065,11 @@ html.dark .responsible-use {
     padding-bottom: 46px;
   }
 
+  .purpose-panel.story-card {
+    width: 100%;
+    max-width: none;
+  }
+
   .tool-intro-statement,
   .tool-intro-copy,
   .purpose-statement,
@@ -1180,13 +1185,7 @@ html.dark .responsible-use {
   }
 
   .zone {
-    align-items: flex-end;
-    justify-content: center;
-    padding: 8px 4px;
-    font-size: 0.56rem;
-    line-height: 1;
-    writing-mode: horizontal-tb;
-    transform: none;
+    display: none;
   }
 
   .threshold-marker {
@@ -1203,6 +1202,7 @@ html.dark .responsible-use {
 
   .threshold-measure {
     top: 52px;
+    width: min(calc(var(--measure-progress) * 90%), 90%);
     max-width: 100%;
   }
 

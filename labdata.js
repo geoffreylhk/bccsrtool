@@ -1,8 +1,9 @@
 const labTable = document.getElementById('labTable');
 const filledCount = document.getElementById('filledCount');
-const resultsBtn = document.getElementById('resultsBtn');
-const resultsBtnText = document.getElementById('resultsBtnText');
 const csvImportBtn = document.getElementById('csvImportBtn');
+const resultsBtns = document.querySelectorAll('[data-results-action]');
+const resultsBtnTexts = document.querySelectorAll('[data-results-label]');
+const csvImportBtns = document.querySelectorAll('[data-csv-import]');
 const csvModal = document.getElementById('csvModal');
 const csvText = document.getElementById('csvText');
 const csvFile = document.getElementById('csvFile');
@@ -13,6 +14,7 @@ const csvPreview = document.getElementById('csvPreview');
 let csrData = null;
 let selectedContaminants = [];
 let latestImportPreview = [];
+let latestCsvTrigger = csvImportBtn;
 
 function groupSelected(contaminants) {
   return contaminants.reduce((groups, contaminant) => {
@@ -60,7 +62,15 @@ function updateFilledCount() {
   }).length;
 
   filledCount.textContent = `${filled} of ${rows.length} filled`;
-  resultsBtnText.textContent = filled > 0 ? 'View Results' : 'Show Thresholds Only';
+  resultsBtnTexts.forEach((buttonText) => {
+    buttonText.textContent = filled > 0 ? 'View Results' : 'Show Thresholds Only';
+  });
+}
+
+function setResultsButtonsDisabled(disabled) {
+  resultsBtns.forEach((button) => {
+    button.disabled = disabled;
+  });
 }
 
 function renderUnitOptions(savedUnit) {
@@ -92,11 +102,11 @@ function renderLabRows() {
       </div>
     `;
     filledCount.textContent = '0 of 0 filled';
-    resultsBtn.disabled = true;
+    setResultsButtonsDisabled(true);
     return;
   }
 
-  resultsBtn.disabled = false;
+  setResultsButtonsDisabled(false);
   const grouped = groupSelected(selectedContaminants);
   const rows = Object.entries(grouped).map(([groupName, contaminants]) => {
     const itemRows = contaminants.map((contaminant) => {
@@ -289,7 +299,8 @@ function renderCsvPreview(preview) {
   `;
 }
 
-function openCsvModal() {
+function openCsvModal(event) {
+  latestCsvTrigger = event?.currentTarget || csvImportBtn;
   csvModal.classList.add('is-open');
   csvModal.setAttribute('aria-hidden', 'false');
   csvText.focus();
@@ -299,7 +310,7 @@ function openCsvModal() {
 function closeCsvModal() {
   csvModal.classList.remove('is-open');
   csvModal.setAttribute('aria-hidden', 'true');
-  csvImportBtn.focus();
+  latestCsvTrigger?.focus();
 }
 
 labTable.addEventListener('input', (event) => {
@@ -317,12 +328,16 @@ labTable.addEventListener('click', (event) => {
   openContaminantDrawer(contaminant, infoButton);
 });
 
-resultsBtn.addEventListener('click', () => {
-  saveLabValues();
-  window.location.href = 'results.html';
+resultsBtns.forEach((button) => {
+  button.addEventListener('click', () => {
+    saveLabValues();
+    window.location.href = 'results.html';
+  });
 });
 
-csvImportBtn.addEventListener('click', openCsvModal);
+csvImportBtns.forEach((button) => {
+  button.addEventListener('click', openCsvModal);
+});
 csvModal.addEventListener('csv-close', closeCsvModal);
 
 csvModal.addEventListener('click', (event) => {

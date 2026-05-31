@@ -1056,6 +1056,13 @@ select:focus,
   flex-wrap: wrap;
 }
 
+.lab-top-actions {
+  margin-top: 0;
+  margin-bottom: 22px;
+  padding-top: 0;
+  border-top: 0;
+}
+
 .search-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -3318,7 +3325,7 @@ html.dark .example-result-card {
     display: contents;
   }
 
-  .lab-page .nav-buttons #resultsBtn,
+  .lab-page .nav-buttons [data-results-action],
   .results-actions [data-new-assessment-btn],
   .results-bottom-actions [data-new-assessment-btn] {
     margin-left: auto;
@@ -3690,14 +3697,15 @@ html.dark .example-result-card {
   }
 
   .category-header {
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) minmax(108px, auto);
+    gap: 7px 10px;
     min-height: 58px;
     padding: 10px 14px;
   }
 
   .category-toggle {
     grid-column: 1;
+    grid-row: 1 / span 2;
     width: 100%;
     min-height: 38px;
     grid-template-columns: 18px minmax(0, 1fr) auto;
@@ -3708,7 +3716,9 @@ html.dark .example-result-card {
     min-width: 0;
     font-size: 0.92rem;
     line-height: 1.2;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: none;
   }
 
   .category-total {
@@ -3717,8 +3727,10 @@ html.dark .example-result-card {
 
   .category-count {
     grid-column: 2;
-    justify-self: end;
-    width: auto;
+    grid-row: 1;
+    justify-self: stretch;
+    text-align: center;
+    width: 100%;
     min-width: 0;
     padding: 4px 8px;
     font-size: 0.72rem;
@@ -3730,14 +3742,34 @@ html.dark .example-result-card {
   }
 
   .select-all-btn {
-    grid-column: 3;
-    justify-self: end;
-    width: auto;
-    min-width: 86px;
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: stretch;
+    width: 100%;
+    min-width: 108px;
     height: 36px;
     padding: 0 10px;
     font-size: 0.78rem;
     white-space: nowrap;
+  }
+
+  .category-header:not(:has(.category-count:not(:empty))) {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .category-header:not(:has(.category-count:not(:empty))) .category-toggle,
+  .category-header:not(:has(.category-count:not(:empty))) .select-all-btn {
+    grid-row: 1;
+  }
+
+  .category-header:not(:has(.category-count:not(:empty))) .select-all-btn {
+    justify-self: end;
+    width: auto;
+  }
+
+  .lab-top-actions {
+    margin-bottom: 18px;
   }
 
   .selected-panel {
