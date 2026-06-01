@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bccsrtool.ca/</loc>
   </url>
   <url>
     <loc>https://bccsrtool.ca/about.html</loc>
+  </url>
+  <url>
+    <loc>https://bccsrtool.ca/assessment.html</loc>
+  </url>
+  <url>
+    <loc>https://bccsrtool.ca/contaminants.html</loc>
+  </url>
+  <url>
+    <loc>https://bccsrtool.ca/labdata.html</loc>
+  </url>
+  <url>
+    <loc>https://bccsrtool.ca/results.html</loc>
   </url>
 </urlset>
