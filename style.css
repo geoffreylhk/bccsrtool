@@ -3604,6 +3604,13 @@ html.dark .example-result-card {
     overflow-x: hidden;
   }
 
+  body {
+    background-position: center top;
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+    background-attachment: scroll;
+  }
+
   .site-nav {
     padding-right: 20px;
     padding-left: 20px;

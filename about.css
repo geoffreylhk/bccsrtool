@@ -1042,6 +1042,19 @@ html.dark .responsible-use {
 }
 
 @media (max-width: 768px) {
+  .about-page,
+  html.dark .about-page,
+  html.dark.about-page {
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(rgba(248, 247, 243, 0.5), rgba(248, 247, 243, 0.5)),
+      url("assets/images/background-image.avif");
+    background-position: center top, center top;
+    background-size: auto, 100% auto;
+    background-repeat: repeat, repeat-y;
+    background-attachment: scroll, scroll;
+  }
+
   .about-story {
     overflow-x: hidden;
   }
