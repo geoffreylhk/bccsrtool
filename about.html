@@ -11,8 +11,8 @@
 
     <!-- about.html -->
     <meta name="description" content="Learn about the BC CSR Screening Tool, an educational project for understanding BC contaminated sites screening concepts and Schedule 3.1 thresholds.">
-    <link rel="stylesheet" href="style.css?v=20260603-mobile-bg">
-    <link rel="stylesheet" href="about.css?v=20260603-mobile-bg">
+    <link rel="stylesheet" href="style.css?v=20260605-legal-pages">
+    <link rel="stylesheet" href="about.css?v=20260605-tooltip-fit">
   </head>
   <body class="about-page">
     <nav class="site-nav">
@@ -33,14 +33,14 @@
         </a>
       </div>
 
-      <section class="tool-intro-panel" aria-labelledby="toolIntroTitle" data-reveal>
+      <section id="about-tool" class="tool-intro-panel" aria-labelledby="toolIntroTitle" data-reveal>
         <div class="tool-intro-statement">
-          <span class="story-kicker">What it does</span>
+          <span class="story-kicker">Purpose</span>
           <h1 id="toolIntroTitle">What is bccsrtool?</h1>
         </div>
         <div class="tool-intro-copy">
           <p>
-            bccsrtool.ca uses BC's Contaminated Sites Regulation (CSR) Schedule 3.1 to screen whether a site needs <span class="definition-term" tabindex="0" data-tooltip="Cleanup of hazardous substances dealing with the removal, treatment and containment of pollution or contaminants.">remediation</span>. It covers roughly 40 chemical compounds most likely found at BC industrial sites, currently screening for human health protection with environmental protection coming soon.
+            bccsrtool.ca uses BC's Contaminated Sites Regulation (CSR) Schedule 3.1 to screen whether a site needs <span class="definition-term" tabindex="0" data-tooltip="Cleanup of hazardous substances">remediation</span>. It covers roughly 40 chemical compounds most likely found at BC industrial sites, currently screening for human health protection with environmental protection coming soon.
           </p>
           <div class="tool-phase-circles" aria-label="Screening result phases">
             <div class="tool-phase-circle">
@@ -226,7 +226,7 @@
         </div>
       </section>
 
-      <section class="responsible-use story-card" data-reveal>
+      <section id="responsible-use" class="responsible-use story-card" data-reveal>
         <div class="story-heading">
           <span class="story-kicker">Responsible use</span>
           <h2>Simplify early screening decisions.</h2>
@@ -273,6 +273,47 @@
         </div>
       </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div class="site-footer__brand">
+          <a class="site-footer__logo" href="index.html" aria-label="BC CSR Screening Tool home">
+            <img src="assets/images/logo.png" alt="BC CSR Screening Tool logo">
+            <span>CSR Screening Tool</span>
+          </a>
+          <p>Educational BC CSR Schedule 3.1 screening for land use, contaminants, lab data, and threshold results.</p>
+        </div>
+
+        <nav class="site-footer__column" aria-label="Information">
+          <h2>Information</h2>
+          <a href="about.html#about-tool">About</a>
+          <a href="termsofuse.html">Terms of use</a>
+          <a href="privacypolicy.html">Privacy</a>
+          <a href="disclaimer.html">Disclaimer</a>
+        </nav>
+
+        <nav class="site-footer__column" aria-label="Contact">
+          <h2>Contact</h2>
+          <a class="site-footer__icon-link" href="https://www.linkedin.com/in/geoffreyleehk/" target="_blank" rel="noopener" aria-label="LinkedIn profile">
+            <img src="assets/icons/LinkedIn-logo.jpeg" alt="" aria-hidden="true">
+            <span class="sr-only">LinkedIn</span>
+          </a>
+          <a class="site-footer__icon-link" href="https://github.com/geoffreylhk/bccsrtool" target="_blank" rel="noopener" aria-label="GitHub repository">
+            <img src="assets/icons/Github-icon.png" alt="" aria-hidden="true">
+            <span class="sr-only">GitHub</span>
+          </a>
+          <a class="site-footer__icon-link" href="mailto:geoffreylhk@gmail.com" aria-label="Email Geoffrey Lee">
+            <img src="assets/icons/Gmail-icon.png" alt="" aria-hidden="true">
+            <span class="sr-only">Email</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>&copy; 2026 Geoffrey Lee. All rights reserved.</p>
+        <p>This tool does not replace professional environmental consulting, regulatory review, or legal interpretation.</p>
+      </div>
+    </footer>
 
     <script src="data-utils.js?v=20260527-cache-bust"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
