@@ -467,6 +467,20 @@ html.dark .theme-toggle .sun-icon {
 }
 
 @media (max-width: 760px) {
+  body.landing-page {
+    background-color: var(--bg);
+    background-image: linear-gradient(
+      180deg,
+      #edf3ef 0%,
+      var(--bg) 360px,
+      var(--bg) 100%
+    );
+    background-position: center top;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
   .landing {
     gap: 26px;
     padding-bottom: 34px;
@@ -526,6 +540,26 @@ html.dark .theme-toggle .sun-icon {
     grid-template-columns: 1fr;
     gap: 24px;
     padding: 0 0 18px;
+    color: var(--text);
+  }
+
+  .landing-flow h2 {
+    color: var(--primary);
+  }
+
+  .landing-flow-icon {
+    border-color: var(--border-strong);
+    background: rgba(47, 93, 70, 0.08);
+    color: var(--primary);
+    backdrop-filter: none;
+  }
+
+  .landing-flow-step strong {
+    color: var(--text);
+  }
+
+  .landing-flow-step small {
+    color: var(--text-muted);
   }
 
   .landing-start-actions {
@@ -566,6 +600,16 @@ html.dark .theme-toggle .sun-icon {
 
   .landing-start-panel .agreement-card {
     width: 100%;
+    color: var(--text);
+  }
+
+  .landing-start-panel .educational-term {
+    color: var(--primary);
+    text-decoration-color: rgba(47, 93, 70, 0.56);
+  }
+
+  .landing-start-panel .learn-more-link {
+    color: var(--primary-dark);
   }
 
   .landing-start-panel .required-star {
