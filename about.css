@@ -123,7 +123,7 @@
 .definition-term::after {
   content: attr(data-tooltip);
   position: absolute;
-  right: 0;
+  left: 50%;
   bottom: calc(100% + 12px);
   z-index: 20;
   width: max-content;
@@ -140,14 +140,14 @@
   box-shadow: 0 18px 48px rgba(20, 37, 29, 0.18);
   opacity: 0;
   pointer-events: none;
-  transform: translateY(8px);
+  transform: translate(-50%, 8px);
   transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
 .definition-term:hover::after,
 .definition-term:focus-visible::after {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
 }
 
 .tool-phase-circles {
@@ -204,6 +204,13 @@
 
 .purpose-statement {
   grid-column: 2;
+}
+
+@media (min-width: 981px) {
+  .purpose-statement {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
 }
 
 .purpose-panel > p {
