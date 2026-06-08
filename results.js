@@ -8,14 +8,12 @@ const labDataCount = document.getElementById('labDataCount');
 const thresholdNote = document.getElementById('thresholdNote');
 const comparisonMeta = document.getElementById('comparisonMeta');
 const resultsTable = document.getElementById('resultsTable');
-const resultsChart = document.getElementById('resultsChart');
 const recommendation = document.getElementById('recommendation');
 const exportMenus = [...document.querySelectorAll('.export-menu')];
 const printButtons = [...document.querySelectorAll('[data-print-btn]')];
 const csvExportButtons = [...document.querySelectorAll('[data-csv-export-btn]')];
 const wordExportButtons = [...document.querySelectorAll('[data-word-export-btn]')];
 const newAssessmentButtons = [...document.querySelectorAll('[data-new-assessment-btn]')];
-const exceedanceOnlyToggle = document.getElementById('exceedanceOnlyToggle');
 
 let csrData = null;
 let latestRows = [];
@@ -114,15 +112,6 @@ function getMatrixRows(rows) {
   })));
 }
 
-function getShowExceedancesOnly() {
-  return Boolean(getAppState().ui.showExceedancesOnly);
-}
-
-function setExceedanceFilter(value) {
-  updateAppUi({ showExceedancesOnly: value });
-  renderResults();
-}
-
 function formatConvertedValue(row) {
   if (row.result.converted === null || row.result.converted === undefined) return '—';
   return Number(row.result.converted).toLocaleString(undefined, { maximumFractionDigits: 6 });
@@ -162,64 +151,47 @@ function renderSummary(rows) {
   comparisonMeta.textContent = `${rows.length} contaminants · ${thresholdLabel} standards`;
 }
 
-function renderChart(rows) {
-  const measuredRows = getMatrixRows(rows).filter((row) => row.hasLabValue);
-  const visibleRows = getShowExceedancesOnly()
-    ? measuredRows.filter((row) => row.result.status === 'Exceeds')
-    : measuredRows;
-
-  if (!visibleRows.length) {
-    resultsChart.innerHTML = getShowExceedancesOnly()
-      ? '<p class="empty-state">No entered lab values exceed the selected thresholds.</p>'
-      : '<p class="empty-state">Enter lab concentrations to show measured values in the chart.</p>';
-    return;
-  }
-
-  resultsChart.innerHTML = visibleRows.map((row) => {
-    const result = row.result;
-    const numericThreshold = getNumericThreshold(row.threshold);
-    const ratio = numericThreshold && result.converted !== null ? result.converted / numericThreshold : null;
-    const percent = ratio === null ? 0 : Math.max(2, Math.min(100, ratio * 100));
-    const ratioLabel = result.percentLabel;
-
-    return `
-      <div class="chart-row ${result.className}">
-        <div class="chart-label">
-          <button class="text-button result-info-btn" type="button" data-action="info" data-id="${escapeHtml(row.contaminant.id)}">${escapeHtml(row.contaminant.name)}</button>
-          <span>${escapeHtml(row.label)} · ${escapeHtml(row.displayConcentration)} ${escapeHtml(row.unitDef.label)}</span>
-        </div>
-        <div class="chart-track" aria-hidden="true">
-          <div class="chart-fill" style="width:${percent}%"></div>
-        </div>
-        <div class="chart-ratio">${escapeHtml(ratioLabel)}</div>
-      </div>
-    `;
-  }).join('');
+function getResultProgress(matrix) {
+  const numericThreshold = getNumericThreshold(matrix.threshold);
+  if (!matrix.hasLabValue || numericThreshold === null || numericThreshold <= 0) return 0;
+  return Math.max(2, Math.min(100, (matrix.result.converted / numericThreshold) * 100));
 }
 
-function renderSingleTable(rows) {
-  const hasFilter = getShowExceedancesOnly();
-  const visibleRows = rows
-    .map((row) => ({
-      ...row,
-      matrices: hasFilter
-        ? row.matrices.filter((matrix) => matrix.result.status === 'Exceeds')
-        : row.matrices
-    }))
-    .filter((row) => row.matrices.length);
-  const gridColumns = 'minmax(240px, 1.5fr) minmax(105px, 0.65fr) minmax(100px, 0.65fr) minmax(80px, 0.5fr) minmax(90px, 0.55fr) minmax(110px, 0.7fr)';
+function renderMediaCard(matrix) {
+  const statusClass = matrix.result.className;
+  const progress = getResultProgress(matrix);
+  const measured = matrix.hasLabValue ? matrix.displayConcentration : '—';
+  const threshold = formatThreshold(matrix.threshold);
 
+  return `
+    <article class="result-media-card ${statusClass}">
+      <div class="result-media-card__header">
+        <h4 class="result-media-card__title ${matrix.key}">
+          <span class="matrix-dot" aria-hidden="true"></span>
+          ${escapeHtml(matrix.label)}
+        </h4>
+        ${getStatusMarkup(matrix.result)}
+      </div>
+      <p class="result-media-card__values">
+        <strong>${escapeHtml(measured)}</strong>
+        <span aria-hidden="true">/</span>
+        <span>${escapeHtml(threshold)} ${escapeHtml(matrix.unitDef.label)}</span>
+      </p>
+      <div class="result-media-card__track" aria-hidden="true">
+        <span class="result-media-card__fill" style="width:${progress}%"></span>
+      </div>
+      <p class="result-media-card__percent">${escapeHtml(matrix.result.percentLabel)}</p>
+    </article>
+  `;
+}
+
+function renderResultCards(rows) {
   if (!rows.length) {
     resultsTable.innerHTML = '<p class="empty-state">No contaminants were selected.</p>';
     return;
   }
 
-  if (!visibleRows.length) {
-    resultsTable.innerHTML = '<p class="empty-state">No exceedances found with the current filter.</p>';
-    return;
-  }
-
-  const grouped = visibleRows.reduce((groups, row) => {
+  const grouped = rows.reduce((groups, row) => {
     const category = row.contaminant.category;
     if (!groups[category]) groups[category] = [];
     groups[category].push(row);
@@ -229,52 +201,32 @@ function renderSingleTable(rows) {
   const groupMarkup = Object.entries(grouped).map(([categoryName, groupRows]) => {
     const rowsMarkup = groupRows.map((row) => {
       const contaminant = row.contaminant;
-      const matrixRows = row.matrices.map((matrix) => {
-        return `
-          <div class="result-matrix-row ${matrix.result.className}" style="grid-template-columns: ${gridColumns};">
-            <div class="result-matrix-label ${matrix.key}">
-              <span class="matrix-dot" aria-hidden="true"></span>
-              ${escapeHtml(matrix.label)}
-            </div>
-            <div data-label="Threshold">${formatThreshold(matrix.threshold)}</div>
-            <div data-label="Your Conc.">${escapeHtml(matrix.displayConcentration)}</div>
-            <div data-label="Unit">${escapeHtml(matrix.unitDef.label)}</div>
-            <div data-label="Status">${getStatusMarkup(matrix.result)}</div>
-            <div class="result-percent ${matrix.result.className}" data-label="vs Threshold">${escapeHtml(matrix.result.percentLabel)}</div>
-          </div>
-        `;
-      }).join('');
+      const mediaCards = row.matrices.map(renderMediaCard).join('');
 
       return `
-        <div class="result-contaminant">
-          <div class="result-substance">
+        <section class="result-card-contaminant">
+          <header class="result-card-contaminant__header">
             <button class="text-button result-info-btn" type="button" data-action="info" data-id="${escapeHtml(contaminant.id)}">
               ${escapeHtml(contaminant.name)}
             </button>
             ${contaminant.cas !== 'NS' ? `<span>CAS ${escapeHtml(contaminant.cas)}</span>` : ''}
+          </header>
+          <div class="result-media-grid">
+            ${mediaCards}
           </div>
-          ${matrixRows}
-        </div>
+        </section>
       `;
     }).join('');
 
     return `
-      <div class="result-group-title">${escapeHtml(categoryName)}</div>
-      ${rowsMarkup}
+      <section class="result-card-category">
+        <h3 class="result-card-category__title">${escapeHtml(categoryName)}</h3>
+        ${rowsMarkup}
+      </section>
     `;
   }).join('');
 
-  resultsTable.innerHTML = `
-    <div class="results-table-head" style="grid-template-columns: ${gridColumns};">
-      <span>Contaminant</span>
-      <span>Threshold</span>
-      <span>Your Conc.</span>
-      <span>Unit</span>
-      <span>Status</span>
-      <span>vs Threshold</span>
-    </div>
-    ${groupMarkup}
-  `;
+  resultsTable.innerHTML = groupMarkup;
 }
 
 function renderRecommendation(exceedCount, selectedCount, filledCount, thresholdLabel) {
@@ -330,11 +282,8 @@ function renderResults() {
     selectedCount: latestRows.length
   };
 
-  exceedanceOnlyToggle.checked = getShowExceedancesOnly();
-
   renderSummary(latestRows);
-  renderChart(latestRows);
-  renderSingleTable(latestRows);
+  renderResultCards(latestRows);
   renderRecommendation(latestCounts.exceedCount, latestCounts.selectedCount, latestCounts.filledCount, thresholdLabel);
 }
 
@@ -447,13 +396,6 @@ resultsTable.addEventListener('click', (event) => {
   openContaminantDrawer(contaminant, infoButton);
 });
 
-resultsChart.addEventListener('click', (event) => {
-  const infoButton = event.target.closest('[data-action="info"]');
-  if (!infoButton || !csrData) return;
-  const contaminant = csrData.contaminants.find((item) => item.id === infoButton.dataset.id);
-  openContaminantDrawer(contaminant, infoButton);
-});
-
 function setExportMenuOpen(menu, isOpen) {
   const menuList = menu.querySelector('.export-menu-list');
   const menuButton = menu.querySelector('[data-export-menu-btn]');
@@ -467,8 +409,6 @@ function closeExportMenus(exceptMenu = null) {
     if (menu !== exceptMenu) setExportMenuOpen(menu, false);
   });
 }
-
-exceedanceOnlyToggle.addEventListener('change', () => setExceedanceFilter(exceedanceOnlyToggle.checked));
 
 exportMenus.forEach((menu) => {
   const menuButton = menu.querySelector('[data-export-menu-btn]');

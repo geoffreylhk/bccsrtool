@@ -1754,17 +1754,6 @@ html.dark .contaminant-item:hover {
   align-items: flex-start;
 }
 
-.chart-card-header {
-  align-items: flex-start;
-}
-
-.chart-filter-toggle {
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--text);
-  white-space: nowrap;
-}
-
 .lab-table-head,
 .lab-row,
 .results-table-head,
@@ -2749,75 +2738,6 @@ input[type="file"]:focus {
   accent-color: var(--primary);
 }
 
-.results-chart-card {
-  margin-bottom: 22px;
-}
-
-.results-chart {
-  display: grid;
-  gap: 0;
-}
-
-.chart-row {
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(160px, 2fr) 110px;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--border);
-}
-
-.chart-row:last-child {
-  border-bottom: 0;
-}
-
-.chart-label {
-  display: grid;
-  gap: 2px;
-}
-
-.chart-label span {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-}
-
-.chart-track {
-  height: 12px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--surface-soft);
-}
-
-.chart-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--text-muted);
-}
-
-.chart-row.below .chart-fill {
-  background: var(--success);
-}
-
-.chart-row.exceeds .chart-fill {
-  background: var(--danger);
-}
-
-.chart-row.borderline .chart-fill,
-.chart-row.review .chart-fill {
-  background: #d99a00;
-}
-
-.chart-row.neutral .chart-fill {
-  background: var(--border-strong);
-}
-
-.chart-ratio {
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-align: right;
-}
-
 .result-pill.borderline,
 .result-pill.review {
   background: var(--review-bg);
@@ -3540,19 +3460,6 @@ html.dark .example-result-card {
     display: grid;
   }
 
-  .chart-card-header {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .chart-filter-toggle {
-    justify-self: start;
-    width: 100%;
-    max-width: 100%;
-    white-space: normal;
-  }
-
   .selected-panel {
     position: static;
   }
@@ -3885,15 +3792,6 @@ html.dark .example-result-card {
 
   .segment {
     flex: 1;
-  }
-
-  .chart-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .chart-ratio {
-    text-align: left;
   }
 
   .mini-table [role="row"] {
@@ -4352,31 +4250,6 @@ html.dark .example-result-card {
     line-height: 1.3;
   }
 
-  .results-chart-card {
-    overflow: hidden;
-  }
-
-  .chart-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    padding: 10px 14px;
-  }
-
-  .chart-label strong {
-    font-size: 0.95rem;
-    line-height: 1.18;
-    overflow-wrap: anywhere;
-  }
-
-  .chart-track {
-    max-width: 100%;
-  }
-
-  .chart-ratio {
-    text-align: left;
-    font-size: 0.72rem;
-  }
-
   .nav-buttons,
   .results-actions,
   .results-bottom-actions {
@@ -4514,6 +4387,221 @@ html.dark .example-result-card {
   }
 }
 
+.results-comparison-card {
+  overflow: hidden;
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.results-comparison-card > .table-card-header {
+  border-bottom-color: var(--border);
+  background: var(--surface);
+}
+
+.results-comparison-card > .table-card-header h2 {
+  color: var(--text);
+}
+
+.results-comparison-card > .table-card-header p {
+  color: var(--text-muted);
+}
+
+.results-comparison-card > .table-card-header .secondary-action {
+  border-color: var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.results-comparison-card > .table-card-header .secondary-action:hover {
+  background: var(--surface-soft);
+}
+
+.results-comparison-card .results-table {
+  overflow: visible;
+}
+
+.result-card-category {
+  border-top: 1px solid var(--border);
+}
+
+.result-card-category:first-child {
+  border-top: 0;
+}
+
+.result-card-category__title {
+  margin: 0;
+  padding: 12px 28px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-soft);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.result-card-contaminant {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-card-contaminant:last-child {
+  border-bottom: 0;
+}
+
+.result-card-contaminant__header {
+  display: grid;
+  justify-items: start;
+  margin-bottom: 14px;
+}
+
+.result-card-contaminant__header .result-info-btn {
+  color: var(--text);
+  font-size: 1.12rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+.result-card-contaminant__header span {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.result-media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.result-media-card {
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: var(--surface-soft);
+  color: var(--text);
+}
+
+.result-media-card.below {
+  border-color: #b8d69a;
+  background: rgba(234, 243, 222, 0.72);
+}
+
+.result-media-card.exceeds {
+  border-color: #efb8b8;
+  background: rgba(252, 235, 235, 0.78);
+}
+
+.result-media-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.result-media-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.result-media-card .result-pill {
+  min-height: 24px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 1px 11px;
+  font-size: 0.75rem;
+}
+
+.result-media-card__values {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  min-width: 0;
+  margin: 8px 0 10px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.result-media-card__values strong {
+  color: inherit;
+  font-size: 1rem;
+}
+
+.result-media-card__track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(44, 36, 31, 0.14);
+}
+
+.result-media-card__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--border-strong);
+}
+
+.result-media-card.below .result-media-card__fill {
+  background: #4d9217;
+}
+
+.result-media-card.exceeds .result-media-card__fill {
+  background: #b72e2e;
+}
+
+.result-media-card.neutral .result-media-card__fill {
+  width: 0 !important;
+}
+
+.result-media-card__percent {
+  min-height: 1.25em;
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.result-media-card.below .result-media-card__percent {
+  color: #2f6f0e;
+}
+
+.result-media-card.exceeds .result-media-card__percent {
+  color: #a92121;
+}
+
+@media (max-width: 900px) {
+  .results-page .results-comparison-card .results-table,
+  .results-page .results-comparison-card .result-card-category,
+  .results-page .results-comparison-card .result-card-contaminant {
+    min-width: 0;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 680px) {
+  .result-card-category__title {
+    padding: 11px 16px;
+  }
+
+  .result-card-contaminant {
+    padding: 18px 16px;
+  }
+
+  .result-media-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
 @media print {
   body {
     background: #fff;
@@ -4559,6 +4647,36 @@ html.dark .example-result-card {
     gap: 12px;
   }
 
+  .results-comparison-card,
+  .results-comparison-card > .table-card-header,
+  .result-card-category__title,
+  .result-media-card,
+  .result-media-card.below,
+  .result-media-card.exceeds {
+    border-color: #999;
+    background: #fff;
+    color: #111;
+  }
+
+  .results-comparison-card > .table-card-header h2,
+  .result-card-contaminant__header .result-info-btn,
+  .result-media-card__title {
+    color: #111;
+  }
+
+  .results-comparison-card > .table-card-header p,
+  .result-card-category__title,
+  .result-card-contaminant__header span,
+  .result-media-card__values,
+  .result-media-card__percent {
+    color: #444;
+  }
+
+  .result-card-contaminant,
+  .result-media-card {
+    break-inside: avoid;
+  }
+
   .results-table-head {
     display: grid;
   }
@@ -4574,11 +4692,6 @@ html.dark .example-result-card {
   .result-contaminant,
   .result-matrix-row {
     break-inside: avoid;
-  }
-
-  .chart-row {
-    break-inside: avoid;
-    padding: 8px 10px;
   }
 
 }

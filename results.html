@@ -146,23 +146,7 @@
         </p>
       </section>
 
-      <section class="table-card results-chart-card" aria-labelledby="chartTitle">
-        <div class="table-card-header table-card-header-split chart-card-header">
-          <div>
-            <h2 id="chartTitle">Results Summary Chart</h2>
-            <p>Soil and groundwater values compared independently with their matching thresholds.</p>
-          </div>
-          <label class="toggle-row chart-filter-toggle no-print" for="exceedanceOnlyToggle">
-            <input id="exceedanceOnlyToggle" type="checkbox">
-            <span>Show exceedances only</span>
-          </label>
-        </div>
-        <div id="resultsChart" class="results-chart" aria-live="polite">
-          <p class="loading-message">Loading chart...</p>
-        </div>
-      </section>
-
-      <section class="table-card">
+      <section class="table-card results-comparison-card">
         <div class="table-card-header table-card-header-split">
           <div>
             <h2>Threshold Comparison</h2>
@@ -257,6 +241,6 @@
     </footer>
 
     <script src="data-utils.js?v=20260608-dual-matrix"></script>
-    <script src="results.js?v=20260608-csv-roundtrip"></script>
+    <script src="results.js?v=20260608-result-cards"></script>
   </body>
 </html>
