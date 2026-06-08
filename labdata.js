@@ -27,41 +27,44 @@ function groupSelected(contaminants) {
 }
 
 function getSavedLabValues() {
-  return getStoredObject('labValues');
+  return new Map(
+    getAssessmentContaminants(csrData).map((contaminant) => [contaminant.id, contaminant])
+  );
 }
 
-function getValueFromRow(row) {
-  const concentration = row.querySelector('.concentration-input').value.trim();
-  const unit = row.querySelector('.unit-select').value;
-
-  if (!concentration) return null;
-
+function getValueFromSubrow(subrow) {
   return {
-    unit,
-    value: Number(concentration)
+    concentration: subrow.querySelector('.concentration-input').value.trim(),
+    unit: subrow.querySelector('.unit-select').value
   };
 }
 
 function saveLabValues() {
-  const values = {};
+  const recordsById = getSavedLabValues();
 
-  document.querySelectorAll('.lab-row').forEach((row) => {
-    const id = row.dataset.id;
-    const labValue = getValueFromRow(row);
-    if (labValue) values[id] = labValue;
+  document.querySelectorAll('.lab-contaminant').forEach((row) => {
+    const record = recordsById.get(row.dataset.id);
+    if (!record) return;
+
+    const soil = getValueFromSubrow(row.querySelector('[data-matrix="soil"]'));
+    const groundwater = getValueFromSubrow(row.querySelector('[data-matrix="groundwater"]'));
+    record.soilConc = soil.concentration === '' ? '' : Number(soil.concentration);
+    record.soilUnit = soil.unit;
+    record.gwConc = groundwater.concentration === '' ? '' : Number(groundwater.concentration);
+    record.gwUnit = groundwater.unit;
   });
 
-  updateActiveProfileData({ labValues: values });
+  saveAssessmentContaminants([...recordsById.values()]);
   updateFilledCount();
 }
 
 function updateFilledCount() {
-  const rows = document.querySelectorAll('.lab-row');
-  const filled = Array.from(rows).filter((row) => {
-    return row.querySelector('.concentration-input').value.trim();
+  const inputs = document.querySelectorAll('.lab-matrix-row .concentration-input');
+  const filled = Array.from(inputs).filter((input) => {
+    return input.value.trim();
   }).length;
 
-  filledCount.textContent = `${filled} of ${rows.length} filled`;
+  filledCount.textContent = `${filled} of ${inputs.length} filled`;
   resultsBtnTexts.forEach((buttonText) => {
     buttonText.textContent = filled > 0 ? 'View Results' : 'Show Thresholds Only';
   });
@@ -73,27 +76,22 @@ function setResultsButtonsDisabled(disabled) {
   });
 }
 
-function renderUnitOptions(savedUnit) {
-  const availableUnits = getAvailableUnits();
-  const soilOptions = availableUnits.filter((unit) => unit.category === 'soil').map((unit) => {
-    return `<option value="${unit.id}" ${savedUnit === unit.id ? 'selected' : ''}>${unit.label}</option>`;
-  }).join('');
-  const waterOptions = availableUnits.filter((unit) => unit.category === 'water').map((unit) => {
-    return `<option value="${unit.id}" ${savedUnit === unit.id ? 'selected' : ''}>${unit.label}</option>`;
-  }).join('');
+function renderUnitOptions(matrix, savedUnit) {
+  const allowedIds = matrix === 'soil' ? ['ug_g', 'mg_kg'] : ['ug_L', 'mg_L'];
+  const fallback = matrix === 'soil' ? DEFAULT_SOIL_UNIT : DEFAULT_GW_UNIT;
+  const selectedUnit = savedUnit || fallback;
 
-  return `
-    <optgroup label="Soil">
-      ${soilOptions}
-    </optgroup>
-    <optgroup label="Water">
-      ${waterOptions}
-    </optgroup>
-  `;
+  return getAvailableUnits()
+    .filter((unit) => allowedIds.includes(unit.id))
+    .map((unit) => {
+      const selected = selectedUnit === unit.id || selectedUnit === unit.label;
+      return `<option value="${unit.label}" ${selected ? 'selected' : ''}>${unit.label}</option>`;
+    })
+    .join('');
 }
 
 function renderLabRows() {
-  const labValues = getSavedLabValues();
+  const savedRecords = getSavedLabValues();
 
   if (!selectedContaminants.length) {
     labTable.innerHTML = `
@@ -110,30 +108,50 @@ function renderLabRows() {
   const grouped = groupSelected(selectedContaminants);
   const rows = Object.entries(grouped).map(([groupName, contaminants]) => {
     const itemRows = contaminants.map((contaminant) => {
-      const saved = labValues[contaminant.id] || {};
-      const savedUnit = saved.unit || DEFAULT_LAB_UNIT;
+      const saved = savedRecords.get(contaminant.id) || contaminant;
 
       return `
-        <div class="lab-row" data-id="${escapeHtml(contaminant.id)}">
+        <div class="lab-contaminant" data-id="${escapeHtml(contaminant.id)}">
           <div class="lab-substance">
             <button class="text-button lab-info-btn" type="button" data-action="info" data-id="${escapeHtml(contaminant.id)}">
               ${escapeHtml(contaminant.name)}
             </button>
             ${contaminant.cas !== 'NS' ? `<span>CAS ${escapeHtml(contaminant.cas)}</span>` : ''}
           </div>
-          <input
-            class="concentration-input"
-            type="number"
-            min="0"
-            step="any"
-            inputmode="decimal"
-            value="${saved.value ?? ''}"
-            placeholder="—"
-            aria-label="${escapeHtml(contaminant.name)} concentration"
-          >
-          <select class="unit-select" aria-label="${escapeHtml(contaminant.name)} unit">
-            ${renderUnitOptions(savedUnit)}
-          </select>
+          <div class="lab-matrix-rows">
+            <div class="lab-matrix-row soil" data-matrix="soil">
+              <span class="matrix-label"><span class="matrix-dot" aria-hidden="true"></span>Soil</span>
+              <input
+                class="concentration-input"
+                type="number"
+                min="0"
+                step="any"
+                inputmode="decimal"
+                value="${saved.soilConc ?? ''}"
+                placeholder="—"
+                aria-label="${escapeHtml(contaminant.name)} soil concentration"
+              >
+              <select class="unit-select" aria-label="${escapeHtml(contaminant.name)} soil unit">
+                ${renderUnitOptions('soil', saved.soilUnit)}
+              </select>
+            </div>
+            <div class="lab-matrix-row groundwater" data-matrix="groundwater">
+              <span class="matrix-label"><span class="matrix-dot" aria-hidden="true"></span>Groundwater</span>
+              <input
+                class="concentration-input"
+                type="number"
+                min="0"
+                step="any"
+                inputmode="decimal"
+                value="${saved.gwConc ?? ''}"
+                placeholder="—"
+                aria-label="${escapeHtml(contaminant.name)} groundwater concentration"
+              >
+              <select class="unit-select" aria-label="${escapeHtml(contaminant.name)} groundwater unit">
+                ${renderUnitOptions('groundwater', saved.gwUnit)}
+              </select>
+            </div>
+          </div>
         </div>
       `;
     }).join('');
@@ -149,8 +167,7 @@ function renderLabRows() {
   labTable.innerHTML = `
     <div class="lab-table-head">
       <span>Substance</span>
-      <span>Concentration</span>
-      <span>Unit</span>
+      <span>Matrix / Concentration / Unit</span>
     </div>
     ${rows}
   `;
@@ -224,12 +241,19 @@ function findContaminantByImportRow(row, columns) {
 }
 
 function getUnitFromCsv(unitText) {
-  if (!unitText) return DEFAULT_LAB_UNIT;
+  if (!unitText) return DEFAULT_SOIL_UNIT;
   const normalized = normalizeText(unitText);
   const matched = LAB_UNITS.find((unit) => {
     return normalizeText(unit.id) === normalized || normalizeText(unit.label) === normalized || normalizeText(unit.detail) === normalized;
   });
-  return matched?.id || DEFAULT_LAB_UNIT;
+  return matched?.label || DEFAULT_SOIL_UNIT;
+}
+
+function getMatrixFromCsv(matrixText) {
+  const normalized = normalizeText(matrixText);
+  if (['groundwater', 'ground water', 'gw', 'water'].includes(normalized)) return 'groundwater';
+  if (['soil', 'land'].includes(normalized)) return 'soil';
+  return '';
 }
 
 function buildImportPreview(text) {
@@ -239,30 +263,57 @@ function buildImportPreview(text) {
   const headers = rows[0];
   const columns = {
     id: getColumnIndex(headers, ['id', 'contaminant_id', 'substance_id']),
-    name: getColumnIndex(headers, ['contaminant', 'substance', 'name']),
+    name: getColumnIndex(headers, ['contaminant', 'contaminant_name', 'substance', 'substance_name', 'name']),
     cas: getColumnIndex(headers, ['cas', 'cas_number', 'cas no']),
-    value: getColumnIndex(headers, ['value', 'concentration', 'result']),
-    unit: getColumnIndex(headers, ['unit', 'units'])
+    matrix: getColumnIndex(headers, ['matrix', 'media', 'medium', 'sample_matrix']),
+    value: getColumnIndex(headers, ['value', 'concentration', 'entered_concentration', 'display_concentration', 'result']),
+    unit: getColumnIndex(headers, ['unit', 'units']),
+    soilValue: getColumnIndex(headers, ['soil_concentration', 'soil concentration', 'soilconc']),
+    soilUnit: getColumnIndex(headers, ['soil_unit', 'soil unit', 'soilunit']),
+    gwValue: getColumnIndex(headers, ['groundwater_concentration', 'groundwater concentration', 'gw_concentration', 'gwconc']),
+    gwUnit: getColumnIndex(headers, ['groundwater_unit', 'groundwater unit', 'gw_unit', 'gwunit'])
   };
 
-  return rows.slice(1).map((row, index) => {
+  return rows.slice(1).flatMap((row, index) => {
     const contaminant = findContaminantByImportRow(row, columns);
-    const rawValue = columns.value >= 0 ? row[columns.value] : '';
-    const unit = getUnitFromCsv(columns.unit >= 0 ? row[columns.unit] : '');
-    const cleanedValue = String(rawValue || '').trim();
-    const hasValue = cleanedValue !== '';
-    const numericValue = hasValue ? Number(cleanedValue) : undefined;
-    const invalidValue = hasValue && Number.isNaN(numericValue);
+    const rawName = row[columns.name] || row[columns.cas] || row[columns.id] || `Row ${index + 2}`;
+    const entries = [];
 
-    return {
-      rowNumber: index + 2,
-      contaminant,
-      rawName: row[columns.name] || row[columns.cas] || row[columns.id] || `Row ${index + 2}`,
-      value: invalidValue ? undefined : numericValue,
-      unit,
-      invalidValue,
-      matched: Boolean(contaminant)
+    const addEntry = (matrix, rawValue, rawUnit) => {
+      const cleanedValue = String(rawValue || '').trim();
+      if (!cleanedValue && columns.soilValue >= 0 && columns.gwValue >= 0) return;
+      const unit = getUnitFromCsv(rawUnit);
+      const unitDef = getUnitDef(unit);
+      const resolvedMatrix = matrix || (unitDef.category === 'water' ? 'groundwater' : 'soil');
+      const hasValue = cleanedValue !== '';
+      const numericValue = hasValue ? Number(cleanedValue) : undefined;
+      const invalidValue = hasValue && Number.isNaN(numericValue);
+
+      entries.push({
+        rowNumber: index + 2,
+        contaminant,
+        rawName,
+        matrix: resolvedMatrix,
+        value: invalidValue ? undefined : numericValue,
+        unit,
+        invalidValue,
+        matched: Boolean(contaminant)
+      });
     };
+
+    if (columns.soilValue >= 0 || columns.gwValue >= 0) {
+      if (columns.soilValue >= 0) {
+        addEntry('soil', row[columns.soilValue], columns.soilUnit >= 0 ? row[columns.soilUnit] : DEFAULT_SOIL_UNIT);
+      }
+      if (columns.gwValue >= 0) {
+        addEntry('groundwater', row[columns.gwValue], columns.gwUnit >= 0 ? row[columns.gwUnit] : DEFAULT_GW_UNIT);
+      }
+    } else {
+      const matrix = columns.matrix >= 0 ? getMatrixFromCsv(row[columns.matrix]) : '';
+      addEntry(matrix, columns.value >= 0 ? row[columns.value] : '', columns.unit >= 0 ? row[columns.unit] : '');
+    }
+
+    return entries;
   });
 }
 
@@ -289,9 +340,9 @@ function renderCsvPreview(preview) {
         <div class="preview-row ${row.matched && !row.invalidValue ? 'is-ok' : 'needs-review'}">
           <strong>${escapeHtml(row.contaminant?.name || row.rawName)}</strong>
           <span>
-            ${row.matched ? 'Matched' : 'Unmatched'}
+            ${row.matched ? `Matched ${row.matrix === 'soil' ? 'soil' : 'groundwater'}` : 'Unmatched'}
             ${row.invalidValue ? ' · invalid numeric value' : ''}
-            ${row.value !== undefined ? ` · ${escapeHtml(row.value)} ${escapeHtml(getUnitDef(row.unit).label)}` : ''}
+            ${row.value !== undefined ? ` · ${escapeHtml(row.value)} ${escapeHtml(row.unit)}` : ''}
           </span>
         </div>
       `).join('')}
@@ -363,21 +414,24 @@ previewCsvBtn.addEventListener('click', () => {
 });
 
 applyCsvBtn.addEventListener('click', () => {
-  const labValues = getSavedLabValues();
+  const recordsById = getSavedLabValues();
 
   latestImportPreview
     .filter((row) => row.matched && !row.invalidValue)
     .forEach((row) => {
-      labValues[row.contaminant.id] = {
-        unit: row.unit
-      };
+      const record = recordsById.get(row.contaminant.id);
+      if (!record) return;
 
-      if (row.value !== undefined) {
-        labValues[row.contaminant.id].value = row.value;
+      if (row.matrix === 'groundwater') {
+        record.gwConc = row.value ?? '';
+        record.gwUnit = row.unit || DEFAULT_GW_UNIT;
+      } else {
+        record.soilConc = row.value ?? '';
+        record.soilUnit = row.unit || DEFAULT_SOIL_UNIT;
       }
     });
 
-  updateActiveProfileData({ labValues });
+  saveAssessmentContaminants([...recordsById.values()]);
   closeCsvModal();
   renderLabRows();
 });

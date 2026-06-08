@@ -207,9 +207,20 @@
 }
 
 @media (min-width: 981px) {
+  .purpose-panel {
+    grid-template-rows: auto auto;
+    column-gap: clamp(34px, 6vw, 86px);
+    row-gap: 24px;
+    align-content: center;
+  }
+
   .purpose-statement {
     grid-row: 1 / span 2;
     align-self: center;
+  }
+
+  .purpose-panel > p {
+    padding-top: 0;
   }
 }
 

@@ -25,6 +25,9 @@ const LAB_UNITS = [
 ];
 
 const DEFAULT_LAB_UNIT = 'ug_g';
+const DEFAULT_SOIL_UNIT = 'µg/g';
+const DEFAULT_GW_UNIT = 'µg/L';
+const APP_STATE_VERSION = 3;
 const BORDERLINE_RATIO = 0.8;
 
 const CONTAMINANT_INFO_DEFAULTS = {
@@ -124,7 +127,7 @@ function createDefaultProfile(id, name) {
 
 function getDefaultAppState() {
   return {
-    version: 2,
+    version: APP_STATE_VERSION,
     workflowStarted: false,
     activeProfileId: DEFAULT_PROFILE_ID,
     profiles: {
@@ -154,17 +157,118 @@ function normalizeLabValue(value) {
   return normalized.value !== undefined ? normalized : null;
 }
 
+function getStoredUnitLabel(unit) {
+  const unitDef = LAB_UNITS.find((item) => item.id === unit || item.label === unit);
+  return unitDef?.label || String(unit || '');
+}
+
+function getStoredUnitCategory(unit) {
+  const unitDef = LAB_UNITS.find((item) => item.id === unit || item.label === unit);
+  return unitDef?.category || '';
+}
+
+function normalizeSelectedContaminant(item) {
+  if (!item || typeof item !== 'object') return null;
+
+  const normalized = {
+    id: item.id || item.contaminantId || '',
+    name: item.name || item.substance || '',
+    cas: item.cas || '',
+    group: item.group || item.category || '',
+    soilConc: item.soilConc ?? '',
+    soilUnit: item.soilUnit ?? DEFAULT_SOIL_UNIT,
+    gwConc: item.gwConc ?? '',
+    gwUnit: item.gwUnit ?? DEFAULT_GW_UNIT
+  };
+
+  const hasLegacyConcentration =
+    item.concentration !== undefined &&
+    item.concentration !== null &&
+    item.concentration !== '';
+
+  if (hasLegacyConcentration) {
+    const legacyUnit = getStoredUnitLabel(item.unit);
+    const category = getStoredUnitCategory(item.unit);
+
+    if (category === 'soil') {
+      normalized.soilConc = item.concentration;
+      normalized.soilUnit = legacyUnit;
+      normalized.gwConc = '';
+      normalized.gwUnit = '';
+    } else if (category === 'water') {
+      normalized.soilConc = '';
+      normalized.soilUnit = '';
+      normalized.gwConc = item.concentration;
+      normalized.gwUnit = legacyUnit;
+    }
+  }
+
+  return normalized;
+}
+
+function applyLabValuesToContaminants(contaminants, labValues, clearMissing = false) {
+  return contaminants.map((contaminant) => {
+    const labValue = normalizeLabValue(labValues?.[contaminant.id]);
+    if (!labValue) {
+      return clearMissing
+        ? {
+            ...contaminant,
+            soilConc: '',
+            soilUnit: DEFAULT_SOIL_UNIT,
+            gwConc: '',
+            gwUnit: DEFAULT_GW_UNIT
+          }
+        : contaminant;
+    }
+
+    const unitLabel = getStoredUnitLabel(labValue.unit);
+    const category = getStoredUnitCategory(labValue.unit);
+
+    if (category === 'water') {
+      return {
+        ...contaminant,
+        soilConc: '',
+        soilUnit: '',
+        gwConc: labValue.value,
+        gwUnit: unitLabel
+      };
+    }
+
+    return {
+      ...contaminant,
+      soilConc: labValue.value,
+      soilUnit: unitLabel,
+      gwConc: '',
+      gwUnit: ''
+    };
+  });
+}
+
 function normalizeProfile(profile, fallback) {
   const base = createDefaultProfile(fallback.id, fallback.name);
   const merged = { ...base, ...profile };
   const proposedLandUse = merged.proposedLandUse || merged.thresholdLandUse || '';
   const currentLandUse = merged.currentLandUse || '';
   const labValues = {};
+  const savedContaminants = Array.isArray(merged.selectedContaminants) ? merged.selectedContaminants : [];
+  const legacyContaminantIds = new Set(
+    savedContaminants
+      .filter((item) => !['soilConc', 'soilUnit', 'gwConc', 'gwUnit'].some((key) => key in (item || {})))
+      .map((item) => item?.id || item?.contaminantId)
+  );
+  let selectedContaminants = savedContaminants
+    .map(normalizeSelectedContaminant)
+    .filter(Boolean);
 
   Object.entries(merged.labValues || {}).forEach(([id, value]) => {
     const normalized = normalizeLabValue(value);
     if (normalized) labValues[id] = normalized;
   });
+
+  const legacyLabValues = Object.fromEntries(
+    Object.entries(labValues).filter(([id]) => legacyContaminantIds.has(id))
+  );
+  selectedContaminants = applyLabValuesToContaminants(selectedContaminants, legacyLabValues);
 
   return {
     ...merged,
@@ -174,7 +278,7 @@ function normalizeProfile(profile, fallback) {
     proposedLandUseLabel: merged.proposedLandUseLabel || merged.thresholdLandUseLabel || LAND_USE_LABELS[proposedLandUse] || '',
     thresholdLandUse: proposedLandUse,
     thresholdLandUseLabel: merged.thresholdLandUseLabel || LAND_USE_LABELS[proposedLandUse] || '',
-    selectedContaminants: Array.isArray(merged.selectedContaminants) ? merged.selectedContaminants : [],
+    selectedContaminants,
     labValues
   };
 }
@@ -198,7 +302,9 @@ function migrateOldStorageIntoState(state) {
   }
 
   if (Array.isArray(oldSelected) && active.selectedContaminants.length === 0) {
-    active.selectedContaminants = oldSelected;
+    active.selectedContaminants = oldSelected
+      .map(normalizeSelectedContaminant)
+      .filter(Boolean);
     changed = true;
   }
 
@@ -207,6 +313,7 @@ function migrateOldStorageIntoState(state) {
       const normalized = normalizeLabValue(value);
       if (normalized) active.labValues[id] = normalized;
     });
+    active.selectedContaminants = applyLabValuesToContaminants(active.selectedContaminants, active.labValues);
     changed = true;
   }
 
@@ -235,6 +342,7 @@ function getAppState() {
   const state = {
     ...defaults,
     ...saved,
+    version: APP_STATE_VERSION,
     activeProfileId: DEFAULT_PROFILE_ID,
     profiles: {
       [DEFAULT_PROFILE_ID]: normalizeProfile(preferredProfile, defaults.profiles[DEFAULT_PROFILE_ID])
@@ -248,6 +356,12 @@ function getAppState() {
       }
     }
   };
+
+  if (saved.version !== APP_STATE_VERSION) {
+    state.updatedAt = new Date().toISOString();
+    localStorage.setItem(APP_STORAGE_KEY, JSON.stringify(state));
+    syncLegacyStorage(state);
+  }
 
   return state;
 }
@@ -323,6 +437,14 @@ function updateActiveProfileData(patch) {
   const profile = getActiveProfile(state);
   const nextProfile = { ...profile, ...patch };
 
+  if (patch.labValues !== undefined) {
+    nextProfile.selectedContaminants = applyLabValuesToContaminants(
+      profile.selectedContaminants || [],
+      patch.labValues,
+      true
+    );
+  }
+
   if (patch.proposedLandUse !== undefined) {
     nextProfile.thresholdLandUse = patch.proposedLandUse;
     nextProfile.thresholdLandUseLabel = LAND_USE_LABELS[patch.proposedLandUse] || '';
@@ -363,7 +485,8 @@ function getStoredSiteInfo(state = getAppState()) {
 }
 
 function getUnitDef(unitId) {
-  return LAB_UNITS.find((unit) => unit.id === unitId) || LAB_UNITS.find((unit) => unit.id === DEFAULT_LAB_UNIT);
+  return LAB_UNITS.find((unit) => unit.id === unitId || unit.label === unitId) ||
+    LAB_UNITS.find((unit) => unit.id === DEFAULT_LAB_UNIT);
 }
 
 function getAvailableUnits() {
@@ -490,19 +613,57 @@ function getSelectedContaminants(data, profileId) {
     .filter(Boolean);
 }
 
-function getSelectedStorageItem(contaminant) {
+function getAssessmentContaminants(data, profileId) {
+  const state = getAppState();
+  const profile = profileId ? state.profiles[profileId] : getActiveProfile(state);
+
+  return (profile?.selectedContaminants || [])
+    .map((item) => {
+      const contaminant = getContaminantBySavedItem(data, item);
+      const saved = normalizeSelectedContaminant(item);
+      if (!contaminant || !saved) return null;
+
+      return {
+        ...contaminant,
+        ...saved,
+        category: contaminant.category,
+        group: saved.group || contaminant.category
+      };
+    })
+    .filter(Boolean);
+}
+
+function saveAssessmentContaminants(contaminants) {
+  const selectedContaminants = contaminants
+    .map(normalizeSelectedContaminant)
+    .filter(Boolean);
+
+  return updateActiveProfileData({ selectedContaminants });
+}
+
+function getSelectedStorageItem(contaminant, savedItem) {
+  const existing = normalizeSelectedContaminant(savedItem);
+
   return {
     id: contaminant.id,
     name: contaminant.name,
     cas: contaminant.cas,
-    category: contaminant.category
+    group: contaminant.group || contaminant.category || '',
+    soilConc: existing?.soilConc ?? '',
+    soilUnit: existing?.soilUnit ?? DEFAULT_SOIL_UNIT,
+    gwConc: existing?.gwConc ?? '',
+    gwUnit: existing?.gwUnit ?? DEFAULT_GW_UNIT
   };
 }
 
 function saveSelectedContaminants(data, selectedIds) {
+  const profile = getActiveProfile();
+  const savedById = new Map(
+    (profile.selectedContaminants || []).map((item) => [item.id || item.contaminantId, item])
+  );
   const selected = data.contaminants
     .filter((contaminant) => selectedIds.has(contaminant.id))
-    .map(getSelectedStorageItem);
+    .map((contaminant) => getSelectedStorageItem(contaminant, savedById.get(contaminant.id)));
 
   return updateActiveProfileData({ selectedContaminants: selected });
 }

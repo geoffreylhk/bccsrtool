@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://bccsrtool.ca/labdata.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20260605-legal-pages">
+    <link rel="stylesheet" href="style.css?v=20260608-dual-matrix">
   </head>
   
   <!-- Google tag (gtag.js) -->
@@ -61,7 +61,7 @@
             Lab Concentrations
           </h1>
           <p class="subtitle">
-            Enter measured concentrations and choose the unit for each substance.
+            Enter optional soil and groundwater concentrations for each substance.
             Values will be compared against BC CSR Schedule 3.1 thresholds.
           </p>
         </div>
@@ -140,7 +140,7 @@
         <div class="csv-grid">
           <label class="form-group" for="csvText">
             <span>Paste CSV text</span>
-            <textarea id="csvText" rows="8" placeholder="contaminant,cas,value,unit&#10;Benzene,71-43-2,0.02,ug_g"></textarea>
+            <textarea id="csvText" rows="8" placeholder="contaminant,cas,soil_concentration,soil_unit,groundwater_concentration,groundwater_unit&#10;Benzene,71-43-2,0.02,µg/g,1.5,µg/L"></textarea>
           </label>
           <label class="form-group" for="csvFile">
             <span>Or upload a .csv file</span>
@@ -198,7 +198,7 @@
       </div>
     </footer>
 
-    <script src="data-utils.js?v=20260527-cache-bust"></script>
-    <script src="labdata.js?v=20260531-mobile-actions"></script>
+    <script src="data-utils.js?v=20260608-dual-matrix"></script>
+    <script src="labdata.js?v=20260608-csv-roundtrip"></script>
   </body>
 </html>

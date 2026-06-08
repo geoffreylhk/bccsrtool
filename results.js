@@ -29,42 +29,89 @@ function groupContaminants(contaminants) {
   }, {});
 }
 
-function getLabValues(profile) {
-  return profile.labValues || {};
+function hasConcentration(value) {
+  return value !== undefined && value !== null && value !== '';
 }
 
-function hasEnteredLabValue(labValue) {
-  return Boolean(labValue && labValue.value !== undefined);
+function getMatrixResult(matrix, concentration, unit, threshold) {
+  const hasValue = hasConcentration(concentration);
+  const unitDef = getUnitDef(unit || (matrix === 'soil' ? DEFAULT_SOIL_UNIT : DEFAULT_GW_UNIT));
+  const numericThreshold = getNumericThreshold(threshold);
+  const converted = hasValue ? Number(concentration) * unitDef.factor : null;
+
+  if (!hasValue || numericThreshold === null) {
+    return {
+      status: 'No data',
+      className: 'neutral',
+      converted,
+      percentLabel: '—',
+      percentValue: null
+    };
+  }
+
+  const exceeds = converted > numericThreshold;
+  const percentValue = numericThreshold === 0
+    ? 0
+    : Math.round((Math.abs(converted - numericThreshold) / numericThreshold) * 100);
+
+  return {
+    status: exceeds ? 'Exceeds' : 'Below',
+    className: exceeds ? 'exceeds' : 'below',
+    converted,
+    percentLabel: `${percentValue}% ${exceeds ? 'above' : 'below'}`,
+    percentValue
+  };
 }
 
 function getRowsForProfile(profileId) {
   const state = getAppState();
   const profile = state.profiles[profileId];
   const siteInfo = getProfileSiteInfo(profile);
-  const selected = getSelectedContaminants(csrData, profileId);
-  const labValues = getLabValues(profile);
+  const selected = getAssessmentContaminants(csrData, profileId);
 
   return selected.map((contaminant) => {
-    const labValue = labValues[contaminant.id] || null;
-    const unitDef = getUnitDef(labValue?.unit || DEFAULT_LAB_UNIT);
-    const result = getResultForLabValue(contaminant, labValue, siteInfo);
     const soilThreshold = getThreshold(contaminant, siteInfo.proposedLandUse, 'soil');
     const groundwaterThreshold = getThreshold(contaminant, siteInfo.proposedLandUse, 'water');
+    const matrices = [
+      {
+        key: 'soil',
+        label: 'Soil',
+        concentration: contaminant.soilConc,
+        unit: contaminant.soilUnit || DEFAULT_SOIL_UNIT,
+        threshold: soilThreshold
+      },
+      {
+        key: 'groundwater',
+        label: 'Groundwater',
+        concentration: contaminant.gwConc,
+        unit: contaminant.gwUnit || DEFAULT_GW_UNIT,
+        threshold: groundwaterThreshold
+      }
+    ].map((matrix) => ({
+      ...matrix,
+      unitDef: getUnitDef(matrix.unit),
+      result: getMatrixResult(matrix.key, matrix.concentration, matrix.unit, matrix.threshold),
+      displayConcentration: hasConcentration(matrix.concentration)
+        ? Number(matrix.concentration).toLocaleString()
+        : '—',
+      hasLabValue: hasConcentration(matrix.concentration)
+    }));
 
     return {
       profile,
       siteInfo,
       contaminant,
-      labValue,
-      unitDef,
-      result,
-      soilThreshold,
-      groundwaterThreshold,
-      comparisonThreshold: result.standard,
-      displayConcentration: getDisplayConcentration(labValue),
-      hasLabValue: hasEnteredLabValue(labValue)
+      matrices,
+      hasLabValue: matrices.some((matrix) => matrix.hasLabValue)
     };
   });
+}
+
+function getMatrixRows(rows) {
+  return rows.flatMap((row) => row.matrices.map((matrix) => ({
+    ...matrix,
+    contaminant: row.contaminant
+  })));
 }
 
 function getShowExceedancesOnly() {
@@ -82,7 +129,7 @@ function formatConvertedValue(row) {
 }
 
 function getStatusMarkup(result) {
-  return `<span class="result-pill ${result.className}" title="Borderline means 80–100% of the applicable threshold.">${escapeHtml(result.status)}</span>`;
+  return `<span class="result-pill ${result.className}">${escapeHtml(result.status)}</span>`;
 }
 
 function getRecommendationText(exceedCount, filledCount, thresholdLabel) {
@@ -102,7 +149,7 @@ function renderSummary(rows) {
   const profile = getActiveProfile(state);
   const siteInfo = getProfileSiteInfo(profile);
   const thresholdLabel = siteInfo.proposedLandUseLabel || LAND_USE_LABELS[siteInfo.proposedLandUse] || 'selected land use';
-  const filled = rows.filter((row) => row.hasLabValue).length;
+  const filled = getMatrixRows(rows).filter((row) => row.hasLabValue).length;
 
   resultsSubtitle.textContent = `BC CSR Schedule 3.1 — ${thresholdLabel} standards`;
   reportDate.textContent = `Generated ${new Date().toLocaleDateString()}`;
@@ -116,7 +163,7 @@ function renderSummary(rows) {
 }
 
 function renderChart(rows) {
-  const measuredRows = rows.filter((row) => row.hasLabValue);
+  const measuredRows = getMatrixRows(rows).filter((row) => row.hasLabValue);
   const visibleRows = getShowExceedancesOnly()
     ? measuredRows.filter((row) => row.result.status === 'Exceeds')
     : measuredRows;
@@ -130,15 +177,16 @@ function renderChart(rows) {
 
   resultsChart.innerHTML = visibleRows.map((row) => {
     const result = row.result;
-    const ratio = typeof result.ratio === 'number' ? result.ratio : null;
+    const numericThreshold = getNumericThreshold(row.threshold);
+    const ratio = numericThreshold && result.converted !== null ? result.converted / numericThreshold : null;
     const percent = ratio === null ? 0 : Math.max(2, Math.min(100, ratio * 100));
-    const ratioLabel = ratio === null ? result.status : `${ratio.toFixed(ratio >= 10 ? 0 : 2)}x threshold`;
+    const ratioLabel = result.percentLabel;
 
     return `
       <div class="chart-row ${result.className}">
         <div class="chart-label">
           <button class="text-button result-info-btn" type="button" data-action="info" data-id="${escapeHtml(row.contaminant.id)}">${escapeHtml(row.contaminant.name)}</button>
-          <span>${escapeHtml(row.displayConcentration)} ${row.labValue ? escapeHtml(row.unitDef.label) : ''}</span>
+          <span>${escapeHtml(row.label)} · ${escapeHtml(row.displayConcentration)} ${escapeHtml(row.unitDef.label)}</span>
         </div>
         <div class="chart-track" aria-hidden="true">
           <div class="chart-fill" style="width:${percent}%"></div>
@@ -151,8 +199,15 @@ function renderChart(rows) {
 
 function renderSingleTable(rows) {
   const hasFilter = getShowExceedancesOnly();
-  const visibleRows = hasFilter ? rows.filter((row) => row.result.status === 'Exceeds') : rows;
-  const gridColumns = 'minmax(230px, 1.5fr) minmax(90px, 0.55fr) minmax(90px, 0.55fr) minmax(95px, 0.65fr) minmax(70px, 0.4fr) minmax(105px, 0.65fr)';
+  const visibleRows = rows
+    .map((row) => ({
+      ...row,
+      matrices: hasFilter
+        ? row.matrices.filter((matrix) => matrix.result.status === 'Exceeds')
+        : row.matrices
+    }))
+    .filter((row) => row.matrices.length);
+  const gridColumns = 'minmax(240px, 1.5fr) minmax(105px, 0.65fr) minmax(100px, 0.65fr) minmax(80px, 0.5fr) minmax(90px, 0.55fr) minmax(110px, 0.7fr)';
 
   if (!rows.length) {
     resultsTable.innerHTML = '<p class="empty-state">No contaminants were selected.</p>';
@@ -164,26 +219,41 @@ function renderSingleTable(rows) {
     return;
   }
 
-  const grouped = groupContaminants(visibleRows.map((row) => row.contaminant));
-  const rowById = Object.fromEntries(visibleRows.map((row) => [row.contaminant.id, row]));
+  const grouped = visibleRows.reduce((groups, row) => {
+    const category = row.contaminant.category;
+    if (!groups[category]) groups[category] = [];
+    groups[category].push(row);
+    return groups;
+  }, {});
 
-  const groupMarkup = Object.entries(grouped).map(([categoryName, contaminants]) => {
-    const rowsMarkup = contaminants.map((contaminant) => {
-      const row = rowById[contaminant.id];
+  const groupMarkup = Object.entries(grouped).map(([categoryName, groupRows]) => {
+    const rowsMarkup = groupRows.map((row) => {
+      const contaminant = row.contaminant;
+      const matrixRows = row.matrices.map((matrix) => {
+        return `
+          <div class="result-matrix-row ${matrix.result.className}" style="grid-template-columns: ${gridColumns};">
+            <div class="result-matrix-label ${matrix.key}">
+              <span class="matrix-dot" aria-hidden="true"></span>
+              ${escapeHtml(matrix.label)}
+            </div>
+            <div data-label="Threshold">${formatThreshold(matrix.threshold)}</div>
+            <div data-label="Your Conc.">${escapeHtml(matrix.displayConcentration)}</div>
+            <div data-label="Unit">${escapeHtml(matrix.unitDef.label)}</div>
+            <div data-label="Status">${getStatusMarkup(matrix.result)}</div>
+            <div class="result-percent ${matrix.result.className}" data-label="vs Threshold">${escapeHtml(matrix.result.percentLabel)}</div>
+          </div>
+        `;
+      }).join('');
+
       return `
-        <div class="result-row ${row.result.className}" style="grid-template-columns: ${gridColumns};">
+        <div class="result-contaminant">
           <div class="result-substance">
             <button class="text-button result-info-btn" type="button" data-action="info" data-id="${escapeHtml(contaminant.id)}">
               ${escapeHtml(contaminant.name)}
             </button>
             ${contaminant.cas !== 'NS' ? `<span>CAS ${escapeHtml(contaminant.cas)}</span>` : ''}
-            <small>${escapeHtml(contaminant.category)}</small>
           </div>
-          <div data-label="Soil">${formatThreshold(row.soilThreshold)}</div>
-          <div data-label="GW">${formatThreshold(row.groundwaterThreshold)}</div>
-          <div data-label="Your Conc.">${escapeHtml(row.displayConcentration)}</div>
-          <div data-label="Unit">${row.labValue ? escapeHtml(row.unitDef.label) : '—'}</div>
-          <div data-label="Status">${getStatusMarkup(row.result)}</div>
+          ${matrixRows}
         </div>
       `;
     }).join('');
@@ -197,11 +267,11 @@ function renderSingleTable(rows) {
   resultsTable.innerHTML = `
     <div class="results-table-head" style="grid-template-columns: ${gridColumns};">
       <span>Contaminant</span>
-      <span>Soil</span>
-      <span>GW</span>
+      <span>Threshold</span>
       <span>Your Conc.</span>
       <span>Unit</span>
       <span>Status</span>
+      <span>vs Threshold</span>
     </div>
     ${groupMarkup}
   `;
@@ -229,7 +299,7 @@ function renderRecommendation(exceedCount, selectedCount, filledCount, threshold
         <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
         Detailed Site Investigation Recommended
       </h2>
-      <p>${exceedCount} of ${filledCount} evaluated contaminants exceed BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
+      <p>${exceedCount} of ${filledCount} evaluated measurements exceed BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
       <p>${escapeHtml(text)}</p>
     `;
     return;
@@ -241,7 +311,7 @@ function renderRecommendation(exceedCount, selectedCount, filledCount, threshold
       <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#check-circle"></use></svg>
       No Exceedance Identified in This Screening
     </h2>
-    <p>0 of ${filledCount} evaluated contaminants exceed applicable BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
+    <p>0 of ${filledCount} evaluated measurements exceed applicable BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
     <p>${escapeHtml(text)}</p>
   `;
 }
@@ -253,9 +323,10 @@ function renderResults() {
   const thresholdLabel = siteInfo.proposedLandUseLabel || LAND_USE_LABELS[siteInfo.proposedLandUse] || 'selected land use';
 
   latestRows = getRowsForProfile(state.activeProfileId);
+  const matrixRows = getMatrixRows(latestRows);
   latestCounts = {
-    exceedCount: latestRows.filter((row) => row.result.status === 'Exceeds').length,
-    filledCount: latestRows.filter((row) => row.hasLabValue).length,
+    exceedCount: matrixRows.filter((row) => row.result.status === 'Exceeds').length,
+    filledCount: matrixRows.filter((row) => row.hasLabValue).length,
     selectedCount: latestRows.length
   };
 
@@ -273,37 +344,35 @@ function exportResultsCsv() {
     'contaminant_name',
     'cas',
     'category',
+    'matrix',
     'entered_concentration',
     'display_concentration',
     'unit',
     'converted_value',
-    'soil_threshold',
-    'groundwater_threshold',
-    'selected_comparison_threshold',
+    'threshold',
     'status',
-    'confidence'
+    'vs_threshold'
   ];
   const lines = [headers.join(',')];
 
-  rows.forEach((row) => {
+  getMatrixRows(rows).forEach((row) => {
     lines.push([
       row.contaminant.name,
       row.contaminant.cas,
       row.contaminant.category,
-      row.labValue?.value ?? '',
+      row.label,
+      row.concentration ?? '',
       row.displayConcentration,
-      row.labValue ? row.unitDef.label : '',
+      row.unitDef.label,
       formatConvertedValue(row),
-      formatThreshold(row.soilThreshold),
-      formatThreshold(row.groundwaterThreshold),
-      formatThreshold(row.comparisonThreshold),
+      formatThreshold(row.threshold),
       row.result.status,
-      row.result.confidence
+      row.result.percentLabel
     ].map(csvEscape).join(','));
   });
 
   const filename = `bc-csr-results-${new Date().toISOString().slice(0, 10)}.csv`;
-  downloadBlob(new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' }), filename);
+  downloadBlob(new Blob(['\uFEFF', lines.join('\n')], { type: 'text/csv;charset=utf-8' }), filename);
 }
 
 function tableCell(text, bold = false) {
@@ -325,15 +394,16 @@ function exportWordReport() {
   const thresholdLabel = siteInfo.proposedLandUseLabel || 'selected land use';
   const today = new Date().toLocaleDateString();
   const recommendationText = getRecommendationText(latestCounts.exceedCount, latestCounts.filledCount, thresholdLabel);
-  const resultRows = latestRows.map((row) => new TableRow({
+  const resultRows = getMatrixRows(latestRows).map((row) => new TableRow({
     children: [
       tableCell(row.contaminant.name),
       tableCell(row.contaminant.cas),
+      tableCell(row.label),
       tableCell(row.displayConcentration),
-      tableCell(row.labValue ? row.unitDef.label : ''),
-      tableCell(formatThreshold(row.soilThreshold)),
-      tableCell(formatThreshold(row.groundwaterThreshold)),
-      tableCell(row.result.status)
+      tableCell(row.unitDef.label),
+      tableCell(formatThreshold(row.threshold)),
+      tableCell(row.result.status),
+      tableCell(row.result.percentLabel)
     ]
   }));
 
@@ -352,7 +422,7 @@ function exportWordReport() {
         new Table({
           rows: [
             new TableRow({
-              children: ['Contaminant', 'CAS', 'Concentration', 'Unit', 'Soil threshold', 'GW threshold', 'Status'].map((heading) => tableCell(heading, true))
+              children: ['Contaminant', 'CAS', 'Matrix', 'Concentration', 'Unit', 'Threshold', 'Status', 'vs Threshold'].map((heading) => tableCell(heading, true))
             }),
             ...resultRows
           ]
