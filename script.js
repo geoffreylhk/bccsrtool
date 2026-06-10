@@ -41,6 +41,89 @@ if (resumeBtn) {
 
 setLandingButtonState();
 
+const fieldInfoButtons = [...document.querySelectorAll('.field-info[data-tooltip]')];
+const fieldInfoHoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+function closeFieldInfoTooltips(exceptButton = null) {
+  fieldInfoButtons.forEach((button) => {
+    if (button === exceptButton) return;
+    button.classList.remove('is-tooltip-open', 'is-tooltip-below');
+    button.setAttribute('aria-expanded', 'false');
+  });
+}
+
+function positionFieldInfoTooltip(button) {
+  const rect = button.getBoundingClientRect();
+  const mobile = window.matchMedia('(max-width: 560px)').matches;
+  const tooltipWidth = Math.min(mobile ? 220 : 280, window.innerWidth - 24);
+  const halfWidth = tooltipWidth / 2;
+  const centeredLeft = rect.left + (rect.width / 2);
+  const left = Math.max(12 + halfWidth, Math.min(window.innerWidth - 12 - halfWidth, centeredLeft));
+  const showBelow = rect.top < (mobile ? 175 : 150);
+
+  button.style.setProperty('--tooltip-left', `${left}px`);
+  button.style.setProperty('--tooltip-top', `${showBelow ? rect.bottom : rect.top}px`);
+  button.style.setProperty('--tooltip-width', `${tooltipWidth}px`);
+  button.classList.toggle('is-tooltip-below', showBelow);
+}
+
+function openFieldInfoTooltip(button) {
+  closeFieldInfoTooltips(button);
+  positionFieldInfoTooltip(button);
+  button.classList.add('is-tooltip-open');
+  button.setAttribute('aria-expanded', 'true');
+}
+
+fieldInfoButtons.forEach((button) => {
+  button.setAttribute('aria-expanded', 'false');
+
+  button.addEventListener('click', (event) => {
+    if (fieldInfoHoverQuery.matches) return;
+    event.stopPropagation();
+    if (button.classList.contains('is-tooltip-open')) {
+      closeFieldInfoTooltips();
+      button.blur();
+      return;
+    }
+    openFieldInfoTooltip(button);
+  });
+
+  button.addEventListener('mouseenter', () => {
+    if (fieldInfoHoverQuery.matches) openFieldInfoTooltip(button);
+  });
+
+  button.addEventListener('mouseleave', () => {
+    if (fieldInfoHoverQuery.matches) closeFieldInfoTooltips();
+  });
+
+  button.addEventListener('focus', () => {
+    if (fieldInfoHoverQuery.matches) {
+      openFieldInfoTooltip(button);
+      return;
+    }
+    positionFieldInfoTooltip(button);
+  });
+
+  button.addEventListener('blur', () => {
+    closeFieldInfoTooltips();
+  });
+});
+
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.field-info')) closeFieldInfoTooltips();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeFieldInfoTooltips();
+});
+
+window.addEventListener('resize', () => {
+  const openButton = document.querySelector('.field-info.is-tooltip-open');
+  if (openButton) positionFieldInfoTooltip(openButton);
+});
+
+window.addEventListener('scroll', () => closeFieldInfoTooltips(), { passive: true });
+
 const currentLandUse = document.getElementById('currentLandUse');
 const proposedLandUse = document.getElementById('proposedLandUse');
 const siteNextBtn = document.getElementById('nextBtn');
