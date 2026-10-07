@@ -28,7 +28,6 @@ const DEFAULT_LAB_UNIT = 'ug_g';
 const DEFAULT_SOIL_UNIT = 'µg/g';
 const DEFAULT_GW_UNIT = 'µg/L';
 const APP_STATE_VERSION = 3;
-const BORDERLINE_RATIO = 0.8;
 
 const CONTAMINANT_INFO_DEFAULTS = {
   'Polycyclic Aromatic Hydrocarbons (PAHs)': {
@@ -84,30 +83,6 @@ function safeJsonParse(value, fallback) {
   } catch (error) {
     return fallback;
   }
-}
-
-function getStoredArray(key) {
-  const state = getAppState();
-
-  if (key === 'selectedContaminants') {
-    return getActiveProfile(state).selectedContaminants || [];
-  }
-
-  return safeJsonParse(localStorage.getItem(key), []);
-}
-
-function getStoredObject(key) {
-  const state = getAppState();
-
-  if (key === 'siteInfo') {
-    return getStoredSiteInfo(state);
-  }
-
-  if (key === 'labValues') {
-    return getActiveProfile(state).labValues || {};
-  }
-
-  return safeJsonParse(localStorage.getItem(key), {});
 }
 
 function createDefaultProfile(id, name) {
@@ -493,10 +468,6 @@ function getAvailableUnits() {
   return LAB_UNITS;
 }
 
-function isWaterUnit(unitId) {
-  return getUnitDef(unitId).category === 'water';
-}
-
 function formatThreshold(value) {
   if (value === null || value === undefined) return 'NS';
   if (value === 'unrestricted') return 'Unrestricted';
@@ -512,86 +483,6 @@ function getThreshold(contaminant, landUse, matrix) {
   const standards = contaminant.thresholds?.[landUse];
   if (!standards) return null;
   return matrix === 'water' ? standards.gw : standards.soil;
-}
-
-function getComparisonThreshold(contaminant, siteInfo, unitId) {
-  return getThreshold(contaminant, siteInfo.proposedLandUse, isWaterUnit(unitId) ? 'water' : 'soil');
-}
-
-function getDisplayConcentration(labValue) {
-  if (!labValue) return '—';
-  const hasValue = labValue.value !== undefined && labValue.value !== null && labValue.value !== '';
-
-  return hasValue ? Number(labValue.value).toLocaleString() : '—';
-}
-
-function getResultForLabValue(contaminant, labValue, siteInfo) {
-  const unitDef = getUnitDef(labValue?.unit || DEFAULT_LAB_UNIT);
-  const hasValue = labValue?.value !== undefined && labValue?.value !== null && labValue?.value !== '';
-  const standard = getComparisonThreshold(contaminant, siteInfo, unitDef.id);
-  const numericStandard = getNumericThreshold(standard);
-
-  if (!hasValue) {
-    return {
-      status: 'Threshold only',
-      className: 'neutral',
-      confidence: 'Threshold only',
-      converted: null,
-      ratio: null,
-      standard,
-      unitDef
-    };
-  }
-
-  const converted = Number(labValue.value) * unitDef.factor;
-
-  if (numericStandard === null) {
-    return {
-      status: 'Review',
-      className: 'review',
-      confidence: 'Review',
-      converted,
-      ratio: null,
-      standard,
-      unitDef
-    };
-  }
-
-  const ratio = converted / numericStandard;
-
-  if (ratio > 1) {
-    return {
-      status: 'Exceeds',
-      className: 'exceeds',
-      confidence: 'Exceeds',
-      converted,
-      ratio,
-      standard,
-      unitDef
-    };
-  }
-
-  if (ratio >= BORDERLINE_RATIO) {
-    return {
-      status: 'Borderline',
-      className: 'borderline',
-      confidence: 'Borderline',
-      converted,
-      ratio,
-      standard,
-      unitDef
-    };
-  }
-
-  return {
-    status: 'Below',
-    className: 'below',
-    confidence: 'Below',
-    converted,
-    ratio,
-    standard,
-    unitDef
-  };
 }
 
 function getContaminantBySavedItem(data, item) {

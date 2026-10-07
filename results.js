@@ -19,14 +19,6 @@ let csrData = null;
 let latestRows = [];
 let latestCounts = { exceedCount: 0, filledCount: 0, selectedCount: 0 };
 
-function groupContaminants(contaminants) {
-  return contaminants.reduce((groups, contaminant) => {
-    if (!groups[contaminant.category]) groups[contaminant.category] = [];
-    groups[contaminant.category].push(contaminant);
-    return groups;
-  }, {});
-}
-
 function hasConcentration(value) {
   return value !== undefined && value !== null && value !== '';
 }
