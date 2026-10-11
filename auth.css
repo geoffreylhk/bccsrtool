@@ -1,0 +1,18 @@
+.auth-page [hidden] { display: none !important; }
+.auth-page .form-card { margin-bottom: 24px; }
+.auth-page input {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 15px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+}
+.auth-page input:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+.auth-page #authStatus { overflow-wrap: anywhere; }
+.auth-page #authStatus[data-error="true"] { color: #a02020; }
+.auth-page #signoutButton { margin-bottom: 24px; }

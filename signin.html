@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Sign in — BC CSR Screening Tool</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-page">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><img src="assets/images/logo.png" alt=""><span>CSR Screening Tool</span></a>
+    <div class="nav-links"><a href="about.html">About</a><a href="account.html">Account</a></div>
+  </nav>
+  <main class="workflow-main narrow-main">
+    <header class="page-header"><h1>Sign in</h1></header>
+    <p id="authStatus" role="status" aria-live="polite">Loading account service…</p>
+    <noscript>Enable JavaScript to use accounts.</noscript>
+    <form id="signinForm" class="card form-card">
+<h2>Sign in</h2>
+<div class="form-group"><label for="signinEmail">Email</label><input id="signinEmail" name="email" type="email" autocomplete="email" required></div>
+<div class="form-group"><label for="signinPassword">Password</label><input id="signinPassword" name="password" type="password" autocomplete="current-password" required></div>
+<button class="primary-action" type="submit" disabled>Sign in</button>
+</form>
+<form id="signupForm" class="card form-card">
+<h2>Create an account</h2>
+<div class="form-group"><label for="signupName">Display name (optional)</label><input id="signupName" name="display_name" autocomplete="nickname" maxlength="100"></div>
+<div class="form-group"><label for="signupEmail">Email</label><input id="signupEmail" name="email" type="email" autocomplete="email" required></div>
+<div class="form-group"><label for="signupPassword">Password (at least 12 characters)</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="12" required></div>
+<p>Creating an account stores your email and profile with Supabase. Assessment inputs remain in this browser.</p>
+<p>Read the <a href="privacypolicy.html">Privacy Policy</a> and <a href="termsofuse.html">Terms of Use</a>.</p>
+<button class="primary-action" type="submit" disabled>Create account</button>
+</form>
+<form id="forgotForm" class="card form-card">
+<h2>Forgot your password?</h2>
+<div class="form-group"><label for="forgotEmail">Email</label><input id="forgotEmail" name="email" type="email" autocomplete="email" required></div>
+<button class="secondary-action" type="submit" disabled>Send reset link</button>
+</form>
+  </main>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>

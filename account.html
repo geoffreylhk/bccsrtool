@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <title>Your account — BC CSR Screening Tool</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body class="auth-page">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><img src="assets/images/logo.png" alt=""><span>CSR Screening Tool</span></a>
+    <div class="nav-links"><a href="about.html">About</a><a href="account.html">Account</a></div>
+  </nav>
+  <main class="workflow-main narrow-main">
+    <header class="page-header"><h1>Your account</h1></header>
+    <p id="authStatus" role="status" aria-live="polite">Loading account service…</p>
+    <noscript>Enable JavaScript to use accounts.</noscript>
+    <section id="accountPanel" hidden>
+<p>Signed in as <strong id="accountEmail"></strong></p>
+<form id="profileForm" class="card form-card">
+<div class="form-group"><label for="profileName">Display name</label><input id="profileName" name="display_name" autocomplete="nickname" maxlength="100"></div>
+<button class="primary-action" type="submit" disabled>Save profile</button>
+</form>
+<button id="signoutButton" class="secondary-action" type="button" disabled>Sign out</button>
+<p>Assessments remain saved in this browser. Your account does not yet sync assessments across devices.</p>
+<p>Signing out does not clear local assessments. On a shared device, clear your assessment before leaving.</p>
+<p>For account deletion requests, see the <a href="privacypolicy.html">Privacy Policy</a>.</p>
+<a href="index.html">Return to the screening tool</a>
+</section>
+  </main>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
