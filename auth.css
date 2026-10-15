@@ -25,3 +25,10 @@
 .saved-assessment-actions > * { max-width: 100%; white-space: normal; }
 #savedAssessmentStatus[data-error="true"] { color: #a02020; }
 #savedAssessments { margin-top: 20px; }
+
+.saved-assessment-actions .delete-assessment-action,
+.saved-assessment-actions .delete-assessment-action:hover {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--surface);
+}

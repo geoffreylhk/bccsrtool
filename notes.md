@@ -15,4 +15,4 @@ https://geoffreylhk.github.io/bccsrtool
 
 ## Useful shortcuts
 Ctrl + Shift + ` — open terminal in VS Code
-Cmd+S — save file
+Cmd+S — save file 

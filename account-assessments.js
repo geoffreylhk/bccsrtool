@@ -106,7 +106,7 @@ async function listAccountAssessments() {
     for (const [label, page] of [['View results', 'results.html'], ['Edit values', 'labdata.html'], ['Delete saved assessment', null]]) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'secondary-action';
+      button.className = page ? 'secondary-action' : 'secondary-action delete-assessment-action';
       button.textContent = label;
       button.setAttribute('aria-label', `${label}: ${record.title}`);
       button.addEventListener('click', () => runAssessmentAction(async () => {
