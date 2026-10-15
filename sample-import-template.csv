@@ -1,0 +1,5 @@
+apec,sample,contaminant,value,unit,qualifier
+Area of Potential Concern 1,Sample 1,Benzene,0.10,mg/kg,detected
+Area of Potential Concern 1,Sample 2,Benzene,0.02,mg/kg,detected
+Area of Potential Concern 1,Sample 3,Benzene,0.01,mg/kg,non_detect
+Area of Potential Concern 2,Sample 1,Benzene,0.03,mg/kg,detected

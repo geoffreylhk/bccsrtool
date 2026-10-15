@@ -134,28 +134,48 @@ if (currentLandUse && proposedLandUse && siteNextBtn) {
   currentLandUse.value = activeProfile.currentLandUse || '';
   proposedLandUse.value = activeProfile.proposedLandUse || activeProfile.thresholdLandUse || '';
 
-  const validateSiteForm = () => {
-    siteNextBtn.disabled = !(currentLandUse.value && proposedLandUse.value);
-  };
-
-  const saveSiteInfo = () => {
-    updateActiveProfileData({
-      currentLandUse: currentLandUse.value,
-      currentLandUseLabel: LAND_USE_LABELS[currentLandUse.value] || '',
-      proposedLandUse: proposedLandUse.value,
-      proposedLandUseLabel: LAND_USE_LABELS[proposedLandUse.value] || ''
+  const factorSettings = document.getElementById('factorSettings');
+  if (factorSettings) {
+    const choices = [['applicable', '✓ Applicable'], ['not_assessed', '✕ Not assessed']];
+    factorSettings.innerHTML = `<h2>Applicable soil factors</h2><p>The first two factors default to Applicable. Choosing Not assessed flags incomplete screening. Unanswered conditional factors are treated as not applicable.</p>` + Object.entries(SOIL_FACTORS).map(([key, label]) => {
+      const mandatory = ['intake', 'plants'].includes(key);
+      const selected = mandatory ? (activeProfile.factors?.[key] === 'not_assessed' ? 'not_assessed' : 'applicable') : activeProfile.factors?.[key] || 'not_applicable';
+      return `<fieldset class="factor-choice"><legend>${escapeHtml(label)}</legend><div class="factor-choice__buttons">${choices.map(([value, text]) => `<label class="factor-option factor-option--${value}"><input type="radio" name="factor-${key}" data-factor="${key}" value="${value}" ${selected === value ? 'checked' : ''}><span>${text}</span></label>`).join('')}</div></fieldset>`;
+    }).join('');
+    factorSettings.querySelectorAll('[data-factor]').forEach((input) => {
+      input.addEventListener('change', () => {
+        const factors = Object.fromEntries([...factorSettings.querySelectorAll('[data-factor]:checked')].map((choice) => [choice.dataset.factor, choice.value]));
+        updateActiveProfileData({ factors });
+      });
     });
-    validateSiteForm();
+  }
+
+  const siteName = document.getElementById('siteName');
+  const assessmentMode = document.getElementById('assessmentMode');
+  if (siteName) siteName.value = activeProfile.siteName || '';
+  if (assessmentMode) assessmentMode.value = activeProfile.assessmentMode === 'proposed' ? 'proposed' : 'current';
+  const readSite = () => ({
+    currentLandUse: currentLandUse.value, proposedLandUse: proposedLandUse.value,
+    assessmentMode: assessmentMode?.value || 'current', siteName: siteName?.value.trim() || '',
+    multipleLandUses: false
+  });
+  const validateSiteForm = () => {
+    const proposed = assessmentMode?.value === 'proposed';
+    currentLandUse.required = !proposed;
+    proposedLandUse.required = proposed;
+    const error = getSiteValidationError(readSite());
+    siteNextBtn.disabled = Boolean(error);
+    const status = document.getElementById('siteStatus');
+    if (status) status.textContent = error;
   };
-
-  currentLandUse.addEventListener('change', saveSiteInfo);
-  proposedLandUse.addEventListener('change', saveSiteInfo);
-
+  const saveSiteInfo = () => { updateActiveProfileData(readSite()); validateSiteForm(); };
+  [currentLandUse, proposedLandUse, assessmentMode].filter(Boolean).forEach(input => input.addEventListener('change', saveSiteInfo));
+  siteName?.addEventListener('input', saveSiteInfo);
   siteNextBtn.addEventListener('click', () => {
     if (siteNextBtn.disabled) return;
     saveSiteInfo();
     window.location.href = 'contaminants.html';
   });
-
   validateSiteForm();
+  if (activeProfile.assessmentMode === 'both' || activeProfile.multipleLandUses) updateActiveProfileData(readSite());
 }

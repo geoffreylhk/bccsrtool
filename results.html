@@ -7,7 +7,8 @@
     <link rel="canonical" href="https://bccsrtool.ca/results.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20260608-dual-matrix">
+    <link rel="stylesheet" href="style.css?v=20261015-nav-spacing">
+    <link rel="stylesheet" href="auth.css?v=20261014-account-saves">
     <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" defer></script>
   </head>
 
@@ -29,6 +30,7 @@
       </a>
       <div class="nav-links">
         <a href="about.html">About</a>
+        <a href="account.html">Account</a>
       </div>
     </nav>
 
@@ -61,11 +63,13 @@
           <p id="resultsSubtitle" class="subtitle">BC CSR Schedule 3.1 standards</p>
           <p id="reportDate" class="report-date">Generated today</p>
         </div>
-        <div class="results-actions no-print">
+      </header>
+      <div class="results-bottom-actions results-top-actions no-print">
           <a href="labdata.html" class="secondary-action">
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
             Back
           </a>
+          <div class="results-bottom-right">
           <div class="export-menu">
             <button class="secondary-action" type="button" data-export-menu-btn aria-haspopup="menu" aria-expanded="false">
               <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
@@ -91,8 +95,23 @@
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
             New Assessment
           </button>
+          </div>
         </div>
-      </header>
+
+      <section class="card account-save-card no-print" data-account-save aria-labelledby="accountSaveHeading">
+        <h2 id="accountSaveHeading">Save this assessment</h2>
+        <p id="savedAssessmentStatus" role="status" aria-live="polite">Loading account saving…</p>
+        <a id="assessmentSignin" href="signin.html" hidden>Sign in to save to your account</a>
+        <form id="accountSaveForm" hidden>
+          <label for="assessmentSaveTitle">Assessment name</label>
+          <input id="assessmentSaveTitle" type="text" required maxlength="100">
+          <div class="saved-assessment-actions">
+            <button id="saveAssessmentButton" type="submit" class="primary-action">Save to account</button>
+            <button id="saveAssessmentCopy" type="button" class="secondary-action" hidden>Save as a separate copy</button>
+            <a href="account.html" class="secondary-action">Saved assessments</a>
+          </div>
+        </form>
+      </section>
 
       <section class="summary-grid" aria-label="Assessment summary">
         <article class="summary-card">
@@ -110,7 +129,6 @@
               <dd id="proposedUse">Not provided</dd>
             </div>
           </dl>
-          <p id="thresholdNote" class="summary-note"></p>
         </article>
 
         <article class="summary-card">
@@ -120,7 +138,7 @@
           </h2>
           <dl>
             <div>
-              <dt>Groundwater</dt>
+              <dt>Screening scope</dt>
               <dd id="groundwaterStatus">Thresholds shown</dd>
             </div>
             <div>
@@ -135,6 +153,35 @@
         </article>
       </section>
 
+
+
+      <section id="sampleSummary" class="table-card sample-summary"></section>
+      <section class="table-card results-comparison-card">
+        <div class="table-card-header">
+          <div class="results-comparison-heading">
+            <h2>Threshold Comparison</h2>
+          <a href="labdata.html" class="secondary-action compact-action no-print">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#flask-conical"></use></svg>
+            Edit Lab Values
+          </a>
+          </div>
+            <div class="result-view-controls no-print">
+              <label for="resultLayout">Layout <select id="resultLayout"><option value="rows">Slim rows</option><option value="matrix">Sample matrix</option></select></label>
+              <label for="resultFilter">Show <select id="resultFilter"><option value="all">All results</option><option value="exceeds">Exceedances</option><option value="review">Requires review</option></select></label>
+              <div id="resultSortControls" hidden>
+                <label for="resultSort">Sort chemicals <select id="resultSort"><option value="category">By category</option><option value="default">Order added</option><option value="alpha">A to Z</option></select></label>
+                <button id="resultSortDirection" class="icon-square" type="button" aria-label="Toggle chemical sort direction" aria-pressed="false" data-direction="asc">↓</button>
+              </div>
+            </div>
+          <p id="comparisonMeta">Selected contaminants · per-substance units</p>
+        </div>
+        <div class="results-table" id="resultsTable" aria-live="polite">
+          <p class="loading-message">Loading results...</p>
+        </div>
+      </section>
+
+      <section id="recommendation" class="recommendation-card" aria-live="polite"></section>
+
       <section class="notice-card compact-notice">
         <h2>
           <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
@@ -145,24 +192,6 @@
           requirements before making regulatory or transactional decisions.
         </p>
       </section>
-
-      <section class="table-card results-comparison-card">
-        <div class="table-card-header table-card-header-split">
-          <div>
-            <h2>Threshold Comparison</h2>
-            <p id="comparisonMeta">Selected contaminants · per-substance units</p>
-          </div>
-          <a href="labdata.html" class="secondary-action compact-action no-print">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#flask-conical"></use></svg>
-            Edit Lab Values
-          </a>
-        </div>
-        <div class="results-table" id="resultsTable" aria-live="polite">
-          <p class="loading-message">Loading results...</p>
-        </div>
-      </section>
-
-      <section id="recommendation" class="recommendation-card" aria-live="polite"></section>
 
       <div class="results-bottom-actions no-print">
         <a href="labdata.html" class="secondary-action">
@@ -197,6 +226,7 @@
           </button>
         </div>
       </div>
+
     </main>
 
     <footer class="site-footer no-print">
@@ -240,7 +270,9 @@
       </div>
     </footer>
 
-    <script src="data-utils.js?v=20260608-dual-matrix"></script>
-    <script src="results.js?v=20260608-result-cards"></script>
-  </body>
+    <script src="data-utils.js?v=20261015-no-detection"></script>
+    <script src="results.js?v=20261015-no-detection"></script>
+    <script type="module" src="account-assessments.js?v=20261015-numbered-names"></script>
+    <script type="module" src="assessment-session.js?v=20261014-account-isolation"></script>
+</body>
 </html>

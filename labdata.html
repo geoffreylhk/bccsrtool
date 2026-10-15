@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://bccsrtool.ca/labdata.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20260609-mobile-controls">
+    <link rel="stylesheet" href="style.css?v=20261015-nav-spacing">
   </head>
   
   <!-- Google tag (gtag.js) -->
@@ -28,6 +28,7 @@
       </a>
       <div class="nav-links">
         <a href="about.html">About</a>
+        <a href="account.html">Account</a>
       </div>
     </nav>
 
@@ -61,7 +62,7 @@
             Lab Concentrations
           </h1>
           <p class="subtitle">
-            Enter optional soil and groundwater concentrations for each substance.
+            Organize areas and individual soil samples.
             Values will be compared against BC CSR Schedule 3.1 thresholds.
           </p>
         </div>
@@ -92,8 +93,9 @@
       </div>
 
       <section class="table-card">
+        <p id="labStatus" role="alert"></p>
         <div class="table-card-header">
-          <h2>Enter Concentrations</h2>
+          <h2>Area of Potential Concern (APEC) samples</h2><button id="addApecBtn" type="button" class="secondary-action compact-action">+ Add APEC</button>
           <span id="filledCount">0 of 0 filled</span>
         </div>
         <div class="lab-table" id="labTable" aria-live="polite">
@@ -140,7 +142,7 @@
         <div class="csv-grid">
           <label class="form-group" for="csvText">
             <span>Paste CSV text</span>
-            <textarea id="csvText" rows="8" placeholder="contaminant,cas,soil_concentration,soil_unit,groundwater_concentration,groundwater_unit&#10;Benzene,71-43-2,0.02,µg/g,1.5,µg/L"></textarea>
+            <textarea id="csvText" rows="8" placeholder="apec,sample,contaminant,value,unit,qualifier&#10;Area of Potential Concern 1,Sample 1,Benzene,0.02,mg/kg,detected"></textarea>
           </label>
           <label class="form-group" for="csvFile">
             <span>Or upload a .csv file</span>
@@ -149,8 +151,8 @@
         </div>
 
         <div class="modal-actions">
-          <button id="previewCsvBtn" class="secondary-action compact-action" type="button">Preview Import</button>
-          <button id="applyCsvBtn" class="primary-action compact-action" type="button" disabled>Apply Matched Rows</button>
+          <a href="sample-import-template.csv" download class="secondary-action compact-action">Download CSV template</a><button id="previewCsvBtn" class="secondary-action compact-action" type="button">Preview Import</button>
+          <button id="applyCsvBtn" class="primary-action compact-action" type="button" disabled>Apply Import</button>
         </div>
 
         <div id="csvPreview" class="csv-preview" aria-live="polite"></div>
@@ -198,7 +200,8 @@
       </div>
     </footer>
 
-    <script src="data-utils.js?v=20260608-dual-matrix"></script>
-    <script src="labdata.js?v=20260608-csv-roundtrip"></script>
-  </body>
+    <script src="data-utils.js?v=20261015-no-detection"></script>
+    <script src="labdata.js?v=20261015-no-detection"></script>
+    <script type="module" src="assessment-session.js?v=20261014-account-isolation"></script>
+</body>
 </html>

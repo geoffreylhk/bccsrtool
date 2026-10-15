@@ -27,7 +27,7 @@
     <meta name="twitter:description" content="Learn about the educational BC CSR Schedule 3.1 screening project.">
     <meta name="twitter:image" content="https://www.bccsrtool.ca/assets/images/social-preview-card.jpg">
     <meta name="twitter:image:alt" content="BC Contaminated Site Regulation Screening Tool">
-    <link rel="stylesheet" href="style.css?v=20260605-legal-pages">
+    <link rel="stylesheet" href="style.css?v=20261015-nav-spacing">
     <link rel="stylesheet" href="about.css?v=20260606-purpose-copy-gap">
   </head>
 
@@ -49,6 +49,7 @@
       </a>
       <div class="nav-links">
         <a href="about.html">About</a>
+        <a href="signin.html">Sign in</a>
       </div>
     </nav>
 
@@ -68,12 +69,12 @@
         <div class="tool-intro-copy">
           <div>
             <p>
-              bccsrtool uses <a href="#official-resources" class="inline-anchor">B.C.'s Contaminated Sites Regulation (CSR)</a> Schedule 3.1 to screen whether a site needs <span class="definition-term" tabindex="0" data-tooltip="Cleanup of hazardous substances">remediation</span>.
-              Schedule 3.1 provides the concentration thresholds of 40 human & ecological contaminants of concern, commonly found chemicals at B.C. contaminated sites.
+              bccsrtool uses <a href="#official-resources" class="inline-anchor">B.C.'s Contaminated Sites Regulation (CSR)</a> Schedule 3.1 to compare individual soil measurements with applicable soil standards. Exceedances may warrant investigation or professional assessment.
+              Schedule 3.1 provides matrix soil standards in Part 1 and generic human-health and ecological soil standards in Parts 2 and 3.
               This tool quickly screens the concentration thresholds of these chemicals & compares measured values against B.C.'s CSR Schedule 3.1.
             </p> </br>
             <p>
-              bccsrtool screens against human health protection standards, with environmental protection standards coming soon.
+              bccsrtool screens mandatory and applicable soil factors. Unassessed factors and unsupported regulatory conditions remain inconclusive.
             </p>
           </div>
           <div class="tool-phase-circles" aria-label="Screening result phases">
@@ -96,11 +97,11 @@
       <section class="purpose-panel story-card" data-reveal>
         <div class="purpose-statement">
           <span class="story-kicker">Why I built this</span>
-          <h2>Reduce time & eliminate human error.</h2>
+          <h2>Reduce manual lookup & cross-checking.</h2>
         </div>
           <p>
             Before developing this tool, I completed a Phase I Environmental Site Assessment (ESA) project. While doing my research, I realised how tedious &
-            complicated Schedule 3.1 was. 40 pages of 40 chemicals, each with a large table, 8 site specific factor for each chemical and 8 protection standards. Cross checking however many chemicals against however
+            complicated Schedule 3.1 was: matrix tables with eight site-specific factors, plus separate generic tables. Cross checking however many chemicals against however
             many standards would be a nightmare. There had to be a more straightforward way to do this.
           </p>
           <p>
@@ -134,14 +135,14 @@
             <span class="step-number">03</span>
             <div>
               <h3>Lab Data</h3>
-              <p>Measured concentrations are entered with units. Non-detects can be marked when a lab did not detect a substance above its reporting limit.</p>
+              <p>Enter soil concentrations in supported soil units. Non-detects and reporting limits need separate professional interpretation; do not enter them as zero.</p>
             </div>
           </article>
           <article class="workflow-step-card" data-step="3" data-reveal>
             <span class="step-number">04</span>
             <div>
               <h3>Screening Results</h3>
-              <p>The tool compares the value against the selected threshold and flags below, borderline, exceedance, non-detect, or review.</p>
+              <p>The tool compares valid measurements with numeric thresholds and flags below, at threshold, exceeds, or review required.</p>
             </div>
           </article>
         </div>
@@ -185,38 +186,42 @@
         <div class="story-heading" data-reveal>
           <span class="story-kicker">Method</span>
           <h2 id="methodTitle">Threshold logic</h2>
-          <p>Different land uses, matrices, and units change which Schedule 3.1 standard is used.</p>
+          <p>Land use, applicable soil factors and source conditions determine the Schedule 3.1 soil standard. Municipal zoning does not automatically establish CSR land use.</p>
         </div>
         <div class="method-split">
           <div class="method-copy" data-reveal>
             <div>
-              <h3>Proposed land use selects the standard.</h3>
+              <h3>Current and proposed land uses are checked separately.</h3>
               <p>The same concentration can screen differently under residential, commercial, or industrial assumptions.</p>
             </div>
             <div>
+              <h3>Each sample is checked individually.</h3>
+              <p>Organize measurements by area and sample, with detected results and non-detect reporting limits. Samples are never averaged. CSV imports are validated before they change saved data.</p>
+            </div>
+            <div>
               <h3>Units point to the matrix.</h3>
-              <p>Soil units compare against soil thresholds. Water units compare against groundwater thresholds.</p>
+              <p>Soil measurements are compared against soil standards. Groundwater protection factors still use soil concentrations; water samples are excluded.</p>
             </div>
             <div>
               <h3>Near-threshold values deserve attention.</h3>
-              <p>Borderline means the value is close to the threshold and should be reviewed carefully.</p>
+              <p>Values close to a threshold deserve careful review. The tool does not assign a separate borderline category.</p>
             </div>
             <div>
               <h3>Non-detect does not mean zero.</h3>
-              <p>It means the lab did not detect the substance above its reporting limit. In this educational screen, non-detects are not treated as exceedances.</p>
+              <p>It means the lab did not detect the substance above its reporting limit. This tool does not evaluate non-detect qualifiers or reporting limits; leave the measurement blank and seek appropriate interpretation.</p>
             </div>
           </div>
           <aside class="matrix-visual" data-reveal aria-label="Matrix selector visual">
             <span class="matrix-title">Matrix selector</span>
             <div class="matrix-row"><strong>µg/g</strong><span>Soil threshold</span></div>
             <div class="matrix-row"><strong>mg/kg</strong><span>Soil threshold</span></div>
-            <div class="matrix-row"><strong>µg/L</strong><span>Groundwater threshold</span></div>
-            <div class="matrix-row"><strong>mg/L</strong><span>Groundwater threshold</span></div>
+
+
             <div class="threshold-example">
               <span>Example</span>
               <dl>
-                <div><dt>Benzene</dt><dd>0.050 µg/L</dd></div>
-                <div><dt>RLHD groundwater threshold</dt><dd>0.035 µg/L</dd></div>
+                <div><dt>Anthracene in soil</dt><dd>3 mg/kg</dd></div>
+                <div><dt>RLLD mandatory plant/invertebrate factor</dt><dd>2.5 µg/g</dd></div>
                 <div><dt>Result</dt><dd>Exceeds</dd></div>
               </dl>
             </div>
@@ -257,7 +262,7 @@
         <div class="status-dot" aria-hidden="true"></div>
         <div>
           <span>Current tool data</span>
-          <strong>Schedule 3.1 — Oct 27, 2025 amendment</strong>
+          <strong>Schedule 3.1 Parts 1–3 — source tables checked October 11, 2026</strong>
           <p>This badge signals the dataset version used by the tool, but users should always verify against official BC regulations before professional use.</p>
         </div>
       </section>
@@ -351,10 +356,11 @@
       </div>
     </footer>
 
-    <script src="data-utils.js?v=20260527-cache-bust"></script>
+    <script src="data-utils.js?v=20261014-land-use"></script>
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
     <script src="about-animations.js?v=20260531-threshold-scrub" defer></script>
-  </body>
+    <script type="module" src="assessment-session.js?v=20261014-account-isolation"></script>
+</body>
 </html>

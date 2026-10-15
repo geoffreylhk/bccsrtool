@@ -5,6 +5,8 @@ let user;
 function showStatus(message, error = false) {
   status.textContent = message;
   status.dataset.error = String(error);
+  const retry = document.getElementById('authRetry');
+  if (retry) retry.hidden = !error;
 }
 
 function checkResult(result) {
@@ -33,10 +35,35 @@ function bindForm(id, action) {
 
 const redirectUrl = (page) => new URL(page, window.location.href).href;
 
+const googleButton = document.getElementById('googleSigninButton');
+googleButton?.addEventListener('click', async () => {
+  if (googleButton.disabled) return;
+  googleButton.disabled = true;
+  showStatus('Redirecting to Google…');
+  try {
+    checkResult(await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: redirectUrl('account.html'), queryParams: { prompt: 'select_account' } }
+    }));
+  } catch (error) {
+    showStatus(error.message || 'Google sign-in could not start. Please try again.', true);
+    googleButton.disabled = false;
+  }
+});
+
+function getCallbackError(url) {
+  const error = new URLSearchParams(url.hash.slice(1)).get('error') || url.searchParams.get('error');
+  if (!error) return '';
+  return error === 'access_denied'
+    ? 'Sign-in was cancelled or access was denied. Return to the sign-in page to try again.'
+    : 'Sign-in or email verification could not be completed. Return to the sign-in page to try again or request a new email link.';
+}
+
 bindForm('signinForm', async (fields) => {
   checkResult(await supabase.auth.signInWithPassword({
     email: fields.get('email').trim(), password: fields.get('password')
   }));
+  switchAssessmentAccount(checkResult(await supabase.auth.getUser()).user.id);
   window.location.replace('account.html');
 });
 
@@ -82,8 +109,8 @@ async function loadProfile() {
   let profile = checkResult(await supabase.from('profiles')
     .select('id, display_name').eq('id', user.id).maybeSingle());
   if (!profile) {
-    const name = typeof user.user_metadata?.display_name === 'string'
-      ? user.user_metadata.display_name.trim().slice(0, 100) : '';
+    const metadataName = user.user_metadata?.display_name ?? user.user_metadata?.full_name;
+    const name = typeof metadataName === 'string' ? metadataName.trim().slice(0, 100) : '';
     const result = await supabase.from('profiles').insert({ id: user.id, display_name: name });
     // Two open account tabs may try to create the same profile.
     if (result.error?.code !== '23505') checkResult(result);
@@ -93,13 +120,23 @@ async function loadProfile() {
   document.getElementById('profileName').value = profile.display_name;
 }
 
+async function signOutAccount() {
+  if (hasSavedProgress() && !window.confirm('Sign out and clear the working assessment in this browser? Save it to your account from Results first if you want to keep it. Account saves will remain available.')) return false;
+  checkResult(await supabase.auth.signOut());
+  clearAssessment();
+  switchAssessmentAccount(null);
+  window.location.replace('signin.html');
+  return true;
+}
+
 async function initialize() {
-  const callbackError = new URLSearchParams(window.location.hash.slice(1)).get('error');
+  const callbackError = getCallbackError(new URL(window.location.href));
   ({ supabase } = await import('./supabase-client.js'));
   const session = checkResult(await supabase.auth.getSession()).session;
   // Clear authentication tokens from the address bar after the SDK consumes them.
-  if (window.location.hash) history.replaceState(null, '', window.location.pathname);
-  if (callbackError) throw new Error('This email link is invalid or expired. Request a new link from the sign-in page.');
+  if (window.location.hash || callbackError) history.replaceState(null, '', window.location.pathname);
+  if (callbackError) throw new Error(callbackError);
+  switchAssessmentAccount(session?.user?.id);
 
   if (document.getElementById('accountPanel')) {
     if (!session) {
@@ -114,8 +151,8 @@ async function initialize() {
     signout.addEventListener('click', async () => {
       signout.disabled = true;
       try {
-        checkResult(await supabase.auth.signOut());
-        window.location.replace('signin.html');
+        await signOutAccount();
+        signout.disabled = false;
       } catch (error) {
         showStatus(error.message || 'Could not sign out. Please try again.', true);
         signout.disabled = false;
@@ -133,6 +170,7 @@ async function initialize() {
   document.querySelectorAll('button[type="submit"]').forEach((button) => {
     button.disabled = false;
   });
+  if (googleButton) googleButton.disabled = false;
   showStatus('');
 }
 

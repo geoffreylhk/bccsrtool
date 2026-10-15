@@ -130,19 +130,22 @@ function isCategoryCollapsed(categoryName) {
 }
 
 function getSelectionSnapshot() {
-  return [...selectedIds];
+  const savedById = new Map(getAssessmentContaminants(csrData).map((item) => [item.id, item]));
+  return [...selectedIds].map((id) => getSelectedStorageItem(
+    allContaminants.find((item) => item.id === id), savedById.get(id)
+  ));
 }
 
 function setSelectionFromSnapshot(snapshot) {
   selectedIds.clear();
-  snapshot.forEach((id) => selectedIds.add(id));
-  saveSelectedContaminants(csrData, selectedIds);
+  snapshot.forEach((item) => selectedIds.add(item.id));
+  updateActiveProfileData({ selectedContaminants: snapshot.map((item) => ({ ...item })) });
   renderContaminants();
 }
 
 function trackSelectionAction(type, before, after) {
-  const beforeKey = before.join('|');
-  const afterKey = after.join('|');
+  const beforeKey = JSON.stringify(before);
+  const afterKey = JSON.stringify(after);
   if (beforeKey === afterKey) return;
 
   undoStack.push({ type, before, after });
@@ -584,7 +587,7 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-fetch('data.json')
+fetch('data.json?v=20261011-schedule31')
   .then((response) => response.json())
   .then((data) => {
     csrData = data;

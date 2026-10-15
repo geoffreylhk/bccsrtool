@@ -16,3 +16,12 @@
 .auth-page #authStatus { overflow-wrap: anywhere; }
 .auth-page #authStatus[data-error="true"] { color: #a02020; }
 .auth-page #signoutButton { margin-bottom: 24px; }
+.auth-page #googleSigninButton { width: 100%; justify-content: center; }
+[data-account-save] [hidden] { display: none !important; }
+.account-save-card, .saved-assessment-card { padding: 24px; margin-bottom: 24px; overflow-wrap: anywhere; }
+.saved-assessments-section { padding: 24px; margin-bottom: 24px; overflow-wrap: anywhere; }
+.account-save-card input { display: block; width: 100%; max-width: 480px; min-height: 48px; margin: 8px 0 16px; padding: 10px; border: 1px solid var(--border); border-radius: 7px; color: var(--text); background: var(--surface); }
+.saved-assessment-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.saved-assessment-actions > * { max-width: 100%; white-space: normal; }
+#savedAssessmentStatus[data-error="true"] { color: #a02020; }
+#savedAssessments { margin-top: 20px; }

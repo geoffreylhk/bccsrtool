@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://bccsrtool.ca/assessment.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20260609-mobile-tooltip">
+    <link rel="stylesheet" href="style.css?v=20261015-nav-spacing">
   </head>
   
   <!-- Google tag (gtag.js) -->
@@ -28,6 +28,7 @@
       </a>
       <div class="nav-links">
         <a href="about.html">About</a>
+        <a href="account.html">Account</a>
       </div>
     </nav>
 
@@ -60,10 +61,12 @@
       </header>
 
       <section class="card form-card">
-        <div class="form-group">
+        <div class="form-group"><label for="siteName">Site name (optional)</label><input id="siteName" maxlength="160" placeholder="e.g. Former service station"></div>
+        <div class="form-group"><label for="assessmentMode">Screen against</label><select id="assessmentMode"><option value="current">Current land use</option><option value="proposed">Proposed land use</option></select></div>
+        <div class="form-group" id="currentLandUseGroup">
           <div class="field-label-row">
             <label for="currentLandUse">Current Land Use</label>
-                    <button class="field-info" type="button" aria-label="What current land use means" data-tooltip="How the land is being used today, or what the land was previously used for before redevelopment. Identifies what contaminants may already be present from past or existing activities.">
+                    <button class="field-info" type="button" aria-label="What current land use means" data-tooltip="Select the CSR land use that matches current activities at ground surface. Municipal zoning is not automatically the CSR classification. Multiple uses require review.">
               i
             </button>
           </div>
@@ -80,7 +83,7 @@
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="proposedLandUseGroup">
           <div class="field-label-row">
             <label for="proposedLandUse">Proposed Land Use</label>
                     <button class="field-info" type="button" aria-label="What proposed land use means" data-tooltip="What the land is planning to become, or what the site is currently being assessed as. Different land uses have different safety standards, so this determines which CSR thresholds apply.">
@@ -99,8 +102,10 @@
             <option value="IL">Industrial</option>
           </select>
         </div>
+        <p id="siteStatus" role="status"></p>
       </section>
 
+      <section class="form-card card" id="factorSettings" aria-label="Applicable soil factors"></section>
       <div class="nav-buttons">
         <a href="index.html" class="secondary-action">
           <svg class="icon icon-md" aria-hidden="true" viewBox="0 0 24 24">
@@ -160,7 +165,8 @@
       </div>
     </footer>
 
-    <script src="data-utils.js?v=20260527-cache-bust"></script>
-    <script src="script.js?v=20260609-responsive-tooltip"></script>
-  </body>
+    <script src="data-utils.js?v=20261015-no-detection"></script>
+    <script src="script.js?v=20261014-default-samples"></script>
+    <script type="module" src="assessment-session.js?v=20261014-account-isolation"></script>
+</body>
 </html>
