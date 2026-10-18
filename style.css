@@ -4504,3 +4504,25 @@ html.dark .example-result-card {
 @media (max-width: 600px) {
   #resultSortControls { margin-left: 0; width: 100%; }
 }
+
+.result-rows-table small.result-control-factor,
+.result-matrix-table small.result-control-factor { max-width: 27ch; margin-top: .4rem; }
+.result-standard-details { margin-top: .4rem; font-size: .8rem; font-variant-numeric: normal; }
+.result-standard-details summary { cursor: pointer; color: var(--primary); }
+.result-standard-details a { color: var(--primary); }
+.result-factor-list { margin: .5rem 0 0; max-width: 32ch; }
+.result-factor-list > div { padding: .5rem 0; border-top: 1px solid var(--border); }
+.result-factor-list dt { font-weight: 600; }
+.result-factor-list dd { display: flex; flex-wrap: wrap; gap: .25rem .65rem; margin: .25rem 0 0; }
+.result-factor-list a { white-space: nowrap; }
+
+.result-provenance-row td { padding-top: 0; }
+.result-provenance-row .result-control-factor { max-width: none; }
+.result-provenance-row .result-factor-list { max-width: 65ch; }
+.result-factor-standard { white-space: pre-line; }
+@media (max-width: 600px) {
+  .result-rows-table tr:has(+ .result-provenance-row) { border-bottom: 0; padding-bottom: 0; }
+  .result-rows-table .result-provenance-row { display: block; padding-top: 0; }
+  .result-provenance-row td { display: block; width: 100%; }
+  .result-provenance-row td::before { content: none; }
+}

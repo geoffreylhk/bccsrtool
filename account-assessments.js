@@ -5,6 +5,9 @@ const savedList = document.getElementById('savedAssessments');
 const savedStatus = document.getElementById('savedAssessmentStatus');
 let accountUser;
 let busy = false;
+let savedRecords = [];
+const assessmentSearch = document.getElementById('assessmentSearch');
+const assessmentSort = document.getElementById('assessmentSort');
 
 function assessmentStatus(message, error = false) {
   savedStatus.textContent = message;
@@ -54,7 +57,7 @@ async function saveAccountAssessment(title, asCopy = false) {
   const current = getAppState();
   // Don't attach a save to a different assessment started in another tab.
   if (localStorage.getItem(WORKING_ASSESSMENT_ACCOUNT_KEY) === owner.id && getActiveProfile(current).siteId === getActiveProfile(state).siteId) {
-    saveAppState({ ...current, cloudAssessment: { id: record.id, userId: owner.id, revision: record.revision, title: record.title } });
+    saveAppState({ ...current, cloudAssessment: { id: record.id, userId: owner.id, revision: record.revision, title: record.title, savedSnapshot: payload } });
   }
   return record;
 }
@@ -85,31 +88,99 @@ async function nextAssessmentName() {
   }
 }
 
-async function listAccountAssessments() {
+function assessmentPreview(record) {
+  const profile = record.payload?.profiles?.assessment;
+  if (!profile) return { site: '', text: 'Preview unavailable. Open this assessment to check its saved data.' };
+  const apecs = Array.isArray(profile.apecs) ? profile.apecs : [];
+  const count = apecs.reduce((sum, apec) => sum + (Array.isArray(apec.locations) ? apec.locations : []).reduce((total, location) => total + (Array.isArray(location.samples) ? location.samples.length : 0), 0), 0);
+  const proposed = profile.assessmentMode === 'proposed';
+  const landUse = proposed ? profile.proposedLandUse : profile.currentLandUse;
+  const label = LAND_USE_LABELS[landUse] || 'Land use not selected';
+  const site = profile.siteName || 'Unnamed site';
+  return { site, text: `${site} · ${proposed ? 'Proposed' : 'Current'}: ${label} · ${apecs.length} APEC${apecs.length === 1 ? '' : 's'} · ${count} sample${count === 1 ? '' : 's'}` };
+}
+
+function visibleAssessments(records, search = '', sort = 'recent') {
+  const term = search.trim().toLocaleLowerCase();
+  return records.filter(record => `${record.title} ${assessmentPreview(record).site}`.toLocaleLowerCase().includes(term))
+    .sort((a, b) => sort === 'name' ? a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
+      : (sort === 'oldest' ? 1 : -1) * (new Date(a.updated_at) - new Date(b.updated_at)) || a.id.localeCompare(b.id));
+}
+
+async function renameAccountAssessment(record, title) {
   const owner = await requireAssessmentUser();
-  const records = assessmentData(await supabase.from('saved_assessments')
-    .select('id, title, updated_at, revision').eq('user_id', owner.id).order('updated_at', { ascending: false }).limit(100));
+  title = title.trim();
+  if (!title || title.length > 100) throw new Error('Enter an assessment name of 1–100 characters.');
+  const updated = assessmentData(await supabase.from('saved_assessments').update({ title })
+    .eq('id', record.id).eq('user_id', owner.id).eq('revision', record.revision)
+    .select('id, user_id, title, revision, updated_at').single());
   await requireAssessmentUser();
+  const state = getAppState();
+  if (state.cloudAssessment?.id === record.id && state.cloudAssessment.userId === owner.id && state.cloudAssessment.revision === record.revision) {
+    saveAppState({ ...state, cloudAssessment: { ...state.cloudAssessment, title: updated.title, revision: updated.revision } });
+  }
+  Object.assign(record, updated);
+}
+
+function renderSavedAssessments() {
+  const records = visibleAssessments(savedRecords, assessmentSearch?.value, assessmentSort?.value);
   savedList.replaceChildren();
   if (!records.length) {
-    savedList.textContent = 'No saved assessments yet. Complete an assessment and choose Save to account on the Results page.';
+    savedList.textContent = savedRecords.length ? 'No assessments match your search.' : 'No saved assessments yet. Complete an assessment and choose Save to account on the Results page.';
   }
   for (const record of records) {
     const card = document.createElement('article');
-    card.className = 'card saved-assessment-card';
+    card.className = 'saved-assessment-card';
     const heading = document.createElement('h3');
     heading.textContent = record.title;
+    const preview = document.createElement('p');
+    preview.className = 'assessment-preview';
+    preview.textContent = assessmentPreview(record).text;
     const date = document.createElement('p');
-    date.textContent = `Saved ${new Date(record.updated_at).toLocaleString()}`;
+    date.className = 'assessment-date';
+    date.textContent = `Last updated ${new Date(record.updated_at).toLocaleString()}`;
     const actions = document.createElement('div');
     actions.className = 'saved-assessment-actions';
-    for (const [label, page] of [['View results', 'results.html'], ['Edit values', 'labdata.html'], ['Delete saved assessment', null]]) {
+    for (const [label, page] of [['View results', 'results.html'], ['Edit values', 'labdata.html'], ['Rename', 'rename'], ['Delete saved assessment', null]]) {
       const button = document.createElement('button');
       button.type = 'button';
+      button.disabled = busy;
       button.className = page ? 'secondary-action' : 'secondary-action delete-assessment-action';
       button.textContent = label;
       button.setAttribute('aria-label', `${label}: ${record.title}`);
-      button.addEventListener('click', () => runAssessmentAction(async () => {
+      if (page === 'rename') {
+        button.addEventListener('click', () => {
+          if (card.querySelector('form')) return;
+          const form = document.createElement('form');
+          form.className = 'assessment-rename-form';
+          const fieldLabel = document.createElement('label');
+          fieldLabel.textContent = 'Assessment name';
+          const input = document.createElement('input');
+          input.value = record.title;
+          input.required = true;
+          input.maxLength = 100;
+          fieldLabel.append(input);
+          const controls = document.createElement('div');
+          controls.className = 'saved-assessment-actions';
+          const save = document.createElement('button');
+          save.type = 'submit'; save.className = 'primary-action'; save.textContent = 'Save name';
+          const cancel = document.createElement('button');
+          cancel.type = 'button'; cancel.className = 'secondary-action'; cancel.textContent = 'Cancel';
+          cancel.addEventListener('click', () => { form.remove(); button.focus(); });
+          controls.append(save, cancel); form.append(fieldLabel, controls); card.append(form); input.focus();
+          form.addEventListener('submit', event => {
+            event.preventDefault();
+            if (!form.reportValidity()) return;
+            runAssessmentAction(async () => {
+              await renameAccountAssessment(record, input.value);
+              renderSavedAssessments();
+              assessmentStatus('Assessment renamed.');
+              document.getElementById(`rename-${record.id}`)?.focus();
+            });
+          });
+        });
+        button.id = `rename-${record.id}`;
+      } else button.addEventListener('click', () => runAssessmentAction(async () => {
         if (page) return openAccountAssessment(record.id, page);
         if (!window.confirm(`Delete “${record.title}” from your account? This cannot be undone. The working browser copy will remain.`)) return;
         const currentOwner = await requireAssessmentUser();
@@ -119,21 +190,57 @@ async function listAccountAssessments() {
       }));
       actions.append(button);
     }
-    card.append(heading, date, actions);
+    card.append(heading, preview, date, actions);
     savedList.append(card);
   }
-  assessmentStatus(records.length === 100 ? 'Showing your 100 most recently saved assessments.' : 'Account saves are private to you.');
+  assessmentStatus(`${records.length} of ${savedRecords.length} saved assessments`);
+}
+
+async function listAccountAssessments() {
+  const owner = await requireAssessmentUser();
+  const records = [];
+  for (let offset = 0; ; offset += 100) {
+    const page = assessmentData(await supabase.from('saved_assessments')
+      .select('id, title, updated_at, revision, payload').eq('user_id', owner.id).order('id').range(offset, offset + 99));
+    await requireAssessmentUser();
+    records.push(...page);
+    if (page.length < 100) break;
+  }
+  savedRecords = records;
+  renderSavedAssessments();
+}
+
+function updateAccountSaveStatus() {
+  if (!saveForm || !accountUser || busy) return;
+  const state = getAppState();
+  const linked = state.cloudAssessment;
+  const sameInputs = linked?.savedSnapshot && JSON.stringify(getAssessmentSnapshot(state)) === JSON.stringify(linked.savedSnapshot);
+  const sameTitle = linked?.title === document.getElementById('assessmentSaveTitle').value.trim();
+  assessmentStatus(linked?.userId === accountUser.id && sameInputs && sameTitle
+    ? 'Saved to your account. Changes on another device appear when you reopen the assessment.'
+    : 'Changes haven’t been saved to your account. Save below to keep them across devices.');
+}
+
+function selectAccountSection() {
+  const profile = window.location.hash === '#profile';
+  document.getElementById('profileSection').hidden = !profile;
+  document.getElementById('savedSection').hidden = profile;
+  document.querySelectorAll('[data-account-section]').forEach(link => {
+    if (link.dataset.accountSection === (profile ? 'profile' : 'saved')) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
 }
 
 async function runAssessmentAction(action) {
   if (busy) return;
   busy = true;
-  const buttons = document.querySelectorAll('[data-account-save] button, #savedAssessments button, #retrySavedAssessments');
+  const actionControls = '[data-account-save] button, #savedAssessments button, #retrySavedAssessments, #assessmentSearch, #assessmentSort';
+  const buttons = document.querySelectorAll(actionControls);
   buttons.forEach(button => { button.disabled = true; });
   assessmentStatus('Working…');
   try { await action(); }
   catch (error) { assessmentStatus(error.message, true); }
-  finally { busy = false; buttons.forEach(button => { button.disabled = false; }); }
+  finally { busy = false; document.querySelectorAll(actionControls).forEach(button => { button.disabled = false; }); }
 }
 
 async function initializeAccountAssessments() {
@@ -169,9 +276,16 @@ async function initializeAccountAssessments() {
       input.value = record.title;
       assessmentStatus('A separate copy was saved to your account.');
     }));
-    assessmentStatus(`Save to the account signed in as ${accountUser.email}. Changes stay in this browser until you save to your account.`);
+    document.getElementById('assessmentSaveTitle').addEventListener('input', updateAccountSaveStatus);
+    window.addEventListener?.('bc-csr-state-saved', updateAccountSaveStatus);
+    window.addEventListener?.('storage', updateAccountSaveStatus);
+    updateAccountSaveStatus();
   }
   if (savedList) {
+    selectAccountSection();
+    window.addEventListener?.('hashchange', selectAccountSection);
+    assessmentSearch?.addEventListener('input', renderSavedAssessments);
+    assessmentSort?.addEventListener('change', renderSavedAssessments);
     document.getElementById('retrySavedAssessments').addEventListener('click', () => runAssessmentAction(listAccountAssessments));
     await listAccountAssessments();
   }
@@ -180,6 +294,7 @@ async function initializeAccountAssessments() {
 supabase.auth.onAuthStateChange((_event, session) => {
   if (accountUser && session?.user?.id !== accountUser.id) {
     saveForm?.setAttribute('hidden', '');
+    savedRecords = [];
     savedList?.replaceChildren();
     assessmentStatus('Your sign-in has changed. Reload this page to access the current account.');
   }

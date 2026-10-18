@@ -2,7 +2,7 @@
   "metadata": {
     "title": "BC Contaminated Sites Regulation — Schedule 3.1",
     "regulation": "B.C. Reg. 375/96",
-    "last_amended": "Source tables verified 2026-10-11; consolidation 2026-10-06",
+    "last_amended": "Source cells rechecked 2026-10-15; consolidation 2026-10-06",
     "soil_unit": "μg/g",
     "gw_unit": null,
     "notes": {
@@ -276,6 +276,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -331,6 +333,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -388,6 +392,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -444,6 +450,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -499,6 +507,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -554,6 +564,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -610,6 +622,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -666,6 +680,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -730,6 +746,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -785,6 +803,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -842,6 +862,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -898,6 +920,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -953,6 +977,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -1008,6 +1034,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -1064,6 +1092,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -1120,6 +1150,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -1184,6 +1216,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -1239,6 +1273,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -1296,6 +1332,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -1352,6 +1390,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -1407,6 +1447,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -1462,6 +1504,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -1518,6 +1562,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -1574,6 +1620,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -1638,6 +1686,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -1693,6 +1743,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -1750,6 +1802,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -1806,6 +1860,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -1861,6 +1917,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -1916,6 +1974,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -1972,6 +2032,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -2028,6 +2090,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -2092,8 +2156,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -2149,8 +2219,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -2208,8 +2284,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -2266,8 +2348,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -2323,8 +2411,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -2380,8 +2474,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -2438,8 +2538,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -2496,8 +2602,14 @@
             }
           },
           "conditions": [
-            "\n1 Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+            "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Polychlorinated dibenzo-p-dioxins (PCDDs) and polychlorinated dibenzofurans (PCDFs) expressed as 2,3,7,8-tetrachlorodibenzo-p-dioxin (2,3,7,8-TCDD) toxicity\nequivalent includes those substances for which 2,3,7,8-TCDD Toxicity Equivalency Factors (IPCS-TEFs) are provided below:"
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -2562,6 +2674,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -2617,6 +2733,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -2674,6 +2794,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -2730,6 +2854,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -2785,6 +2913,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -2840,6 +2972,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -2898,6 +3034,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -2954,6 +3094,10 @@
             }
           },
           "conditions": [],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -3018,6 +3162,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -3073,6 +3219,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -3130,6 +3278,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -3186,6 +3336,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -3241,6 +3393,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -3296,6 +3450,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -3354,6 +3510,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -3410,6 +3568,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -3474,6 +3634,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -3529,6 +3691,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -3586,6 +3750,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -3642,6 +3808,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -3697,6 +3865,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -3752,6 +3922,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -3810,6 +3982,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -3866,6 +4040,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -3931,6 +4107,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -3986,6 +4164,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -4043,6 +4223,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -4099,6 +4281,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -4154,6 +4338,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -4209,6 +4395,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -4265,6 +4453,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -4321,6 +4511,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -4385,6 +4577,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -4440,6 +4634,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -4497,6 +4693,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -4553,6 +4751,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -4608,6 +4808,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -4663,6 +4865,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -4721,6 +4925,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -4777,6 +4983,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -4842,6 +5050,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -4897,6 +5107,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -4954,6 +5166,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -5010,6 +5224,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -5065,6 +5281,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -5120,6 +5338,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -5178,6 +5398,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -5234,6 +5456,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -5297,9 +5521,11 @@
               "value": 15000.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -5354,9 +5580,13 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 5.5",
@@ -5420,9 +5650,11 @@
               "value": 350.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -5478,9 +5710,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -5535,9 +5769,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -5593,9 +5829,13 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -5666,9 +5906,13 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -5732,9 +5976,13 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 5.0",
@@ -5806,9 +6054,12 @@
               "value": 3500.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -5863,9 +6114,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 7.0",
@@ -5926,9 +6182,12 @@
               "value": 75.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -5984,9 +6243,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -6041,9 +6303,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -6100,8 +6365,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+            "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -6170,9 +6443,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -6236,9 +6514,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 150 to < 210 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify\n3\nthe standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 7.0",
@@ -6307,8 +6590,16 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is based on chromium (all species)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -6372,8 +6663,18 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is for chromium, hexavalent.",
+            "Standard is for chromium, trivalent."
           ],
+          "note_refs": [
+            "2",
+            "3"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Groundwater used for drinking",
             "water",
@@ -6432,8 +6733,16 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is based on chromium (all species)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -6490,8 +6799,18 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is for chromium, hexavalent.",
+            "Standard is for chromium, trivalent."
           ],
+          "note_refs": [
+            "2",
+            "3"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Livestock ingesting soil and",
             "fodder"
@@ -6547,9 +6866,13 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Major microbial functional",
             "impairment"
@@ -6614,8 +6937,18 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is for chromium, hexavalent.",
+            "Standard is for chromium, trivalent."
           ],
+          "note_refs": [
+            "2",
+            "3"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Groundwater flow to surface",
             "water used by aquatic life",
@@ -6675,8 +7008,18 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is for chromium, hexavalent.",
+            "Standard is for chromium, trivalent."
           ],
+          "note_refs": [
+            "2",
+            "3"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -6733,8 +7076,18 @@
             }
           },
           "conditions": [
-            "\n1 Standard is based on chromium (all species).\n2 Standard is for chromium, hexavalent.\n3 Standard is for chromium, trivalent."
+            "Standard is for chromium, hexavalent.",
+            "Standard is for chromium, trivalent."
           ],
+          "note_refs": [
+            "2",
+            "3"
+          ],
+          "source_notes": {
+            "1": "Standard is based on chromium (all species).",
+            "2": "Standard is for chromium, hexavalent.",
+            "3": "Standard is for chromium, trivalent."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -6799,6 +7152,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -6854,6 +7209,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -6911,6 +7268,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -6967,6 +7326,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -7022,6 +7383,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -7077,6 +7440,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -7133,6 +7498,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -7189,6 +7556,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -7252,9 +7621,12 @@
               "value": 700000.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -7309,9 +7681,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 5.0",
@@ -7374,9 +7751,12 @@
               "value": 300.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -7432,9 +7812,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -7489,9 +7872,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -7548,8 +7934,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+            "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -7617,9 +8011,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -7682,9 +8081,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H ≥ 200 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 5.5",
@@ -7753,9 +8157,12 @@
               "value": 4000.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -7810,9 +8217,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 5.5",
@@ -7875,9 +8287,12 @@
               "value": 1000.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -7933,9 +8348,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -7990,9 +8408,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -8049,8 +8470,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+            "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -8120,9 +8549,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -8185,9 +8619,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the\n3\nstandard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 5.0",
@@ -8258,9 +8697,12 @@
               "unit": "mg/g"
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -8316,8 +8758,17 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -8374,9 +8825,12 @@
               "value": 2000.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -8432,9 +8886,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -8489,9 +8946,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -8546,9 +9006,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -8605,8 +9068,17 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -8662,9 +9134,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item B1,\n(b) item C1, C3 or C4,\n(c) item D2, D3, D5 or D6,\n(d) item E4, or\n(e) item H12",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item H9 or H18 but only if the site was used for that purpose or\nactivity in conjunction with or as a result of the site also being used for at least one of the purposes or activities set out in Note 1."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -8729,6 +9204,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -8784,6 +9261,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -8841,6 +9320,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -8897,6 +9378,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -8952,6 +9435,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -9007,6 +9492,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -9063,6 +9550,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -9119,6 +9608,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -9183,6 +9674,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -9238,6 +9731,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -9295,6 +9790,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -9351,6 +9848,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -9406,6 +9905,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -9461,6 +9962,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -9517,6 +10020,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -9573,6 +10078,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -9636,9 +10143,14 @@
               "value": 80000.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -9693,9 +10205,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 7.5",
@@ -9755,9 +10272,14 @@
               "value": 250.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -9813,9 +10335,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -9870,9 +10397,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -9929,8 +10461,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+            "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -9999,9 +10539,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -10065,9 +10610,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H > 180 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, modify the standard\n3\nin accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 7.0",
@@ -10135,9 +10685,11 @@
               "value": 35000.0
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -10192,9 +10744,11 @@
               "value": 1.0
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -10251,9 +10805,11 @@
               "value": 2.0
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -10309,9 +10865,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -10366,9 +10924,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -10423,9 +10983,11 @@
               "value": 1.0
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -10481,9 +11043,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -10540,8 +11104,14 @@
             }
           },
           "conditions": [
-            "\n1 Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+            "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard applies where irrigation water is used for continuous or intermittent irrigation of crops."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -10606,6 +11176,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -10661,6 +11233,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -10718,6 +11292,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -10774,6 +11350,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -10829,6 +11407,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -10884,6 +11464,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -10940,6 +11522,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -10996,6 +11580,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -11060,6 +11646,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -11115,6 +11703,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -11172,6 +11762,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -11228,6 +11820,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -11283,6 +11877,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -11338,6 +11934,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -11394,6 +11992,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -11450,6 +12050,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -11514,9 +12116,12 @@
               "unit": "mg/g"
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -11571,9 +12176,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 5.0",
@@ -11638,9 +12248,12 @@
               "value": 450.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -11696,9 +12309,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -11753,9 +12369,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -11812,8 +12431,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+            "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -11879,9 +12506,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -11944,9 +12576,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Standard varies with receiving water hardness (H). H = 200 to < 300 mg/L as CaCO is assumed. If the receiving water hardness is outside of this specified range, identify\n3\nthe applicable standard using a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation",
             "pH < 6.0",
@@ -12024,9 +12661,11 @@
               "unit": "mg/g"
             }
           },
-          "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -12082,8 +12721,14 @@
             }
           },
           "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+            "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -12140,9 +12785,11 @@
               "value": 2500.0
             }
           },
-          "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -12198,9 +12845,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -12255,9 +12904,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -12313,8 +12964,14 @@
             }
           },
           "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+            "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life, freshwater"
@@ -12371,8 +13028,14 @@
             }
           },
           "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+            "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -12429,8 +13092,14 @@
             }
           },
           "conditions": [
-            "\n1 Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+            "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standard varies with Kd (partition coefficient) for chloride ion in the soil of a site. Standard is appropriate to a chloride:soil Kd range of 0 to 0.1 mL/g. If the Kd for chloride\nis outside of this specified range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -12495,8 +13164,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -12552,8 +13227,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -12611,8 +13292,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -12669,8 +13356,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -12726,8 +13419,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -12783,8 +13482,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -12841,8 +13546,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -12899,8 +13610,14 @@
             }
           },
           "conditions": [
-            "\n1 PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+            "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "PCBs, total in soil represent the sum of Aroclors 1016, 1221, 1232, 1242, 1248, 1254, 1260, 1262, and 1268. Dioxin-like polychlorinated biphenyls must also be evaluated as\npolychlorinated dioxins and furans."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -12965,6 +13682,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -13020,6 +13739,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -13077,6 +13798,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -13133,6 +13856,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -13188,6 +13913,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -13243,6 +13970,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -13299,6 +14028,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -13355,6 +14086,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -13419,6 +14152,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -13474,6 +14209,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -13531,6 +14268,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -13587,6 +14326,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -13642,6 +14383,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -13697,6 +14440,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -13753,6 +14498,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -13809,6 +14556,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -13873,6 +14622,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -13928,6 +14679,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -13985,6 +14738,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -14041,6 +14796,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -14096,6 +14853,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -14151,6 +14910,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -14209,6 +14970,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -14265,6 +15028,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -14329,8 +15094,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -14386,8 +15157,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -14445,8 +15222,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -14503,8 +15286,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -14560,8 +15349,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -14617,8 +15412,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -14675,8 +15476,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -14733,8 +15540,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+            "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards are for the sum of DDT (2,4’ + 4,4’ isomers), DDD (2,4’ + 4,4’ isomers) and DDE (2,4’ + 4,4’ isomers)."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -14799,9 +15612,11 @@
               "unit": "mg/g"
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -14857,8 +15672,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -14915,9 +15736,11 @@
               "value": 1000.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -14973,9 +15796,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -15030,9 +15855,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -15088,8 +15915,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -15146,8 +15979,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -15204,8 +16043,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -15271,6 +16116,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -15326,6 +16173,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -15383,6 +16232,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -15439,6 +16290,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -15494,6 +16347,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -15549,6 +16404,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -15605,6 +16462,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -15661,6 +16520,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -15726,6 +16587,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -15781,6 +16644,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -15838,6 +16703,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -15894,6 +16761,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -15949,6 +16818,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -16004,6 +16875,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -16060,6 +16933,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -16116,6 +16991,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -16180,8 +17057,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -16237,8 +17121,17 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -16296,8 +17189,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -16354,8 +17254,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -16411,8 +17318,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -16468,8 +17382,17 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -16528,8 +17451,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -16586,8 +17516,15 @@
             }
           },
           "conditions": [
-            "\n1 Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.\n2 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+            "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Nonylphenol includes related nonylphenolic and octylphenolic compounds, including ethoxylates.",
+            "2": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A6, A8, A10 or A12,\n(b) item H9, H16 or H17, or\n(c) item I2 or I3."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -16651,9 +17588,12 @@
               "value": 900.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -16708,9 +17648,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "pH < 5.0",
@@ -16773,9 +17718,12 @@
               "value": 55.0
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -16831,9 +17779,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -16888,9 +17839,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -16947,8 +17901,16 @@
             }
           },
           "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+            "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
           ],
+          "note_refs": [
+            "1",
+            "2"
+          ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life",
@@ -17009,9 +17971,14 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          "conditions": [],
+          "note_refs": [
+            "1"
           ],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering",
@@ -17073,9 +18040,12 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 The pH is the pH of the soil at a site.\n2 Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "The pH is the pH of the soil at a site.",
+            "2": "Water standard varies with the temperature of the receiving surface water. A surface water temperature of 20oC or below was assumed. If the receiving water temperature is\noutside of this range, modify the standard in accordance with a director’s protocol."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -17139,9 +18109,11 @@
               "value": 200.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -17197,8 +18169,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -17255,9 +18233,11 @@
               "value": 150.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -17313,9 +18293,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -17370,9 +18352,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -17428,8 +18412,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -17485,9 +18475,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -17543,9 +18535,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as\n(a) item A4,\n(b) item C3,\n(c) item E10, or\n(d) item G1."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -17611,6 +18605,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -17666,6 +18662,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -17723,6 +18721,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -17779,6 +18779,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -17834,6 +18836,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -17889,6 +18893,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -17945,6 +18951,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -18001,6 +19009,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -18073,6 +19083,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -18128,6 +19140,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -18185,6 +19199,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -18241,6 +19257,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -18296,6 +19314,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -18351,6 +19371,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -18407,6 +19429,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -18463,6 +19487,8 @@
             }
           },
           "conditions": [],
+          "note_refs": [],
+          "source_notes": {},
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -18526,9 +19552,11 @@
               "value": 70000.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Intake of contaminated soil"
           ]
@@ -18584,8 +19612,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for drinking water",
             "ENVIRONMENTAL",
@@ -18642,9 +19676,11 @@
               "value": 500.0
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Toxicity to soil invertebrates and",
             "plants"
@@ -18700,9 +19736,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Livestock ingesting soil and fodder"
           ]
@@ -18757,9 +19795,11 @@
               "value": null
             }
           },
-          "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
-          ],
+          "conditions": [],
+          "note_refs": [],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Major microbial functional impairment"
           ]
@@ -18815,8 +19855,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater flow to surface water",
             "used by aquatic life"
@@ -18873,8 +19919,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for livestock",
             "watering"
@@ -18931,8 +19983,14 @@
             }
           },
           "conditions": [
-            "\n1 Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+            "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
           ],
+          "note_refs": [
+            "1"
+          ],
+          "source_notes": {
+            "1": "Standards apply to a site used for an industrial or commercial purpose or activity set out in Schedule 2 as item F2, F3, F7 or F10."
+          },
           "source_labels": [
             "Groundwater used for irrigation"
           ]
@@ -78559,7 +79617,7 @@
     "1": {
       "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/133_2022_Sch%203.1-part1",
       "sha256": "b92fd71c8f137fad52ded00b5186901e8f99a3f711fb613396bd6bf2bae8886c",
-      "retrieved": "2026-10-11",
+      "retrieved": "2026-10-15",
       "version": "B.C. Reg. 133/2022",
       "consolidation_current_to": "2026-10-06",
       "page_text": {
@@ -78617,7 +79675,7 @@
     "2": {
       "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/159_2025_Sch%203.1-part2",
       "sha256": "f98389bf8463197d77746aeb063695178842cf53afda2682943cf452c2fb5663",
-      "retrieved": "2026-10-11",
+      "retrieved": "2026-10-15",
       "version": "B.C. Reg. 159/2025",
       "consolidation_current_to": "2026-10-06",
       "page_text": {
@@ -78647,7 +79705,7 @@
     "3": {
       "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/133_2022_Sch%203.1-part3",
       "sha256": "2b084f94bcf69245cf19a47f618b84b3d482c6ea12a2ba0cabf399e408bf6465",
-      "retrieved": "2026-10-11",
+      "retrieved": "2026-10-15",
       "version": "B.C. Reg. 133/2022",
       "consolidation_current_to": "2026-10-06",
       "page_text": {

@@ -426,7 +426,7 @@ function restoreAccountAssessment(record, userId) {
   const previous = getAppState();
   localStorage.setItem('bcCsrAssessmentBeforeOpen', JSON.stringify(previous));
   const restored = saveAppState({ ...getDefaultAppState(), ...snapshot,
-    cloudAssessment: { id: record.id, userId, revision: record.revision, title: record.title }
+    cloudAssessment: { id: record.id, userId, revision: record.revision, title: record.title, savedSnapshot: snapshot }
   });
   localStorage.setItem(ASSESSMENT_RESUME_READY_KEY, 'true');
   return restored;
@@ -600,7 +600,7 @@ function screenSoil(contaminant, concentration, unit, landUse, options = {}) {
     const applicability = !record.factor ? 'applicable' : mandatory ? (options.factors?.[record.factor] === 'not_assessed' ? 'not_assessed' : 'applicable') : options.factors?.[record.factor] || 'not_applicable';
     const standard = record.standards[landUse];
     const label = record.factor ? SOIL_FACTORS[record.factor] : `Part ${record.part} generic ${record.part === 2 ? 'human-health' : 'ecological'} standard`;
-    const source = `Schedule 3.1 Part ${record.part}${record.matrix ? ` Matrix ${record.matrix}` : ` ${record.source_name}`}; ${label}; column ${Object.keys(LAND_USE_LABELS).indexOf(landUse) + (record.part === 1 ? 2 : 3)}; PDF page(s) ${record.pages.join(', ')}`;
+    const source = `Schedule 3.1 Part ${record.part}${record.matrix ? ` Matrix ${record.matrix}` : ` ${record.source_name}`}; ${label}; column ${Object.keys(LAND_USE_LABELS).indexOf(landUse) + (record.part === 1 ? 2 : 3)}; PDF page(s) ${record.pages.join(', ')}${record.note_refs?.length ? `; note(s) ${record.note_refs.join(', ')}` : ''}`;
     let status = 'Inconclusive';
     let reason = '';
     let numeric = null;
@@ -621,7 +621,7 @@ function screenSoil(contaminant, concentration, unit, landUse, options = {}) {
     if (status === 'Inconclusive' && applicability !== 'not_applicable') uncertainties.push(`${label}: ${reason}`);
     return { label, factor: record.factor, part: record.part, applicability, status, reason, sourceLabels: record.source_labels || [],
       threshold: numeric, raw: standard?.raw ?? '', unit: standard?.unit || record.unit, source, pages: record.pages,
-      conditions: record.conditions, ratio: converted !== null && numeric > 0 ? converted / numeric : null };
+      conditions: record.conditions, noteRefs: record.note_refs || [], sourceNotes: record.source_notes || {}, ratio: converted !== null && numeric > 0 ? converted / numeric : null };
   });
   if (contaminant.standards?.[0]?.part !== 1 && contaminant.standards?.length === 1) uncertainties.push('Counterpart generic table has no source row; professional review required.');
   if (!comparisons.length) uncertainties.push('No verified Schedule 3.1 source records available.');

@@ -134,7 +134,8 @@ async function initialize() {
   ({ supabase } = await import('./supabase-client.js'));
   const session = checkResult(await supabase.auth.getSession()).session;
   // Clear authentication tokens from the address bar after the SDK consumes them.
-  if (window.location.hash || callbackError) history.replaceState(null, '', window.location.pathname);
+  const accountSection = document.getElementById('accountPanel') && ['#saved', '#profile'].includes(window.location.hash);
+  if ((window.location.hash && !accountSection) || callbackError) history.replaceState(null, '', window.location.pathname);
   if (callbackError) throw new Error(callbackError);
   switchAssessmentAccount(session?.user?.id);
 

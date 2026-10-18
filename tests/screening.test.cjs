@@ -151,7 +151,7 @@ test('cards and CSV use explicit threshold units, precision and report provenanc
   s.run('downloadBlob = capture; exportResultsCsv();');
   const csv = await exported.text();
   assert.match(csv, /threshold_unit,converted_unit,threshold_source,review_note,factor_comparisons,site_id,site_name,factor_selections,factor_justifications,assessment_mode,generated_at,dataset,dataset_version/);
-  assert.match(csv, /2026-10-11/g);
+  assert.match(csv, /2026-10-15/g);
   assert.match(csv, /Educational use only/);
   assert.match(csv, /Schedule 3\.1 Part 1 Matrix 4/);
   const l = setup();l.context.csv=csv;l.context.d=data;
@@ -164,7 +164,7 @@ test('cards and CSV use explicit threshold units, precision and report provenanc
 test('Word report includes disclaimer, dataset version, units and review counts', async () => {
   const s = setup('results.js');
   s.seed([record('lead', { soilConc: 10 })]);
-  s.run('renderResults();');
+  s.run("updateActiveProfileData({factors:{drinking:'not_assessed'}});renderResults();");
   let document;
   class Part { constructor(content) { this.content = content; } }
   s.context.window.docx = {
@@ -178,7 +178,7 @@ test('Word report includes disclaimer, dataset version, units and review counts'
   s.run('downloadBlob = () => {}; exportWordReport();');
   await Promise.resolve();
   const content = JSON.stringify(document);
-  assert.match(content, /2026-10-11/g);
+  assert.match(content, /2026-10-15/g);
   assert.match(content, /Educational use only/);
   assert.doesNotMatch(content, /Unassigned location/);
   assert.match(content, /Land use \/ factor/);
@@ -252,9 +252,13 @@ test('non-detects use reporting limits and never convert uncertainty to exceedan
 
 test('pH, species, activity conditions and special units require review', () => {
   const s=setup();
-  for(const id of ['chromium','pfos','pcdds_pcdfs','pcbs','cadmium']) {
+  for(const id of ['chromium','pcdds_pcdfs','pcbs']) {
     s.context.c=data.contaminants.find(c=>c.id===id);
     assert.equal(s.run("screenSoil(c, 0, 'mg/kg', 'RLLD').status"),'Inconclusive',id);
+  }
+  for(const id of ['pfos','cadmium']) {
+    s.context.c=data.contaminants.find(c=>c.id===id);
+    assert.equal(s.run("screenSoil(c, 0, 'mg/kg', 'RLLD', {factors:{drinking:'applicable'}}).status"),'Inconclusive',id);
   }
   s.context.c=data.contaminants.find(c=>c.cas==='1332-21-4');
   assert.equal(s.run("screenSoil(c, 0, 'mg/kg', 'RLLD').status"),'Inconclusive');
@@ -587,7 +591,7 @@ test('area-only UI retains all legacy samples and hides location/metadata/limit 
   assert.equal(s.run('getSoilSamples().length'),3);
 });
 
-test('no detection disables the blank concentration field and switching back restores the detected value', () => {
+test('no detection accepts a reporting limit without layout text and retains the detected value', () => {
   const s=setup('labdata.js');s.context.graph=sampleFixture();s.run('saveSampleData(graph)');
   const row={dataset:{contaminant:'anthracene'},querySelector(){return {removeAttribute(){}};}};
   const input={dataset:{result:'qualifier'},value:'non_detect',validity:{},checkValidity(){return true;},removeAttribute(){},setAttribute(){},closest(selector){return selector==='[data-apec]'?{dataset:{apec:'a1'}}:selector==='[data-location]'?{dataset:{location:'l1'}}:selector==='[data-sample]'?{dataset:{sample:'s1'}}:row;}};
@@ -595,10 +599,16 @@ test('no detection disables the blank concentration field and switching back res
   assert.equal(s.run('getSoilSamples()[0].sample.results[0].qualifier'),'non_detect');
   assert.equal(s.run('getSoilSamples()[0].sample.results[0].value'),3);
   const html=s.element('labTable').innerHTML;
-  assert.match(html,/data-result="measurement"[^>]*value="" disabled/);
+  assert.match(html,/data-result="measurement"[^>]*value="" placeholder="Reporting limit"/);
+  assert.doesNotMatch(html,/data-result="measurement"[^>]*disabled/);
   assert.doesNotMatch(html,/enter the lab reporting limit|placeholder="Lab reporting limit"/);
-  input.dataset.result='measurement';input.value='99';s.run("saveSampleField({target:edit,type:'input'})");
+  input.dataset.result='measurement';input.value='1';s.run("saveSampleField({target:edit,type:'input'})");
   assert.equal(s.run('getSoilSamples()[0].sample.results[0].value'),3);
+  assert.equal(s.run('getSoilSamples()[0].sample.results[0].reportingLimit'),'1');
+  input.value='0';s.run("saveSampleField({target:edit,type:'input'})");
+  assert.equal(s.run('getSoilSamples()[0].sample.results[0].reportingLimit'),'1');
+  s.run('renderSampleEditor()');
+  assert.match(s.element('labTable').innerHTML,/data-result="measurement"[^>]*value="1" placeholder="Reporting limit"/);
   input.dataset.result='qualifier';input.value='detected';s.run("saveSampleField({target:edit,type:'change'})");
   assert.equal(s.run('getSoilSamples()[0].sample.results[0].value'),3);
   assert.doesNotMatch(s.element('labTable').innerHTML,/data-result="measurement"[^>]*disabled/);
@@ -660,12 +670,15 @@ test('compact result views keep measurements, units and uncertain outcomes witho
   assert.match(html,/>Measured</);assert.match(html,/>Threshold</);
   assert.match(html,/3 mg\/kg/);assert.match(html,/1 µg\/g/);
   assert.match(html,/Inconclusive/);
-  assert.doesNotMatch(html,/<details|<a\b|<button|Factor comparisons/);
+  assert.doesNotMatch(html,/<button|data-action="info"/);
+  assert.match(html,/Standards by factor/);
+  assert.match(html,/Official source/);
   s.element('resultLayout').value='matrix';s.run('renderResultCards(latestRows)');
   html=s.element('resultsTable').innerHTML;
   assert.match(html,/S01/);assert.match(html,/S02/);assert.match(html,/result-matrix-table/);
   assert.match(html,/3 mg\/kg/);assert.match(html,/1 µg\/g/);
-  assert.doesNotMatch(html,/<details|<a\b|<button/);
+  assert.doesNotMatch(html,/<button|data-action="info"/);
+  assert.match(html,/Controlling factor|Lowest resolved factor|No resolved numerical factor/);
   assert.equal(s.element('resultSortControls').hidden,false);
 });
 
@@ -694,11 +707,66 @@ test('matrix filters retain sample alignment, threshold-only mode and missing me
   s.run('renderResultCards(latestRows)');
   let html=s.element('resultsTable').innerHTML;
   assert.match(html,/S01/);assert.match(html,/S02/);assert.match(html,/3 mg\/kg/);assert.match(html,/Filtered out/);
-  assert.doesNotMatch(html,/1 µg\/g/);
+  assert.doesNotMatch(html,/>1 µg\/g</);
   s.element('resultFilter').value='review';s.run('renderResultCards(latestRows)');
   assert.match(s.element('resultsTable').innerHTML,/No results match/);
   s.run("clearAssessment();saveAssessmentContaminants([{id:'anthracene'}]);updateActiveProfileData({currentLandUse:'RLLD',assessmentMode:'current'})");
   s.element('resultFilter').value='all';s.run('renderResults()');
   html=s.element('resultsTable').innerHTML;
   assert.match(html,/Anthracene/i);assert.match(html,/Unresolved|µg\/g/);assert.match(html,/—/);
+});
+
+test('official benzene Matrix 4 values and controlling factors match both residential columns', () => {
+  const s=setup();s.context.c=data.contaminants.find(c=>c.id==='benzene');
+  assert.equal(s.run("c.standards.find(r=>r.factor==='intake').standards.RLLD.value"),150);
+  assert.equal(s.run("c.standards.find(r=>r.factor==='plants').standards.RLLD.value"),100);
+  assert.equal(s.run("c.standards.find(r=>r.factor==='drinking').standards.RLLD.value"),0.035);
+  assert.equal(s.run("c.standards.find(r=>r.factor==='aquatic').standards.RLLD.raw"),'2.5\n6.5');
+  assert.equal(s.run("screenSoil(c, 1, 'µg/g', 'RLLD').threshold"),100);
+  assert.equal(s.run("screenSoil(c, 1, 'µg/g', 'RLHD').threshold"),250);
+  assert.equal(s.run("screenSoil(c, 1, 'µg/g', 'RLLD').controls[0]"),'Toxicity to soil invertebrates and plants');
+  assert.equal(s.run("screenSoil(c, 1, 'µg/g', 'RLLD', {factors:{drinking:'applicable'}}).threshold"),0.035);
+});
+
+test('lead uses unconditional intake/ecological rows while pH and hardness remain factor-specific', () => {
+  const s=setup();s.context.c=data.contaminants.find(c=>c.id==='lead');
+  for(const land of ['WLN','WLR','AL','PL','RLLD','RLHD','CL','IL']) {
+    s.context.land=land;
+    const r=s.run("screenSoil(c, 1, 'µg/g', land)");
+    assert.equal(r.status,'Pass',land);
+    assert.equal(r.threshold,land==='IL'?1000:land==='CL'?150:120,land);
+  }
+  assert.equal(s.run("screenSoil(c, 121, 'µg/g', 'RLLD').status"),'Exceeds');
+  const drinking=s.run("screenSoil(c, 1, 'µg/g', 'RLLD', {factors:{drinking:'applicable'}})");
+  assert.equal(drinking.status,'Inconclusive');assert.equal(drinking.threshold,120);
+  assert.equal(drinking.comparisons.find(c=>c.factor==='drinking').threshold,null);
+  assert.match(s.run("c.standards.find(r=>r.factor==='aquatic').conditions.join(' ')"),/hardness/);
+  assert.equal(s.run("c.standards.find(r=>r.factor==='intake').conditions.length"),0);
+});
+
+test('scope of explanatory and activity notes follows the official factor note column', () => {
+  const s=setup();
+  for(const id of ['beryllium','cadmium','copper','lead','manganese','nickel','selenium','zinc','chloride','dipa','pcp','pfos','sulfolane']) {
+    s.context.c=data.contaminants.find(c=>c.id===id);
+    assert.equal(s.run("c.standards.find(r=>r.factor==='intake').conditions.length"),0,id);
+  }
+  s.context.c=data.contaminants.find(c=>c.id==='pfos');
+  assert.equal(s.run("screenSoil(c, 0, 'µg/g', 'RLLD').status"),'Pass');
+  assert.equal(s.run("screenSoil(c, 0, 'µg/g', 'RLLD', {factors:{drinking:'applicable'}}).status"),'Inconclusive');
+  s.context.c=data.contaminants.find(c=>c.id==='pcbs');
+  assert.equal(s.run("screenSoil(c, 0, 'µg/g', 'RLLD').status"),'Inconclusive');
+});
+
+test('both layouts expose the controlling factor and individual standards with official page links', () => {
+  const s=setup('results.js');s.seed([record('benzene',{soilConc:1})]);
+  s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'RLLD'});renderResults()");
+  for(const layout of ['rows','matrix']) {
+    s.element('resultLayout').value=layout;s.run('renderResultCards(latestRows)');
+    const html=s.element('resultsTable').innerHTML;
+    assert.match(html,/Controlling factor: Toxicity to soil invertebrates and plants/);
+    assert.match(html,/Standards by factor/);assert.match(html,/#page=4/);
+    assert.match(html,/Intake of contaminated soil/);assert.match(html,/150 µg\/g/);
+    assert.match(html,/Groundwater used for drinking water/);assert.match(html,/Not applicable/);
+    assert.doesNotMatch(html,/data-action="info"/);
+  }
 });

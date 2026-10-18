@@ -139,6 +139,24 @@ function resultThreshold(matrix) {
   return matrix.threshold === null ? 'Unresolved' : `${formatThreshold(matrix.threshold)} ${matrix.thresholdUnit}`;
 }
 
+function resultThresholdMarkup(matrix) {
+  return escapeHtml(resultThreshold(matrix))+resultFactorMarkup(matrix);
+}
+
+function resultFactorMarkup(matrix) {
+  const result=matrix.result;
+  const unresolved=result.comparisons.some(c=>c.applicability!=='not_applicable' && c.status==='Inconclusive' && c.threshold===null);
+  const controls=result.controls.length ? `${unresolved?'Lowest resolved factor':'Controlling factor'}: ${result.controls.join('; ')}` : 'No resolved numerical factor';
+  const factors=result.comparisons.map(c=>{
+    const source=csrData.sources[String(c.part)];
+    const url=`${source.url}#page=${c.pages[0] || 1}`;
+    const standard=c.raw ? `${c.raw}${c.raw==='NS'?'':` ${c.unit}`}` : 'Blank / unavailable';
+    const state=c.applicability==='not_applicable'?'Not applicable':c.applicability==='not_assessed'?'Not assessed':c.status==='Inconclusive' && c.threshold===null?'Requires review':c.status;
+    return `<div><dt>${escapeHtml(c.label)}${result.controls.includes(c.label)?' (controlling)':''}</dt><dd><span class="result-factor-standard">${escapeHtml(standard)}</span><span>${escapeHtml(state)}</span><a href="${escapeHtml(url)}" aria-label="Official source: ${escapeHtml(c.source)}" target="_blank" rel="noopener">Part ${c.part}, p. ${escapeHtml(c.pages.join(', '))}</a></dd></div>`;
+  }).join('');
+  return `<small class="result-control-factor">${escapeHtml(controls)}</small><details class="result-standard-details"><summary>Standards by factor</summary><dl class="result-factor-list">${factors}</dl></details>`;
+}
+
 function resultChemicalName(contaminant) {
   return `${escapeHtml(contaminant.name)}<small>CAS ${escapeHtml(contaminant.cas)}</small>`;
 }
@@ -158,7 +176,7 @@ function renderSlimResults(rows, filter) {
     const first=group[0];
     const identity=first.sample ? `${first.apec.name} → ${first.sample.name}` : 'Thresholds only';
     const scenarios=new Set(group.flatMap(row=>row.matrices.map(m=>m.label)));
-    return `<section class="result-sample"><h3>${escapeHtml(identity)}</h3>${scenarios.size===1?`<p class="result-scenario">${escapeHtml([...scenarios][0])}</p>`:''}<div class="sample-table-wrap"><table class="sample-table result-rows-table"><thead><tr><th scope="col">Contaminant</th>${scenarios.size>1?'<th scope="col">Land use</th>':''}<th scope="col">Measured</th><th scope="col">Threshold</th><th scope="col">Result</th></tr></thead><tbody>${group.flatMap(row=>row.matrices.map(matrix=>`<tr><th scope="row">${resultChemicalName(row.contaminant)}</th>${scenarios.size>1?`<td>${escapeHtml(matrix.label)}</td>`:''}<td class="result-number" data-label="Measured">${escapeHtml(resultMeasurement(matrix))}</td><td class="result-number" data-label="Threshold">${escapeHtml(resultThreshold(matrix))}</td><td data-label="Result">${getStatusMarkup(matrix.result)}</td></tr>`)).join('')}</tbody></table></div></section>`;
+    return `<section class="result-sample"><h3>${escapeHtml(identity)}</h3>${scenarios.size===1?`<p class="result-scenario">${escapeHtml([...scenarios][0])}</p>`:''}<div class="sample-table-wrap"><table class="sample-table result-rows-table"><thead><tr><th scope="col">Contaminant</th>${scenarios.size>1?'<th scope="col">Land use</th>':''}<th scope="col">Measured</th><th scope="col">Threshold</th><th scope="col">Result</th></tr></thead><tbody>${group.flatMap(row=>row.matrices.map(matrix=>`<tr><th scope="row">${resultChemicalName(row.contaminant)}</th>${scenarios.size>1?`<td>${escapeHtml(matrix.label)}</td>`:''}<td class="result-number" data-label="Measured">${escapeHtml(resultMeasurement(matrix))}</td><td class="result-number" data-label="Threshold">${escapeHtml(resultThreshold(matrix))}</td><td data-label="Result">${getStatusMarkup(matrix.result)}</td></tr><tr class="result-provenance-row"><td colspan="${scenarios.size>1?5:4}">${resultFactorMarkup(matrix)}</td></tr>`)).join('')}</tbody></table></div></section>`;
   }).join('');
 }
 
@@ -198,7 +216,7 @@ function renderMatrixResults(rows, filter) {
       const matrix=values.find(Boolean);
       const heading=byCategory && category!==chemical.category ? `<tr class="result-category-row"><th scope="rowgroup" colspan="${samples.length+2}">${escapeHtml(chemical.category)}</th></tr>` : '';
       category=chemical.category;
-      return `${heading}<tr><th scope="row">${resultChemicalName(chemical)}</th><td class="result-number">${escapeHtml(resultThreshold(matrix))}</td>${values.map(m=>`<td>${!m?'<span class="result-missing">No value</span>':!matchesResultFilter(m,filter)?'<span class="result-missing">Filtered out</span>':`<span class="result-number">${escapeHtml(resultMeasurement(m))}</span>${getStatusMarkup(m.result)}`}</td>`).join('')}</tr>`;
+      return `${heading}<tr><th scope="row">${resultChemicalName(chemical)}</th><td class="result-number">${resultThresholdMarkup(matrix)}</td>${values.map(m=>`<td>${!m?'<span class="result-missing">No value</span>':!matchesResultFilter(m,filter)?'<span class="result-missing">Filtered out</span>':`<span class="result-number">${escapeHtml(resultMeasurement(m))}</span>${getStatusMarkup(m.result)}`}</td>`).join('')}</tr>`;
     }).join('');
     if(!body) return '';
     return `<section class="result-sample"><h3>${escapeHtml(label)}</h3><div class="sample-table-wrap" role="region" aria-label="${escapeHtml(label)} sample matrix" tabindex="0"><table class="sample-table result-matrix-table"><thead><tr><th scope="col">Contaminant</th><th scope="col">Threshold</th>${samples.map(s=>`<th scope="col">${s.apec?`${escapeHtml(s.apec.name)}<small>${escapeHtml(s.sample.name)}</small>`:'Measured'}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div></section>`;
@@ -445,7 +463,7 @@ function printReport() {
   if(layout) layout.value='rows';
   if(filter) filter.value='all';
   renderResultCards(latestRows);
-  const details=[...document.querySelectorAll('#sampleSummary details')];
+  const details=[...document.querySelectorAll('.result-standard-details, #sampleSummary details')];
   const previous=details.map(d=>d.open);
   details.forEach(d=>d.open=true);
   const restore=()=>{details.forEach((d,i)=>d.open=previous[i]);if(filter) filter.value=priorFilter;if(layout) layout.value=priorLayout;renderResultCards(latestRows);window.removeEventListener('afterprint',restore);};
@@ -479,7 +497,7 @@ newAssessmentButtons.forEach((button) => {
   });
 });
 
-fetch('data.json?v=20261011-schedule31')
+fetch('data.json?v=20261015-source-audit')
   .then((response) => response.json())
   .then((data) => {
     csrData = data;

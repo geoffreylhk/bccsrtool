@@ -22,7 +22,7 @@ function renderSampleEditor() {
               <div class="sample-table-wrap"><table class="sample-table"><thead><tr><th>Contaminant</th><th>Detection</th><th>Concentration</th><th>Unit</th></tr></thead><tbody>
               ${sample.results.map(result=>{const substance=contaminants.get(result.contaminantId);return `<tr data-contaminant="${escapeHtml(result.contaminantId)}"><th scope="row">${escapeHtml(substance?.name || 'Unknown substance')}<small>${escapeHtml(substance?.cas || '')}</small></th>
                 <td><select aria-label="Detection for ${escapeHtml(substance?.name)}" data-result="qualifier"><option value="detected" ${result.qualifier==='detected'?'selected':''}>Detected</option><option value="non_detect" ${result.qualifier==='non_detect'?'selected':''}>No detection</option></select></td>
-                <td><input aria-label="Concentration for ${escapeHtml(substance?.name)}" data-result="measurement" type="number" min="0" step="any" value="${escapeHtml(result.qualifier==='non_detect'?'':result.value)}" ${result.qualifier==='non_detect'?'disabled':''}></td>
+                <td><input aria-label="${result.qualifier==='non_detect'?'Reporting limit':'Concentration'} for ${escapeHtml(substance?.name)}" data-result="measurement" type="number" min="0" step="any" value="${escapeHtml(result.qualifier==='non_detect'?result.reportingLimit:result.value)}" placeholder="${result.qualifier==='non_detect'?'Reporting limit':''}"></td>
                 <td><select aria-label="Unit for ${escapeHtml(substance?.name)}" data-result="unit">${LAB_UNITS.filter(u=>u.category==='soil').map(u=>`<option ${result.unit===u.label?'selected':''} value="${u.label}">${u.label}</option>`).join('')}</select></td></tr>`;}).join('')}
               </tbody></table></div>
             </section>`)).join('')}
@@ -101,9 +101,8 @@ function saveSampleField(event) {
       if(input.dataset.result) {
         const result=sample.results.find(r=>r.contaminantId===input.closest('[data-contaminant]').dataset.contaminant);
         if(input.dataset.result==='measurement') {
-          if(result.qualifier==='non_detect') return;
-          result.value=input.value;
-          result.reportingLimit='';
+          if(result.qualifier==='non_detect') result.reportingLimit=input.value;
+          else {result.value=input.value;result.reportingLimit='';}
         } else result[input.dataset.result]=input.value;
       } else {
         const target=input.dataset.kind==='apec'?apec:input.dataset.kind==='location'?location:sample;
@@ -175,5 +174,5 @@ function initializeSampleEditor(data) {
   renderSampleEditor();
 }
 
-fetch('data.json?v=20261011-schedule31').then(response=>response.json()).then(initializeSampleEditor)
+fetch('data.json?v=20261015-source-audit').then(response=>response.json()).then(initializeSampleEditor)
   .catch(error=>{labTable.textContent=`Could not load sample data: ${error.message}`;});

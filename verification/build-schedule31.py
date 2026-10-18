@@ -24,7 +24,7 @@ def source(part):
     raw = path.read_bytes()
     sources[str(part)] = dict(url='https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/' +
         ('159_2025' if part == 2 else '133_2022') + f'_Sch%203.1-part{part}',
-        sha256=hashlib.sha256(raw).hexdigest(), retrieved='2026-10-11',
+        sha256=hashlib.sha256(raw).hexdigest(), retrieved='2026-10-15',
         version='B.C. Reg. 159/2025' if part == 2 else 'B.C. Reg. 133/2022',
         consolidation_current_to='2026-10-06')
     if part == 2:
@@ -80,6 +80,7 @@ with source(1) as pdf:
         raw = {factor: {land: [] for land in LANDS} for factor in FACTORS}
         labels = {factor: [] for factor in FACTORS}
         factor_pages = {factor: [] for factor in FACTORS}
+        note_refs = {factor: set() for factor in FACTORS}
         words = pages[0][1].extract_words()
         centers = [(w['x0']+w['x1'])/2 for land in LANDS for w in words if w['text'] == f'({land})']
         assert len(centers) == 8
@@ -112,6 +113,8 @@ with source(1) as pdf:
                 if not f: continue
                 end = min(segments[idx+1][0] if idx+1 < len(segments) else note_y, note_y)
                 factor_pages[f].append(number)
+                note_words = [w['text'] for w in words if w['x0'] > centers[-1]+30 and y-2 <= w['top'] < end-2]
+                note_refs[f].update(re.findall(r'\d+', ' '.join(note_words)))
                 labels[f].extend(label for top,label in lines([w for w in words if w['x0'] < centers[0]-35]) if y-2 <= top < end-2)
                 for j,land in enumerate(LANDS):
                     lo = (centers[j-1]+centers[j])/2 if j else centers[0]-30
@@ -119,6 +122,11 @@ with source(1) as pdf:
                     ws = [w for w in words if lo < (w['x0']+w['x1'])/2 < hi and y-2 <= w['top'] < end-2]
                     raw[f][land].extend(text for _,text in lines(ws))
             if anchors: factor = anchors[-1][1]
+        notes_text = '\n'.join(notes)
+        note_starts = list(re.finditer(r'(?m)^[ \t]*(\d+)[ \t]+', notes_text))
+        source_notes = {m.group(1): notes_text[m.end():note_starts[i+1].start() if i+1 < len(note_starts) else len(notes_text)].strip()
+                        for i,m in enumerate(note_starts)}
+        heading_refs = set(re.findall(r'\d+', ' '.join(re.findall(r'STANDARDS([\d,]+)', pages[0][2].split('COLUMN')[0]))))
         records = []
         for f in FACTORS:
             values = {land: cell('\n'.join(raw[f][land])) for land in LANDS}
@@ -127,7 +135,11 @@ with source(1) as pdf:
                 if '\n' in value['raw']:
                     value.update(kind='conditional', value=None)
             records.append(dict(part=1, factor=f, matrix=matrix, pages=sorted(set(factor_pages[f])),
-                unit='µg/g', standards=values, conditions=notes, source_labels=labels[f]))
+                unit='µg/g', standards=values,
+                # Definitions of pH do not make unrelated intake/ecological rows conditional.
+                conditions=[source_notes[ref] for ref in sorted(note_refs[f] | heading_refs)
+                            if ref in source_notes and not source_notes[ref].startswith('The pH is the pH')],
+                note_refs=sorted(note_refs[f] | heading_refs), source_notes=source_notes, source_labels=labels[f]))
         contaminant['standards'] = records
         if contaminant['cas'] == 'NS': contaminant['cas'] = 'NA'
         if contaminant['id'] == 'pcdds_pcdfs': contaminant['name'] = 'PCDDs/PCDFs (TCDD toxicity equivalents)'
@@ -167,7 +179,7 @@ for index, record in enumerate(generic.values()):
         description='Schedule 3.1 generic soil standards; source-specific conditions apply.',
         **record))
 data['sources'] = sources
-data['metadata'].update(last_amended='Source tables verified 2026-10-11; consolidation 2026-10-06',
+data['metadata'].update(last_amended='Source cells rechecked 2026-10-15; consolidation 2026-10-06',
     gw_unit=None, notes={'NS':'No numerical standard; not zero', 'blank':'Blank source cell; unresolved',
     'conditional':'Requires source conditions or professional review'})
 for contaminant in data['contaminants']:

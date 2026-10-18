@@ -203,3 +203,72 @@ test('separate numbered copies advance only after saving and preserve custom nam
   await elements.saveAssessmentCopy.handlers.click();
   assert.equal(s.calls.at(-1).value.title,'My custom copy');
 });
+
+test('renaming changes only the owner-filtered title, checks revision and preserves working edits', async () => {
+  const s = setup();
+  const record = s.record(); s.context.record = record;
+  s.run("restoreAccountAssessment(record,'alice'); updateActiveProfileData({siteName:'Unsaved edit'})");
+  s.respond({data:{id:record.id,user_id:'alice',title:'New name',revision:2}});
+  await s.run("renameAccountAssessment(record,' New name ')");
+  assert.equal(JSON.stringify(s.calls[0].value),JSON.stringify({title:'New name'}));
+  assert.deepEqual(s.calls[0].filters,[['id',record.id],['user_id','alice'],['revision',1]]);
+  assert.equal(s.run('getActiveProfile().siteName'),'Unsaved edit');
+  assert.equal(s.run('getAppState().cloudAssessment.title'),'New name');
+  assert.equal(s.run('getAppState().cloudAssessment.revision'),2);
+  assert.equal(s.run('getAppState().cloudAssessment.savedSnapshot.profiles.assessment.siteName'),'');
+});
+
+test('rename failures and invalid titles preserve local ownership and inputs', async () => {
+  const s=setup();s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice')");
+  const before=s.storage.get('bcCsrToolState');
+  await assert.rejects(s.run("renameAccountAssessment(record,'   ')"),/1–100/);
+  s.respond({error:{code:'PGRST116'}});
+  await assert.rejects(s.run("renameAccountAssessment(record,'New name')"),/has changed/);
+  assert.equal(s.storage.get('bcCsrToolState'),before);
+  s.setUser('bob');const requests=s.calls.length;
+  await assert.rejects(s.run("renameAccountAssessment(record,'New name')"),/sign-in has changed/);
+  assert.equal(s.calls.length,requests);
+});
+
+test('search matches title and site; sorting supports name and both date directions without mutating records', () => {
+  const s=setup();
+  s.context.records=[
+    {...s.record(),id:'one',title:'Assessment 10',updated_at:'2026-10-14',payload:{profiles:{assessment:{siteName:'Harbour'}}}},
+    {...s.record(),id:'two',title:'Assessment 2',updated_at:'2026-10-17'},
+    {...s.record(),id:'three',title:'Custom',updated_at:'2026-10-15'}
+  ];
+  assert.equal(s.run("visibleAssessments(records,' HARBOUR ').map(r=>r.id).join(',')"),'one');
+  assert.equal(s.run("visibleAssessments(records,'assessment','name').map(r=>r.id).join(',')"),'two,one');
+  assert.equal(s.run("visibleAssessments(records,'','recent').map(r=>r.id).join(',')"),'two,three,one');
+  assert.equal(s.run("visibleAssessments(records,'','oldest').map(r=>r.id).join(',')"),'one,three,two');
+  assert.equal(s.context.records[0].id,'one');
+});
+
+test('previews use saved proposed land use and count samples across APECs', () => {
+  const s=setup();s.context.record=s.record();
+  s.run("record.payload.profiles.assessment.assessmentMode='proposed'; record.payload.profiles.assessment.proposedLandUse='IL'; record.payload.profiles.assessment.apecs=[{locations:[{samples:[{},{}]}]},{locations:[{samples:[{}]}]}]");
+  assert.match(s.run('assessmentPreview(record).text'),/Proposed: Industrial.*2 APECs.*3 samples/);
+});
+
+test('saving status distinguishes saved inputs, unsaved values and unsaved titles', async () => {
+  const elements=saveElements(),s=setup(elements);
+  s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice')");
+  await s.run('initializeAccountAssessments()');
+  assert.match(elements.savedAssessmentStatus.textContent,/^Saved to your account/);
+  s.run("updateActiveProfileData({siteName:'Changed'}); updateAccountSaveStatus()");
+  assert.match(elements.savedAssessmentStatus.textContent,/haven’t been saved/);
+  s.run("restoreAccountAssessment(record,'alice')");
+  elements.assessmentSaveTitle.value='Renamed locally';s.run('updateAccountSaveStatus()');
+  assert.match(elements.savedAssessmentStatus.textContent,/haven’t been saved/);
+});
+
+test('library paginates all owner saves so search includes records beyond the first hundred', async () => {
+  const s=setup();
+  s.pages([{data:Array.from({length:100},(_,i)=>({...s.record(),id:`a${i}`}))},{data:[{...s.record(),id:'older',title:'Old harbour assessment'}]}]);
+  s.run('renderSavedAssessments = () => {}');
+  await s.run('listAccountAssessments()');
+  assert.equal(s.run('savedRecords.length'),101);
+  assert.equal(s.run("visibleAssessments(savedRecords,'harbour')[0].id"),'older');
+  assert.deepEqual(s.calls.map(c=>c.range),[[0,99],[100,199]]);
+  s.calls.forEach(call=>assert.deepEqual(call.filters,[['user_id','alice']]));
+});

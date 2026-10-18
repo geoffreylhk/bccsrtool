@@ -8,40 +8,57 @@
   <title>Your account — BC CSR Screening Tool</title>
   <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="style.css?v=20261015-nav-spacing">
-  <link rel="stylesheet" href="auth.css?v=20261015-delete-red">
+  <link rel="stylesheet" href="auth.css?v=20261017-account-workspace">
 </head>
 <body class="auth-page">
   <nav class="site-nav" aria-label="Main navigation">
     <a class="brand" href="index.html"><img src="assets/images/logo.png" alt=""><span>CSR Screening Tool</span></a>
     <div class="nav-links"><a href="about.html">About</a><a href="account.html">Account</a></div>
   </nav>
-  <main class="workflow-main narrow-main">
+  <main class="workflow-main wide-main account-main">
     <header class="page-header"><h1>Your account</h1></header>
     <p id="authStatus" role="status" aria-live="polite">Loading account service…</p>
     <p id="authRetry" hidden><a href="signin.html">Return to sign in</a></p>
     <noscript>Enable JavaScript to use accounts.</noscript>
     <section id="accountPanel" hidden>
-<p>Signed in as <strong id="accountEmail"></strong></p>
-<form id="profileForm" class="card form-card">
+<p class="account-identity">Signed in as <strong id="accountEmail"></strong></p>
+<div class="account-layout">
+<nav class="account-menu card" aria-label="Account sections">
+<a href="#saved" data-account-section="saved" aria-current="page">Saved assessments</a>
+<a href="#profile" data-account-section="profile">Profile</a>
+</nav>
+<div class="account-content">
+<section id="savedSection" class="card saved-assessments-section" aria-labelledby="savedAssessmentsHeading">
+<div class="account-section-header"><h2 id="savedAssessmentsHeading">Saved assessments</h2><button id="retrySavedAssessments" type="button" class="secondary-action">Refresh</button></div>
+<p>Reopen your results or edit your values, then save changes from Results. Account saves are private to you.</p>
+<div class="assessment-library-controls">
+<div class="form-group"><label for="assessmentSearch">Search assessments</label><input id="assessmentSearch" type="search" placeholder="Assessment or site name" autocomplete="off"></div>
+<div class="form-group"><label for="assessmentSort">Sort by</label><select id="assessmentSort"><option value="recent">Recently updated</option><option value="oldest">Oldest updated</option><option value="name">Name A–Z</option></select></div>
+</div>
+<p id="savedAssessmentStatus" role="status" aria-live="polite">Loading saved assessments…</p>
+<div id="savedAssessments"></div>
+<p class="account-help">Results are recalculated using the tool’s current standards data.</p>
+</section>
+<section id="profileSection" class="card account-profile" aria-labelledby="profileHeading" hidden>
+<h2 id="profileHeading">Profile</h2>
+<p>Choose the display name for your account.</p>
+<form id="profileForm" class="form-card">
 <div class="form-group"><label for="profileName">Display name</label><input id="profileName" name="display_name" autocomplete="nickname" maxlength="100"></div>
 <button class="primary-action" type="submit" disabled>Save profile</button>
 </form>
-<section class="card saved-assessments-section" aria-labelledby="savedAssessmentsHeading">
-<h2 id="savedAssessmentsHeading">Saved assessments</h2>
-<p>Open your account saves on any device. View results or edit the previous values, then save your changes from the Results page. Results are recalculated using the tool's current standards data.</p>
-<p id="savedAssessmentStatus" role="status" aria-live="polite">Loading saved assessments…</p>
-<button id="retrySavedAssessments" type="button" class="secondary-action">Refresh saved assessments</button>
-<div id="savedAssessments"></div>
-<p>Signing out clears the working assessment in this browser. Save to your account from Results before signing out if you want to keep it. Your account saves remain available after signing in again.</p>
 <p>For account deletion requests, see the <a href="privacypolicy.html">Privacy Policy</a>.</p>
-<a href="index.html">Return to the screening tool</a>
 </section>
-<button id="signoutButton" class="secondary-action" type="button" disabled>Sign out</button>
+</div>
+</div>
+<footer class="account-footer card">
+<p>Save your changes to your account before signing out. Signing out clears this browser’s working assessment; your account saves remain available.</p>
+<div class="account-footer-actions"><a href="index.html">Return to the screening tool</a><button id="signoutButton" class="secondary-action" type="button" disabled>Sign out</button></div>
+</footer>
 </section>
   </main>
-  <script type="module" src="auth.js?v=20261014-account-isolation"></script>
-  <script src="data-utils.js?v=20261015-no-detection"></script>
-  <script type="module" src="account-assessments.js?v=20261015-delete-red"></script>
+  <script type="module" src="auth.js?v=20261017-account-workspace"></script>
+  <script src="data-utils.js?v=20261017-account-workspace"></script>
+  <script type="module" src="account-assessments.js?v=20261017-account-workspace"></script>
   <script type="module" src="assessment-session.js?v=20261014-account-isolation"></script>
 </body>
 </html>

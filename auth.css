@@ -32,3 +32,43 @@
   border-color: var(--danger);
   color: var(--surface);
 }
+
+/* Account workspace reuses the screening tool's palette and controls. */
+.account-main .account-identity { margin-bottom: 24px; overflow-wrap: anywhere; }
+.account-layout { display: grid; grid-template-columns: 208px minmax(0, 1fr); gap: 24px; align-items: start; }
+.account-menu { padding: 10px; display: grid; gap: 6px; }
+.account-menu a { display: flex; align-items: center; min-height: 48px; padding: 12px; border-radius: 7px; color: var(--text); text-decoration: none; font-weight: 600; }
+.account-menu a:hover { background: var(--surface-soft); }
+.account-menu a[aria-current] { background: var(--primary); color: var(--surface); }
+.account-content { min-width: 0; }
+.account-main h2 { margin: 0; }
+.account-section-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.account-main .saved-assessments-section { margin: 0; }
+.assessment-library-controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, .7fr); gap: 16px; margin-top: 24px; }
+.account-main .form-group { min-width: 0; display: grid; gap: 8px; }
+.account-main select { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--surface); color: var(--text); font: inherit; }
+.account-main :is(a, button, select):focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.account-main .saved-assessment-card { padding: 24px 0; margin: 0; border: 0; border-top: 1px solid var(--border); border-radius: 0; box-shadow: none; background: transparent; }
+.saved-assessment-card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+.assessment-preview, .assessment-date, .account-help { color: var(--text-muted); font-size: .9rem; }
+.assessment-preview { margin: 8px 0; }
+.assessment-date { margin: 0 0 16px; }
+.account-main .saved-assessment-actions { gap: 8px; }
+.account-main .saved-assessment-actions button { padding: 10px 14px; min-height: 44px; font-size: .9rem; }
+.assessment-rename-form { margin-top: 16px; display: grid; gap: 12px; }
+.assessment-rename-form .saved-assessment-actions { margin: 0; }
+.account-profile { padding: 24px; }
+.account-profile .form-card { padding: 0; margin: 24px 0; }
+.account-profile button { justify-self: start; }
+.account-footer { margin-top: 24px; padding: 24px; }
+.account-footer p { color: var(--text-muted); font-size: .9rem; max-width: 760px; }
+.account-footer-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.auth-page .account-footer #signoutButton { margin: 0; }
+@media (max-width: 700px) {
+  .account-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .account-menu { grid-template-columns: 1fr 1fr; }
+  .account-menu a { justify-content: center; text-align: center; }
+  .assessment-library-controls { grid-template-columns: minmax(0, 1fr); }
+  .account-main .saved-assessments-section, .account-profile { padding: 20px; }
+  .account-footer-actions { flex-wrap: wrap; }
+}
