@@ -770,3 +770,62 @@ test('both layouts expose the controlling factor and individual standards with o
     assert.doesNotMatch(html,/data-action="info"/);
   }
 });
+
+test('APEC deletion waits for the website decision; cancellation preserves all sample data', async () => {
+  const s=setup('labdata.js');s.seed([record('benzene',{soilConc:0})]);s.run('renderSampleEditor()');
+  s.element('addApecBtn').handlers.click();
+  const before=s.run('JSON.stringify(getActiveProfile().apecs)');
+  const id=s.run('getActiveProfile().apecs[0].id');
+  const button={dataset:{action:'delete-apec'},closest(selector){return selector==='[data-apec]'?{dataset:{apec:id}}:null;}};
+  let decide;s.context.showSiteDialog=()=>new Promise(resolve=>{decide=resolve;});
+  const pending=s.element('labTable').handlers.click({target:{closest(){return button;}}});
+  assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
+  decide(false);await pending;
+  assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
+  s.context.showSiteDialog=async()=>true;
+  await s.element('labTable').handlers.click({target:{closest(){return button;}}});
+  assert.equal(s.run('getActiveProfile().apecs.length'),1);
+  assert.notEqual(s.run('getActiveProfile().apecs[0].id'),id);
+});
+
+test('empty samples and APECs delete without warnings, even beside a populated sample', async () => {
+  const s=setup('labdata.js');s.seed([record('benzene',{soilConc:1})]);s.run('renderSampleEditor()');
+  s.run('changeSampleData(apecs=>apecs[0].locations[0].samples.push(newSample(apecs[0])))');
+  let prompts=0;s.context.showSiteDialog=async()=>{prompts++;return false;};
+  const apec=s.run('getActiveProfile().apecs[0]'),location=apec.locations[0],empty=location.samples.at(-1);
+  function button(action,apecId,sampleId) {
+    return {dataset:{action},closest(selector){return ({
+      '[data-apec]':{dataset:{apec:apecId}},
+      '[data-location]':{dataset:{location:location.id}},
+      '[data-sample]':{dataset:{sample:sampleId}}
+    })[selector];}};
+  }
+  async function click(target) {await s.element('labTable').handlers.click({target:{closest(){return target;}}});}
+  await click(button('delete-sample',apec.id,empty.id));
+  assert.equal(s.run('getSoilSamples().length'),1);assert.equal(prompts,0);
+  await click(button('delete-sample',apec.id,location.samples[0].id));
+  assert.equal(s.run('getSoilSamples().length'),1);assert.equal(prompts,1);
+  s.element('addApecBtn').handlers.click();
+  const emptyApec=s.run('getActiveProfile().apecs[1].id');
+  await click(button('delete-apec',emptyApec));
+  assert.equal(s.run('getActiveProfile().apecs.length'),1);assert.equal(prompts,1);
+});
+
+test('deletion warnings recognize zero, non-detection, reporting limits, dates, and changed units', () => {
+  const s=setup('labdata.js');
+  assert.equal(s.run("sampleHasEnteredData({date:'',results:[{value:'',reportingLimit:'',qualifier:'detected',unit:DEFAULT_SOIL_UNIT}]})"),false);
+  for(const result of [{value:0},{qualifier:'non_detect'},{reportingLimit:0},{unit:'mg/kg'}]) {
+    s.context.result=result;
+    // mg/kg is the other supported soil unit, distinct from the default µg/g.
+    assert.equal(s.run('sampleHasEnteredData({results:[result]})'),true);
+  }
+  assert.equal(s.run("sampleHasEnteredData({date:'2026-10-18',results:[]})"),true);
+});
+
+test('Word export dependency errors use a website notice instead of a browser alert', () => {
+  const s=setup('results.js');let notice;
+  s.context.showSiteDialog=(message,options)=>{notice={message,options};};
+  s.run('exportWordReport()');
+  assert.match(notice.message,/library could not be loaded/);
+  assert.equal(notice.options.notice,true);
+});

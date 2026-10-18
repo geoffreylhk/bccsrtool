@@ -329,7 +329,7 @@ function tableCell(text, width, bold = false) {
 
 function exportWordReport() {
   if (!window.docx) {
-    window.alert('Word export library could not be loaded. Check your internet connection and try again.');
+    showSiteDialog('Word export library could not be loaded. Check your internet connection and try again.', { title: 'Word export unavailable', notice: true });
     return;
   }
 
@@ -401,7 +401,7 @@ function exportWordReport() {
   Packer.toBlob(doc).then((blob) => {
     downloadBlob(blob, `bc-csr-screening-report-${new Date().toISOString().slice(0, 10)}.docx`);
   }).catch(() => {
-    window.alert('Word export failed. Please try again or use PDF/CSV export.');
+    showSiteDialog('Word export failed. Please try again or use PDF/CSV export.', { title: 'Word export failed', notice: true });
   });
 }
 
@@ -490,8 +490,8 @@ csvExportButtons.forEach((button) => button.addEventListener('click', exportResu
 wordExportButtons.forEach((button) => button.addEventListener('click', exportWordReport));
 
 newAssessmentButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    if (!window.confirm('Start a new assessment and clear saved local progress?')) return;
+  button.addEventListener('click', async () => {
+    if (!await showSiteDialog(['This will ', { text: 'clear', red: true }, ' the working assessment in this browser. Your account saves will remain available.'], { title: 'Start a new assessment?', confirmLabel: 'Start new assessment', cancelLabel: 'Cancel', neutral: true })) return;
     clearAssessment();
     window.location.href = 'index.html';
   });
@@ -512,3 +512,9 @@ fetch('data.json?v=20261015-source-audit')
       </p>
     `;
   });
+
+window.addEventListener('bc-csr-preferences-applied', () => {
+  if (!csrData) return;
+  restoreResultControls();
+  renderResultCards(latestRows);
+});

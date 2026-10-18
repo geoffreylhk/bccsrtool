@@ -6,18 +6,20 @@ const { test } = require('node:test');
 function setup(elements = {}) {
   const storage = new Map();
   let actualUser = 'alice';
+  let profileResponse = {data:{id:'alice',display_name:'Alice',chemical_sort:'alpha'}};
   let response;
   let pages = [];
   const calls = [];
-  const client = { auth: { async getUser() { return { data: { user: { id: actualUser } } }; } }, from(table) {
-    assert.equal(table, 'saved_assessments');
-    const call = { filters: [] }; calls.push(call);
+  const client = { auth: { async getUser() { return { data: { user: { id: actualUser, email: 'alice@example.com', access_token:'never-export-this', app_metadata:{providers:['google']}, user_metadata:{display_name:'Alice'} } } }; } }, from(table) {
+    assert.ok(['saved_assessments','profiles'].includes(table));
+    const call = { table, filters: [] }; calls.push(call);
     const query = {
       insert(value) { call.operation = 'insert'; call.value = value; return query; },
       update(value) { call.operation = 'update'; call.value = value; return query; },
       select(value) { call.selection = value; return query; },
       eq(key, value) { call.filters.push([key, value]); return query; },
       async single() { return response; },
+      async maybeSingle() { return profileResponse; },
       order(value) { call.order = value; return query; },
       async range(from, to) { call.range = [from, to]; return pages.shift() || {data:[]}; }
     };
@@ -29,6 +31,7 @@ function setup(elements = {}) {
     window: { dispatchEvent() {}, location: {}, confirm() { return true; } },
     CustomEvent: class {}, TextEncoder, console, mockSupabase: client
   });
+  context.showSiteDialog = async () => context.window.confirm();
   vm.runInContext(fs.readFileSync(require.resolve('../data-utils.js'), 'utf8'), context);
   const source = fs.readFileSync(require.resolve('../account-assessments.js'), 'utf8')
     .replace("import { supabase } from './supabase-client.js';", 'const supabase = mockSupabase;');
@@ -38,7 +41,7 @@ function setup(elements = {}) {
   const snapshot = () => JSON.parse(run('JSON.stringify(getAssessmentSnapshot())'));
   const record = () => ({ id: 'saved-1', user_id: 'alice', title: 'My assessment', revision: 1, payload: snapshot() });
   return { run, storage, calls, snapshot, record, context,
-    respond: value => { response = value; }, pages: value => { pages = value; }, setUser: value => { actualUser = value; } };
+    profile: value => { profileResponse = value; }, respond: value => { response = value; }, pages: value => { pages = value; }, setUser: value => { actualUser = value; } };
 }
 
 test('account save uploads assessment inputs without local ownership/session/UI metadata', async () => {
@@ -230,7 +233,7 @@ test('rename failures and invalid titles preserve local ownership and inputs', a
   assert.equal(s.calls.length,requests);
 });
 
-test('search matches title and site; sorting supports name and both date directions without mutating records', () => {
+test('search matches title and site; sorting supports both date directions without mutating records', () => {
   const s=setup();
   s.context.records=[
     {...s.record(),id:'one',title:'Assessment 10',updated_at:'2026-10-14',payload:{profiles:{assessment:{siteName:'Harbour'}}}},
@@ -238,7 +241,7 @@ test('search matches title and site; sorting supports name and both date directi
     {...s.record(),id:'three',title:'Custom',updated_at:'2026-10-15'}
   ];
   assert.equal(s.run("visibleAssessments(records,' HARBOUR ').map(r=>r.id).join(',')"),'one');
-  assert.equal(s.run("visibleAssessments(records,'assessment','name').map(r=>r.id).join(',')"),'two,one');
+  assert.equal(s.run("visibleAssessments(records,'assessment').map(r=>r.id).join(',')"),'two,one');
   assert.equal(s.run("visibleAssessments(records,'','recent').map(r=>r.id).join(',')"),'two,three,one');
   assert.equal(s.run("visibleAssessments(records,'','oldest').map(r=>r.id).join(',')"),'one,three,two');
   assert.equal(s.context.records[0].id,'one');
@@ -271,4 +274,25 @@ test('library paginates all owner saves so search includes records beyond the fi
   assert.equal(s.run("visibleAssessments(savedRecords,'harbour')[0].id"),'older');
   assert.deepEqual(s.calls.map(c=>c.range),[[0,99],[100,199]]);
   s.calls.forEach(call=>assert.deepEqual(call.filters,[['user_id','alice']]));
+});
+
+
+test('account export includes profile/preferences and every save without session tokens',async()=>{
+  const s=setup();
+  s.pages([{data:Array.from({length:100},(_,i)=>({...s.record(),id:`save-${i}`}))},{data:[{...s.record(),id:'last-save'}]}]);
+  const result=await s.run('collectAccountExport()');
+  assert.equal(result.profile.chemical_sort,'alpha');
+  assert.equal(result.saved_assessments.length,101);
+  assert.equal(result.account.email,'alice@example.com');
+  assert.equal(result.account.access_token,undefined);
+  assert.doesNotMatch(JSON.stringify(result),/never-export-this/);
+  for(const call of s.calls)assert.deepEqual(call.filters,[[call.table==='profiles'?'id':'user_id','alice']]);
+});
+
+test('failed or wrong-owner exports never return partial account data',async()=>{
+  const s=setup();s.profile({data:{id:'bob'}});
+  await assert.rejects(s.run('collectAccountExport()'),/sign-in has changed/);
+  s.profile({data:{id:'alice'}});s.pages([{error:{code:'network'}}]);
+  await assert.rejects(s.run('collectAccountExport()'),/Unable to access/);
+  s.setUser('bob');await assert.rejects(s.run('collectAccountExport()'),/sign-in has changed/);
 });

@@ -1,6 +1,7 @@
 const status = document.getElementById('authStatus');
 let supabase;
 let user;
+let accountSettingsReady = false;
 
 function showStatus(message, error = false) {
   status.textContent = message;
@@ -88,11 +89,15 @@ bindForm('forgotForm', async (fields) => {
 });
 
 bindForm('profileForm', async (fields) => {
+  const sort = fields.get('chemical_sort');
+  if (accountSettingsReady && !['category', 'default', 'alpha'].includes(sort)) throw new Error('Choose a valid chemical sorting option.');
+  const owner = await requireAccountOwner();
   const profile = checkResult(await supabase.from('profiles')
-    .update({ display_name: fields.get('display_name').trim() })
-    .eq('id', user.id).select('id').single());
-  if (profile.id !== user.id) throw new Error('Your profile could not be saved.');
-  showStatus('Profile saved.');
+    .update({ display_name: fields.get('display_name').trim(), ...(accountSettingsReady ? { chemical_sort: sort } : {}) })
+    .eq('id', owner.id).select('id').single());
+  if (profile.id !== owner.id) throw new Error('Your profile could not be saved.');
+  if (accountSettingsReady) applyAccountChemicalSort(owner.id, sort);
+  showStatus('Settings saved.');
 });
 
 bindForm('resetForm', async (fields) => {
@@ -107,7 +112,7 @@ bindForm('resetForm', async (fields) => {
 
 async function loadProfile() {
   let profile = checkResult(await supabase.from('profiles')
-    .select('id, display_name').eq('id', user.id).maybeSingle());
+    .select('*').eq('id', user.id).maybeSingle());
   if (!profile) {
     const metadataName = user.user_metadata?.display_name ?? user.user_metadata?.full_name;
     const name = typeof metadataName === 'string' ? metadataName.trim().slice(0, 100) : '';
@@ -115,13 +120,52 @@ async function loadProfile() {
     // Two open account tabs may try to create the same profile.
     if (result.error?.code !== '23505') checkResult(result);
     profile = checkResult(await supabase.from('profiles')
-      .select('id, display_name').eq('id', user.id).single());
+      .select('*').eq('id', user.id).single());
   }
   document.getElementById('profileName').value = profile.display_name;
+  accountSettingsReady = ['category', 'default', 'alpha'].includes(profile.chemical_sort);
+  document.getElementById('defaultChemicalSort').disabled = !accountSettingsReady;
+  document.getElementById('accountSettingsPending').hidden = accountSettingsReady;
+  document.getElementById('defaultChemicalSort').value = profile.chemical_sort || 'category';
+  applyAccountChemicalSort(user.id, profile.chemical_sort || 'category');
+}
+
+async function requireAccountOwner() {
+  const current = checkResult(await supabase.auth.getUser()).user;
+  if (!current || current.id !== user?.id) throw new Error('Your sign-in has changed. Reload the page before changing your account.');
+  return current;
+}
+
+async function deleteAccount() {
+  if (!await showSiteDialog('This permanently deletes your account, profile, and all saved assessments.', { title: 'Are you sure?', danger: true })) return false;
+  const owner = await requireAccountOwner();
+  const expected = owner.email;
+  if (!expected) throw new Error('This account does not have a sign-in email address. Contact support to request deletion.');
+  if (!await showSiteDialog(`Type your sign-in email address exactly: “${expected}”. This deletion cannot be undone.`, {
+    title: 'Confirm account deletion', confirmLabel: 'Delete account', cancelLabel: 'Cancel', danger: true, requiredText: expected
+  })) return false;
+  await requireAccountOwner();
+  const result = await supabase.rpc('delete_own_account', { confirmation_name: expected });
+  if (result.error) {
+    if (result.error.code === '22023') throw new Error('Your sign-in email address has changed. Reload Settings and try again.');
+    throw new Error('Account deletion could not be completed. Sign in again and retry.');
+  }
+  clearAssessment();
+  switchAssessmentAccount(null);
+  // The server has deleted the user and revoked refresh sessions; remove this browser session too.
+  await supabase.auth.signOut({ scope: 'local' });
+  window.location.replace('signin.html');
+  return true;
+}
+
+function confirmSignOut() {
+  return showSiteDialog('Signing out clears your unsaved changes!', {
+    title: 'Have you saved your changes yet?'
+  });
 }
 
 async function signOutAccount() {
-  if (hasSavedProgress() && !window.confirm('Sign out and clear the working assessment in this browser? Save it to your account from Results first if you want to keep it. Account saves will remain available.')) return false;
+  if (!await confirmSignOut()) return false;
   checkResult(await supabase.auth.signOut());
   clearAssessment();
   switchAssessmentAccount(null);
@@ -134,7 +178,7 @@ async function initialize() {
   ({ supabase } = await import('./supabase-client.js'));
   const session = checkResult(await supabase.auth.getSession()).session;
   // Clear authentication tokens from the address bar after the SDK consumes them.
-  const accountSection = document.getElementById('accountPanel') && ['#saved', '#profile'].includes(window.location.hash);
+  const accountSection = document.getElementById('accountPanel') && ['#saved', '#settings', '#profile'].includes(window.location.hash);
   if ((window.location.hash && !accountSection) || callbackError) history.replaceState(null, '', window.location.pathname);
   if (callbackError) throw new Error(callbackError);
   switchAssessmentAccount(session?.user?.id);
@@ -153,13 +197,23 @@ async function initialize() {
       signout.disabled = true;
       try {
         await signOutAccount();
-        signout.disabled = false;
       } catch (error) {
         showStatus(error.message || 'Could not sign out. Please try again.', true);
+      } finally {
         signout.disabled = false;
+        signout.focus();
       }
     });
     await loadProfile();
+    const deleteButton = document.getElementById('deleteAccountButton');
+    deleteButton.disabled = !accountSettingsReady;
+    deleteButton.addEventListener('click', async () => {
+      if (deleteButton.disabled) return;
+      deleteButton.disabled = true;
+      try { await deleteAccount(); }
+      catch (error) { showStatus(error.message || 'Account deletion could not be completed. Try again.', true); }
+      finally { deleteButton.disabled = !accountSettingsReady; deleteButton.focus(); }
+    });
   }
 
   if (document.getElementById('resetForm')) {

@@ -19,10 +19,10 @@ if (checkbox) {
 }
 
 if (beginBtn) {
-  beginBtn.addEventListener('click', () => {
+  beginBtn.addEventListener('click', async () => {
     if (beginBtn.disabled) return;
 
-    if (hasSavedProgress() && !window.confirm('Start a fresh assessment? This will clear the saved local assessment in this browser.')) {
+    if (hasSavedProgress() && !await showSiteDialog(['This will ', { text: 'clear', red: true }, ' the working assessment in this browser. Your account saves will remain available.'], { title: 'Start a fresh assessment?', confirmLabel: 'Start new assessment', cancelLabel: 'Cancel', neutral: true })) {
       return;
     }
 

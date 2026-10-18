@@ -19,3 +19,9 @@ Browser checks used a temporary localhost server with a fictional Supabase clien
 The browser automation stalled at the native reopen confirmation. Reopening remains covered by unit tests; live manual reopening and two-account tests remain outstanding. The design scanner also reports incumbent theme warnings (near-threshold muted text contrast, font choice, glow and static leading diagnostics); no global theme changes were made.
 
 No schema changes or deployment performed. Self-service account deletion and account-wide backup download remain later features. Remaining project tasks: conditional-standard inputs/resolution, deployment and live two-account verification, final PDF/Word visual checks, fresh database backup.
+
+## Website dialog follow-up
+
+Renamed Profile navigation/heading to Settings (legacy #profile links still work). Account footer now contains only the red sign-out button. All JavaScript browser confirmations and alerts were replaced by shared themed dialogs in site-dialog.js: sign-out (Yes left, No right), saved-assessment open/delete, APEC/sample delete, new-assessment actions, and Word export errors. Safe cancellation has initial focus; Escape cancels; duplicate clicks cannot accept another action. Messages/titles are inserted as text. Account cancellation restores prior status and keyboard focus. PDF printing and form validation retain browser-native interfaces.
+
+101 tests passed, including dialog ordering/cancellation, safe text rendering, script-loading order, asynchronous APEC deletion and Word export notice coverage. Local fictional-account browser testing verified sign-out Yes/No order and cancellation, saved-delete warning cancellation, saved-assessment opening into Lab Data, and phone APEC warning/Escape. The earlier native-confirmation browser automation blocker is resolved by the website dialog replacement; production two-account verification is still outstanding. Screenshot: site-signout-yes-no.png.

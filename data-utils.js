@@ -108,6 +108,22 @@ function createDefaultProfile(id, name) {
   };
 }
 
+function getDefaultChemicalSort() {
+  const saved = safeJsonParse(localStorage.getItem('bcCsrAccountPreferences'), null);
+  return saved?.userId === localStorage.getItem(WORKING_ASSESSMENT_ACCOUNT_KEY) && ['category', 'default', 'alpha'].includes(saved.chemicalSort)
+    ? saved.chemicalSort : 'category';
+}
+
+function applyAccountChemicalSort(userId, type) {
+  if (!['category', 'default', 'alpha'].includes(type) || localStorage.getItem(WORKING_ASSESSMENT_ACCOUNT_KEY) !== userId) return;
+  const previous = safeJsonParse(localStorage.getItem('bcCsrAccountPreferences'), null);
+  localStorage.setItem('bcCsrAccountPreferences', JSON.stringify({ userId, chemicalSort: type }));
+  if (previous?.userId !== userId || previous?.chemicalSort !== type) {
+    updateAppUi({ contaminantsSort: { type, direction: 'asc' }, resultsSort: { type, direction: 'asc' } });
+    window.dispatchEvent(new CustomEvent('bc-csr-preferences-applied'));
+  }
+}
+
 function getDefaultAppState() {
   return {
     version: APP_STATE_VERSION,
@@ -117,7 +133,7 @@ function getDefaultAppState() {
       assessment: createDefaultProfile(DEFAULT_PROFILE_ID, 'Assessment')
     },
     ui: {
-      contaminantsSort: { type: 'category', direction: 'asc' },
+      contaminantsSort: { type: getDefaultChemicalSort(), direction: 'asc' },
       showExceedancesOnly: false,
       resultsMode: 'single'
     },
@@ -398,6 +414,7 @@ function switchAssessmentAccount(userId) {
     (linkedOwner && linkedOwner !== next) ||
     (!previous && next !== 'guest' && hasSavedProgress())
   );
+  if (previous !== next) localStorage.removeItem('bcCsrAccountPreferences');
   if (reset) clearAssessment();
   localStorage.setItem(WORKING_ASSESSMENT_ACCOUNT_KEY, next);
   return reset;

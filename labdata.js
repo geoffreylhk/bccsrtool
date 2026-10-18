@@ -60,7 +60,14 @@ function selectedSampleResults() {
   return getActiveProfile().selectedContaminants.map(c=>({contaminantId:c.id,value:'',unit:DEFAULT_SOIL_UNIT,qualifier:'detected',reportingLimit:''}));
 }
 
-labTable.addEventListener('click',event=>{
+function sampleHasEnteredData(sample) {
+  return Boolean(sample?.date || sample?.results?.some(result =>
+    hasConcentration(result.value) || hasConcentration(result.reportingLimit) ||
+    result.qualifier === 'non_detect' || (result.unit && result.unit !== DEFAULT_SOIL_UNIT)
+  ));
+}
+
+labTable.addEventListener('click',async event=>{
   const button=event.target.closest('[data-action]');
   if(!button) return;
   const action=button.dataset.action;
@@ -72,11 +79,18 @@ labTable.addEventListener('click',event=>{
     const input=labTable.querySelector('[data-rename]');input.focus();input.select();
     return;
   }
-  if(action.startsWith('delete-') && !window.confirm('Delete this record and its child samples/results?')) return;
+  if(action.startsWith('delete-')) {
+    const apec=getActiveProfile().apecs.find(r=>r.id===button.closest('[data-apec]')?.dataset.apec);
+    const samples=action==='delete-apec'
+      ? (apec?.locations || []).flatMap(location=>location.samples)
+      : (apec?.locations || []).flatMap(location=>location.samples).filter(sample=>sample.id===button.closest('[data-sample]')?.dataset.sample);
+    if(samples.some(sampleHasEnteredData) && !await showSiteDialog('This will delete the selected record and its samples/results from your working assessment.', { title: action === 'delete-apec' ? 'Delete this APEC?' : 'Delete this sample?', confirmLabel: 'Delete', cancelLabel: 'Cancel', danger: true })) return;
+  }
   try {
     changeSampleData(apecs=>{
       const apec=apecs.find(r=>r.id===button.closest('[data-apec]')?.dataset.apec);
-      const location=apec?.locations.find(r=>r.id===button.closest('[data-location]')?.dataset.location);
+      if(!apec) throw new Error('This APEC is no longer available. Refresh the page before trying again.');
+      const location=apec.locations.find(r=>r.id===button.closest('[data-location]')?.dataset.location);
       if(action==='delete-apec') apecs.splice(apecs.indexOf(apec),1);
       if(action==='add-sample') {
         if(!apec.locations.length) apec.locations.push({id:newRecordId('location'),name:'Samples',type:'',samples:[]});

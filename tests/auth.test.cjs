@@ -10,12 +10,14 @@ function setup(supabase) {
     addEventListener() {},
     getElementById(id) {
       if (!elements.has(id)) elements.set(id, {
-        dataset: {}, value: '', hidden: false,
+        dataset: {}, value: '', hidden: false, listeners: {},
+        showModal() { this.open = true; },
+        close(value = '') { this.returnValue = value; this.open = false; this.listeners.close?.(); },
         button: { disabled: false },
         querySelector() { return this.button; },
         reportValidity() { return true; },
         reset() { this.wasReset = true; },
-        addEventListener(event, handler) { this[event] = handler; }
+        addEventListener(event, handler) { this.listeners[event] = handler; if (event !== 'close') this[event] = handler; }
       });
       return elements.get(id);
     }
@@ -27,6 +29,12 @@ function setup(supabase) {
     constructor(form) { this.fields = form.fields; }
     get(key) { return this.fields[key]; }
   }, window: { dispatchEvent() {}, confirm() { return true; }, location: { href: 'http://127.0.0.1:5500/signin.html', replace(url) { this.destination = url; } } } });
+  context.showSiteDialog = () => new Promise(resolve => {
+    const dialog = document.getElementById('signoutDialog');
+    dialog.returnValue = '';
+    dialog.addEventListener('close', () => resolve(dialog.returnValue === 'signout'));
+    dialog.showModal();
+  });
   vm.runInContext(fs.readFileSync(require.resolve('../data-utils.js'), 'utf8'), context);
   const source = fs.readFileSync(require.resolve('../auth.js'), 'utf8');
   vm.runInContext(source.slice(0, source.indexOf('initialize().catch')), context);
@@ -36,11 +44,14 @@ function setup(supabase) {
 }
 
 test('sign-out clears browser progress and recovery copies without deleting cloud saves', async () => {
-  const {context,storage} = setup({auth:{async signOut(){return {data:{}};}},from(){assert.fail('Sign-out must never delete cloud assessments');}});
+  const {context,storage,document} = setup({auth:{async signOut(){return {data:{}};}},from(){assert.fail('Sign-out must never delete cloud assessments');}});
   vm.runInContext("switchAssessmentAccount('alice'); markAssessmentStarted(); updateActiveProfileData({currentLandUse:'RLLD'});",context);
   storage.set('bcCsrAssessmentBeforeOpen','private backup');
   storage.set('bcCsrToolStateBeforeSamples','private migration backup');
-  await vm.runInContext('signOutAccount()',context);
+  const pending = vm.runInContext('signOutAccount()',context);
+  assert.equal(document.getElementById('signoutDialog').open,true);
+  document.getElementById('signoutDialog').close('signout');
+  await pending;
   assert.equal(vm.runInContext('hasSavedProgress()',context),false);
   assert.equal(storage.has('bcCsrAssessmentBeforeOpen'),false);
   assert.equal(storage.has('bcCsrToolStateBeforeSamples'),false);
@@ -50,14 +61,17 @@ test('sign-out clears browser progress and recovery copies without deleting clou
 
 test('cancelled and failed sign-out preserve unsaved work', async () => {
   let requests=0;
-  const {context,storage} = setup({auth:{async signOut(){requests++;return {error:new Error('Offline')};}}});
+  const {context,storage,document} = setup({auth:{async signOut(){requests++;return {error:new Error('Offline')};}}});
   vm.runInContext("switchAssessmentAccount('alice'); markAssessmentStarted(); updateActiveProfileData({currentLandUse:'RLLD'});",context);
   const before=storage.get('bcCsrToolState');
-  context.window.confirm=()=>false;
-  assert.equal(await vm.runInContext('signOutAccount()',context),false);
+  context.window.confirm=()=>assert.fail('Sign-out must use the website dialog');
+  const cancelled=vm.runInContext('signOutAccount()',context);
+  document.getElementById('signoutDialog').close('cancel');
+  assert.equal(await cancelled,false);
   assert.equal(requests,0);
-  context.window.confirm=()=>true;
-  await assert.rejects(vm.runInContext('signOutAccount()',context),/Offline/);
+  const failed=vm.runInContext('signOutAccount()',context);
+  document.getElementById('signoutDialog').close('signout');
+  await assert.rejects(failed,/Offline/);
   assert.equal(storage.get('bcCsrToolState'),before);
 });
 
@@ -166,4 +180,64 @@ test('new Google profile gets its own name without overwriting an existing profi
   existing={id:'google-user',display_name:'Chosen username'};inserted=null;
   await vm.runInContext('loadProfile()',context);
   assert.equal(inserted,null);assert.equal(document.getElementById('profileName').value,'Chosen username');
+});
+
+
+test('website sign-out warning always appears and Escape cannot sign out', async () => {
+  let requests=0;
+  const {context,document}=setup({auth:{async signOut(){requests++;return {data:{}};}}});
+  context.window.confirm=()=>assert.fail('Must never open a browser confirmation');
+  const pending=vm.runInContext('signOutAccount()',context);
+  const dialog=document.getElementById('signoutDialog');
+  assert.equal(dialog.open,true);
+  assert.equal(requests,0);
+  dialog.close();
+  assert.equal(await pending,false);
+  assert.equal(requests,0);
+});
+
+
+test('account deletion requires both dialogs and uses the authenticated sign-in email regardless of display name',async()=>{
+  let deleted=0,signouts=0;const calls=[];
+  const {context,document}=setup({
+    auth:{async getUser(){return {data:{user:{id:'alice',email:'alice@example.com'}}};},async signOut(){signouts++;return {data:{}};}},
+    from(table){assert.equal(table,'profiles');const q={select(){return q;},eq(key,value){assert.equal(value,'alice');return q;},async maybeSingle(){return {data:{id:'alice',display_name:'Alice Smith'}};}};return q;},
+    async rpc(name,args){deleted++;assert.equal(name,'delete_own_account');assert.equal(args.confirmation_name,'alice@example.com');return {data:null};}
+  });
+  document.getElementById('profileName').value='Unsaved new name';
+  let decisions=[false];context.showSiteDialog=async(message,options)=>{calls.push(options);return decisions.shift();};
+  assert.equal(await vm.runInContext('deleteAccount()',context),false);assert.equal(deleted,0);
+  decisions=[true,false];assert.equal(await vm.runInContext('deleteAccount()',context),false);assert.equal(deleted,0);
+  assert.equal(calls.at(-1).requiredText,'alice@example.com');
+  assert.equal(calls[0].title,'Are you sure?');
+  decisions=[true,true];assert.equal(await vm.runInContext('deleteAccount()',context),true);
+  assert.equal(deleted,1);assert.equal(signouts,1);
+  assert.equal(context.window.location.destination,'signin.html');
+});
+
+test('account deletion failure leaves browser work intact and changed accounts cannot delete',async()=>{
+  let account='alice',requests=0;
+  const {context,storage}=setup({auth:{async getUser(){return {data:{user:{id:account,email:'alice@example.com'}}};}},
+    from(){const q={select(){return q;},eq(){return q;},async maybeSingle(){return {data:{display_name:'Alice'}};}};return q;},
+    async rpc(){requests++;return {error:{code:'offline'}};}
+  });
+  context.showSiteDialog=async()=>true;
+  vm.runInContext("switchAssessmentAccount('alice');markAssessmentStarted();updateActiveProfileData({siteName:'Keep this'})",context);
+  const before=storage.get('bcCsrToolState');
+  await assert.rejects(vm.runInContext('deleteAccount()',context),/could not be completed/);
+  assert.equal(storage.get('bcCsrToolState'),before);
+  account='bob';await assert.rejects(vm.runInContext('deleteAccount()',context),/sign-in has changed/);
+  assert.equal(requests,1);
+});
+
+test('settings update validates and saves the account sorting default',async()=>{
+  let request;
+  const {context,document,storage}=setup({auth:{async getUser(){return {data:{user:{id:'alice'}}};}},from(){const q={update(value){request=value;return q;},eq(){return q;},select(){return q;},async single(){return {data:{id:'alice'}};}};return q;}});
+  vm.runInContext("switchAssessmentAccount('alice');accountSettingsReady=true",context);
+  const form=document.getElementById('profileForm');form.fields={display_name:'Alice',chemical_sort:'alpha'};
+  await form.submit({preventDefault(){}});
+  assert.equal(request.chemical_sort,'alpha');
+  assert.equal(JSON.parse(storage.get('bcCsrAccountPreferences')).chemicalSort,'alpha');
+  form.fields.chemical_sort='unknown';request=undefined;await form.submit({preventDefault(){}});
+  assert.equal(request,undefined);
 });

@@ -66,7 +66,7 @@ async function openAccountAssessment(id, page) {
   const owner = await requireAssessmentUser();
   const record = assessmentData(await supabase.from('saved_assessments').select('*').eq('id', id).eq('user_id', owner.id).single());
   getAssessmentSnapshot(record.payload);
-  if (!window.confirm('Open this saved assessment? It will replace the working assessment in this browser. Account saves remain unchanged until you save again.')) return;
+  if (!await showSiteDialog(['Your current assessment ', { text: 'will be replaced', red: true }, '. Save your current section first if needed.'], { title: 'Open this saved assessment?', confirmLabel: 'Open assessment', cancelLabel: 'Cancel' })) return;
   await requireAssessmentUser();
   restoreAccountAssessment(record, owner.id);
   window.location.href = page;
@@ -103,8 +103,7 @@ function assessmentPreview(record) {
 function visibleAssessments(records, search = '', sort = 'recent') {
   const term = search.trim().toLocaleLowerCase();
   return records.filter(record => `${record.title} ${assessmentPreview(record).site}`.toLocaleLowerCase().includes(term))
-    .sort((a, b) => sort === 'name' ? a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' })
-      : (sort === 'oldest' ? 1 : -1) * (new Date(a.updated_at) - new Date(b.updated_at)) || a.id.localeCompare(b.id));
+    .sort((a, b) => (sort === 'oldest' ? 1 : -1) * (new Date(a.updated_at) - new Date(b.updated_at)) || a.id.localeCompare(b.id));
 }
 
 async function renameAccountAssessment(record, title) {
@@ -182,7 +181,7 @@ function renderSavedAssessments() {
         button.id = `rename-${record.id}`;
       } else button.addEventListener('click', () => runAssessmentAction(async () => {
         if (page) return openAccountAssessment(record.id, page);
-        if (!window.confirm(`Delete “${record.title}” from your account? This cannot be undone. The working browser copy will remain.`)) return;
+        if (!await showSiteDialog([`Delete “${record.title}” from your account?\n`, { text: 'This cannot be undone.' }], { title: 'Delete saved assessment?', confirmLabel: 'Delete', cancelLabel: 'Cancel', danger: true })) return;
         const currentOwner = await requireAssessmentUser();
         assessmentData(await supabase.from('saved_assessments').delete().eq('id', record.id).eq('user_id', currentOwner.id).eq('revision', record.revision).select('id').single());
         await listAccountAssessments();
@@ -196,19 +195,39 @@ function renderSavedAssessments() {
   assessmentStatus(`${records.length} of ${savedRecords.length} saved assessments`);
 }
 
-async function listAccountAssessments() {
-  const owner = await requireAssessmentUser();
+async function fetchAccountAssessments(owner, columns) {
   const records = [];
   for (let offset = 0; ; offset += 100) {
     const page = assessmentData(await supabase.from('saved_assessments')
-      .select('id, title, updated_at, revision, payload').eq('user_id', owner.id).order('id').range(offset, offset + 99));
+      .select(columns).eq('user_id', owner.id).order('id').range(offset, offset + 99));
     await requireAssessmentUser();
     records.push(...page);
     if (page.length < 100) break;
   }
-  savedRecords = records;
+  return records;
+}
+
+async function listAccountAssessments() {
+  const owner = await requireAssessmentUser();
+  savedRecords = await fetchAccountAssessments(owner, 'id, title, updated_at, revision, payload');
   renderSavedAssessments();
 }
+
+async function collectAccountExport() {
+  const owner = await requireAssessmentUser();
+  const profile = assessmentData(await supabase.from('profiles').select('*').eq('id', owner.id).maybeSingle());
+  if (profile && profile.id !== owner.id) throw new Error('Your sign-in has changed. Reload before downloading.');
+  const assessments = await fetchAccountAssessments(owner, '*');
+  await requireAssessmentUser();
+  return {
+    format: 'bccsrtool-account-data', version: 1, exported_at: new Date().toISOString(),
+    account: { id: owner.id, email: owner.email, phone: owner.phone, created_at: owner.created_at,
+      updated_at: owner.updated_at, email_confirmed_at: owner.email_confirmed_at,
+      last_sign_in_at: owner.last_sign_in_at, providers: owner.app_metadata?.providers, metadata: owner.user_metadata },
+    profile, saved_assessments: assessments
+  };
+}
+
 
 function updateAccountSaveStatus() {
   if (!saveForm || !accountUser || busy) return;
@@ -222,11 +241,11 @@ function updateAccountSaveStatus() {
 }
 
 function selectAccountSection() {
-  const profile = window.location.hash === '#profile';
+  const profile = ['#settings', '#profile'].includes(window.location.hash);
   document.getElementById('profileSection').hidden = !profile;
   document.getElementById('savedSection').hidden = profile;
   document.querySelectorAll('[data-account-section]').forEach(link => {
-    if (link.dataset.accountSection === (profile ? 'profile' : 'saved')) link.setAttribute('aria-current', 'page');
+    if (link.dataset.accountSection === (profile ? 'settings' : 'saved')) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
 }
@@ -234,13 +253,21 @@ function selectAccountSection() {
 async function runAssessmentAction(action) {
   if (busy) return;
   busy = true;
-  const actionControls = '[data-account-save] button, #savedAssessments button, #retrySavedAssessments, #assessmentSearch, #assessmentSort';
+  const previousFocus = document.activeElement;
+  const previousStatus = savedStatus.textContent;
+  const previousError = savedStatus.dataset.error === 'true';
+  const actionControls = '[data-account-save] button, #savedAssessments button, #retrySavedAssessments, #assessmentSearch, #assessmentSort, #downloadAccountData';
   const buttons = document.querySelectorAll(actionControls);
   buttons.forEach(button => { button.disabled = true; });
   assessmentStatus('Working…');
   try { await action(); }
   catch (error) { assessmentStatus(error.message, true); }
-  finally { busy = false; document.querySelectorAll(actionControls).forEach(button => { button.disabled = false; }); }
+  finally {
+    busy = false;
+    document.querySelectorAll(actionControls).forEach(button => { button.disabled = false; });
+    if (savedStatus.textContent === 'Working…') assessmentStatus(previousStatus, previousError);
+    if (document.activeElement === document.body) previousFocus?.focus();
+  }
 }
 
 async function initializeAccountAssessments() {
@@ -287,6 +314,11 @@ async function initializeAccountAssessments() {
     assessmentSearch?.addEventListener('input', renderSavedAssessments);
     assessmentSort?.addEventListener('change', renderSavedAssessments);
     document.getElementById('retrySavedAssessments').addEventListener('click', () => runAssessmentAction(listAccountAssessments));
+    document.getElementById('downloadAccountData')?.addEventListener('click', () => runAssessmentAction(async () => {
+      const data = await collectAccountExport();
+      downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), `bccsrtool-account-data-${new Date().toISOString().slice(0, 10)}.json`);
+      assessmentStatus('Account data downloaded. Keep this file private; it contains your saved site and assessment data.');
+    }));
     await listAccountAssessments();
   }
 }

@@ -610,3 +610,9 @@ fetch('data.json?v=20261015-source-audit')
       </p>
     `;
   });
+
+window.addEventListener('bc-csr-preferences-applied', () => {
+  if (!csrData) return;
+  restoreSortControls();
+  renderContaminants();
+});
