@@ -16,6 +16,8 @@
 .auth-page #authStatus { overflow-wrap: anywhere; }
 .auth-page #authStatus[data-error="true"] { color: #a02020; }
 .auth-page #googleSigninButton { width: 100%; justify-content: center; }
+.auth-captcha { margin: 16px 0; min-width: 0; }
+.auth-captcha p { margin: 0 0 8px; }
 [data-account-save] [hidden] { display: none !important; }
 .account-save-card, .saved-assessment-card { padding: 24px; margin-bottom: 24px; overflow-wrap: anywhere; }
 .saved-assessments-section { padding: 24px; margin-bottom: 24px; overflow-wrap: anywhere; }

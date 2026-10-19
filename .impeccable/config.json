@@ -38,6 +38,42 @@
         ],
         "createdAt": "2026-10-19T02:54:33.147Z",
         "reason": "Codex review verified both flagged selectors: .sample-apec uses a functional hierarchy boundary between APEC and sample; .why-note is unused in all current HTML pages. No Results border defect."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "signin.html"
+        ],
+        "createdAt": "2026-10-19T13:24:00.651Z",
+        "reason": "Verified false positive: flagged red shadow belongs to .selected-header button in shared CSS, absent from the sign-in page. No shadow introduced by CAPTCHA."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "privacypolicy.html"
+        ],
+        "createdAt": "2026-10-19T13:24:00.747Z",
+        "reason": "Verified false positive: .selected-header button from shared CSS is absent from Privacy; this edit adds disclosure text only."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "signin.html"
+        ],
+        "createdAt": "2026-10-19T13:26:15.618Z",
+        "reason": "Retain the established shared account typography. Font popularity alone is not a usability defect; CAPTCHA integration does not redesign the site."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "privacypolicy.html"
+        ],
+        "createdAt": "2026-10-19T13:26:15.709Z",
+        "reason": "Retain established shared typography across legal pages. This change adds CAPTCHA disclosure only; no font redesign was requested."
       }
     ]
   }

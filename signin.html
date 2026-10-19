@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex">
   <meta name="referrer" content="no-referrer">
+  <meta name="turnstile-site-key" content="0x4AAAAAAFbqxZNtRgiTPEwO">
   <title>Sign in — BC CSR Screening Tool</title>
   <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
-  <link rel="stylesheet" href="auth.css?v=20261018-settings-actions">
+  <link rel="stylesheet" href="auth.css?v=20261019-turnstile">
 </head>
 <body class="auth-page">
   <nav class="site-nav" aria-label="Main navigation">
@@ -29,6 +30,7 @@
 <h2>Sign in</h2>
 <div class="form-group"><label for="signinEmail">Email</label><input id="signinEmail" name="email" type="email" autocomplete="email" required></div>
 <div class="form-group"><label for="signinPassword">Password</label><input id="signinPassword" name="password" type="password" autocomplete="current-password" required></div>
+<div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
 <button class="primary-action" type="submit" disabled>Sign in</button>
 </form>
 <form id="signupForm" class="card form-card">
@@ -38,16 +40,19 @@
 <div class="form-group"><label for="signupPassword">Password (at least 12 characters)</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="12" required></div>
 <p>Creating an account stores your email and profile with Supabase. Assessment inputs are uploaded only when you choose Save to account.</p>
 <p>Read the <a href="privacypolicy.html">Privacy Policy</a> and <a href="termsofuse.html">Terms of Use</a>.</p>
+<div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
 <button class="primary-action" type="submit" disabled>Create account</button>
 </form>
 <form id="forgotForm" class="card form-card">
 <h2>Forgot your password?</h2>
 <div class="form-group"><label for="forgotEmail">Email</label><input id="forgotEmail" name="email" type="email" autocomplete="email" required></div>
+<div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
 <button class="secondary-action" type="submit" disabled>Send reset link</button>
 </form>
   </main>
   <script src="data-utils.js?v=20261018-csv-only"></script>
-  <script type="module" src="auth.js?v=20261018-signin-redirect"></script>
+  <script src="auth-captcha.js?v=20261019-turnstile-1"></script>
+  <script type="module" src="auth.js?v=20261019-turnstile"></script>
   <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>

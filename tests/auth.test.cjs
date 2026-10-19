@@ -49,8 +49,22 @@ test('signed-in visitors to signin redirect to Account only after verifying the 
   const get=s.document.getElementById.bind(s.document);
   s.document.getElementById=id=>['accountPanel','resetForm'].includes(id)?null:get(id);
   s.document.querySelectorAll=()=>{assert.fail('Do not enable sign-in forms before redirecting');};
+  s.context.window.authCaptcha={initialize(){assert.fail('Signed-in visitors do not need to load CAPTCHA');}};
   await vm.runInContext('initialize()',s.context);
   assert.equal(verified,1);assert.equal(s.context.window.location.destination,'account.html');
+});
+
+test('configured CAPTCHA loading failures keep email forms disabled while Google remains available',async()=>{
+  for(const missingHelper of [false,true]) {
+    const s=setup({auth:{async getSession(){return {data:{session:null}};}}});
+    const get=s.document.getElementById.bind(s.document),button=get('signinForm').button;button.disabled=true;
+    s.document.getElementById=id=>['accountPanel','resetForm'].includes(id)?null:get(id);
+    s.document.querySelector=()=>({content:'public-key'});
+    s.document.querySelectorAll=()=>[button];
+    if(!missingHelper)s.context.window.authCaptcha={async initialize(){throw new Error('The security check could not load');}};
+    await assert.rejects(vm.runInContext('initialize()',s.context),/security check/);
+    assert.equal(button.disabled,true);assert.equal(get('googleSigninButton').disabled,false);
+  }
 });
 
 test('guests can still sign in and invalid sessions never redirect as authenticated', async () => {
@@ -141,6 +155,35 @@ test('signup keeps passwords out of metadata and uses the local callback', async
   assert.deepEqual(Object.keys(request.options.data), ['display_name']);
   assert.equal(form.wasReset, true);
   assert.equal(elements.get('authStatus').dataset.error, 'false');
+});
+
+test('all email auth requests forward the verified CAPTCHA token and reset after each attempt',async()=>{
+  for(const id of ['signinForm','signupForm','forgotForm']) {
+    let captured,resets=0;
+    const s=setup({auth:{
+      async signInWithPassword(request){captured=request;return {data:{}};},
+      async signUp(request){captured=request;return {data:{}};},
+      async resetPasswordForEmail(email,options){captured={email,options};return {data:{}};},
+      async getUser(){return {data:{user:{id:'alice'}}};}
+    }});
+    s.context.window.authCaptcha={getToken(){return 'verified-token';},reset(){resets++;},isReady(){return false;}};
+    const form=s.document.getElementById(id);
+    form.fields={email:'alice@example.com',password:'long-password-a',display_name:'Alice'};
+    await form.submit({preventDefault(){}});
+    assert.equal(captured.options.captchaToken,'verified-token',id);
+    assert.equal(resets,1);assert.equal(form.button.disabled,true);
+  }
+});
+
+test('missing CAPTCHA tokens prevent requests; server failures still consume and reset the token',async()=>{
+  let requests=0,resets=0;
+  const s=setup({auth:{async resetPasswordForEmail(){requests++;return {error:new Error('Try later')};}}});
+  const form=s.document.getElementById('forgotForm');form.fields={email:'alice@example.com'};
+  s.context.window.authCaptcha={getToken(){throw new Error('Complete the security check');},reset(){resets++;},isReady(){return false;}};
+  await form.submit({preventDefault(){}});assert.equal(requests,0);
+  form.button.disabled=false;s.context.window.authCaptcha.getToken=()=> 'verified-token';
+  await form.submit({preventDefault(){}});
+  assert.equal(requests,1);assert.equal(resets,2);assert.equal(form.button.disabled,true);
 });
 
 test('profile creation recovers when another tab inserts the same profile', async () => {

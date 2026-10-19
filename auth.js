@@ -23,13 +23,17 @@ function bindForm(id, action) {
     const button = form.querySelector('button[type="submit"]');
     if (button.disabled || !form.reportValidity()) return;
     button.disabled = true;
+    form.dataset.submitting = 'true';
     showStatus('Working…');
     try {
-      await action(new FormData(form));
+      const captchaToken = window.authCaptcha?.getToken(form);
+      await action(new FormData(form), captchaToken);
     } catch (error) {
       showStatus(error.message || 'The request failed. Please try again.', true);
     } finally {
-      button.disabled = false;
+      form.dataset.submitting = 'false';
+      window.authCaptcha?.reset(form);
+      button.disabled = window.authCaptcha ? !window.authCaptcha.isReady(form) : false;
     }
   });
 }
@@ -60,19 +64,20 @@ function getCallbackError(url) {
     : 'Sign-in or email verification could not be completed. Return to the sign-in page to try again or request a new email link.';
 }
 
-bindForm('signinForm', async (fields) => {
+bindForm('signinForm', async (fields, captchaToken) => {
   checkResult(await supabase.auth.signInWithPassword({
-    email: fields.get('email').trim(), password: fields.get('password')
+    email: fields.get('email').trim(), password: fields.get('password'), options: { captchaToken }
   }));
   switchAssessmentAccount(checkResult(await supabase.auth.getUser()).user.id);
   window.location.replace('account.html');
 });
 
-bindForm('signupForm', async (fields) => {
+bindForm('signupForm', async (fields, captchaToken) => {
   checkResult(await supabase.auth.signUp({
     email: fields.get('email').trim(),
     password: fields.get('password'),
     options: {
+      captchaToken,
       emailRedirectTo: redirectUrl('account.html'),
       data: { display_name: fields.get('display_name').trim() }
     }
@@ -81,8 +86,9 @@ bindForm('signupForm', async (fields) => {
   showStatus('Check your email for a verification link. If you already have an account, sign in or request a password reset.');
 });
 
-bindForm('forgotForm', async (fields) => {
+bindForm('forgotForm', async (fields, captchaToken) => {
   checkResult(await supabase.auth.resetPasswordForEmail(fields.get('email').trim(), {
+    captchaToken,
     redirectTo: redirectUrl('reset-password.html')
   }));
   showStatus('If an account exists for that email, a password-reset link will be sent.');
@@ -229,10 +235,14 @@ async function initialize() {
     document.getElementById('resetForm').hidden = false;
   }
 
-  document.querySelectorAll('button[type="submit"]').forEach((button) => {
-    button.disabled = false;
-  });
   if (googleButton) googleButton.disabled = false;
+  if (document.querySelector?.('meta[name="turnstile-site-key"]')?.content?.trim() && !window.authCaptcha) {
+    throw new Error('The security check could not load. Check your connection and reload this page.');
+  }
+  await window.authCaptcha?.initialize();
+  document.querySelectorAll('button[type="submit"]').forEach((button) => {
+    button.disabled = window.authCaptcha ? !window.authCaptcha.isReady(button.closest('form')) : false;
+  });
   showStatus('');
 }
 
