@@ -91,3 +91,14 @@ test('formatted warnings preserve plain text and both new-assessment buttons can
   assert.deepEqual(dialog.children[2].children.map(b=>b.className),['secondary-action','secondary-action']);
   dialog.close('cancel');assert.equal(await pending,false);
 });
+
+test('unsaved assessment dialog offers green Save, red New assessment and neutral Cancel with distinct decisions',async()=>{
+  for(const [action,expected] of [['accept',true],['discard','discard'],['cancel',false],['',false]]) {
+    const s=setup(),pending=s.run("showSiteDialog('Unsaved changes',{confirmLabel:'Save',discardLabel:'New assessment',cancelLabel:'Cancel'})");
+    const buttons=s.dialog().children[2].children;
+    assert.deepEqual(buttons.map(b=>b.textContent),['Save','New assessment','Cancel']);
+    assert.deepEqual(buttons.map(b=>b.className),['primary-action','secondary-action dialog-danger-action','secondary-action']);
+    assert.equal(buttons[2].autofocus,true);
+    s.dialog().close(action);assert.equal(await pending,expected);
+  }
+});

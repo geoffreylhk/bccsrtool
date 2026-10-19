@@ -1,6 +1,6 @@
 let activeSiteDialog = null;
 
-function showSiteDialog(message, { title = 'Please confirm', confirmLabel = 'Yes', cancelLabel = 'No', danger = false, notice = false, neutral = false, requiredText } = {}) {
+function showSiteDialog(message, { title = 'Please confirm', confirmLabel = 'Yes', cancelLabel = 'No', discardLabel, danger = false, notice = false, neutral = false, requiredText } = {}) {
   // Ignore duplicate actions while the current decision is still open.
   if (activeSiteDialog) return Promise.resolve(false);
   const previousFocus = document.activeElement;
@@ -31,6 +31,14 @@ function showSiteDialog(message, { title = 'Please confirm', confirmLabel = 'Yes
   accept.textContent = notice ? 'OK' : confirmLabel;
   actions.append(accept);
   if (!notice) {
+    if (discardLabel) {
+      const discard = document.createElement('button');
+      discard.type = 'submit';
+      discard.value = 'discard';
+      discard.className = 'secondary-action dialog-danger-action';
+      discard.textContent = discardLabel;
+      actions.append(discard);
+    }
     const cancel = document.createElement('button');
     cancel.type = 'submit';
     cancel.value = 'cancel';
@@ -65,7 +73,7 @@ function showSiteDialog(message, { title = 'Please confirm', confirmLabel = 'Yes
   activeSiteDialog = dialog;
   return new Promise(resolve => {
     dialog.addEventListener('close', () => {
-      const accepted = dialog.returnValue === 'accept';
+      const accepted = discardLabel && dialog.returnValue === 'discard' ? 'discard' : dialog.returnValue === 'accept';
       dialog.remove();
       activeSiteDialog = null;
       previousFocus?.focus();

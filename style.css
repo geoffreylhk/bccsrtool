@@ -9,7 +9,7 @@
   --primary-dark: #244936;
   --primary-soft: #e7f1eb;
   --text: #2c241f;
-  --text-muted: #817568;
+  --text-muted: #786c60;
   --warning-bg: #f8ebe3;
   --warning-border: #e7b595;
   --warning-text: #8a4a23;
@@ -2078,17 +2078,21 @@ html.dark .lab-group-title {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 3px;
+  height: 100%;
   background: rgba(114, 182, 139, 0.95);
-  transition: height 0.25s ease;
+  transform: scaleY(0.08);
+  transform-origin: bottom;
+  transition: transform 0.25s ease;
   z-index: -1;
 }
 
-.learn-more-link:hover::before {
-  height: 100%;
+.learn-more-link:hover::before,
+.learn-more-link:focus-visible::before {
+  transform: scaleY(1);
 }
 
-.learn-more-link:hover {
+.learn-more-link:hover,
+.learn-more-link:focus-visible {
   color: #06261b;
 }
 
@@ -2558,58 +2562,6 @@ input[type="file"]:focus {
 
 .lab-table-head span:nth-child(n + 2) {
   justify-self: start;
-}
-
-.export-menu {
-  position: relative;
-}
-
-.export-menu-list {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 30;
-  display: grid;
-  min-width: 220px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: 0 12px 32px rgba(44, 36, 31, 0.18);
-}
-
-.export-menu-list[hidden] {
-  display: none;
-}
-
-.export-menu-up .export-menu-list {
-  top: auto;
-  bottom: calc(100% + 8px);
-}
-
-.export-menu-list button {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  min-height: 42px;
-  border: 0;
-  border-bottom: 1px solid var(--border);
-  padding: 0 14px;
-  background: var(--surface);
-  color: var(--text);
-  font-weight: 700;
-  text-align: left;
-}
-
-.export-menu-list button:last-child {
-  border-bottom: 0;
-}
-
-.export-menu-list button:hover,
-.export-menu-list button:focus-visible {
-  background: var(--surface-soft);
-  outline: 0;
 }
 
 .results-bottom-actions {
@@ -3767,7 +3719,7 @@ html.dark .example-result-card {
   .page-header h1,
   .results-heading h1 {
     font-size: clamp(2rem, 9vw, 2.45rem);
-    line-height: 1.08;
+    line-height: 1.3;
   }
 
   .page-header h2,
@@ -3820,9 +3772,7 @@ html.dark .example-result-card {
 
   .primary-action,
   .secondary-action,
-  .compact-action,
-  .export-menu > button,
-  .export-menu-list button {
+  .compact-action {
     min-height: 44px;
   }
 

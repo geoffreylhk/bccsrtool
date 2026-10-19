@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <title>Your account — BC CSR Screening Tool</title>
   <link rel="icon" href="favicon.png">
-  <link rel="stylesheet" href="style.css?v=20261018-dialog-refinements">
+  <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
   <link rel="stylesheet" href="auth.css?v=20261018-settings-actions">
 </head>
 <body class="auth-page">
@@ -38,7 +38,7 @@
 <p id="savedAssessmentStatus" role="status" aria-live="polite">Loading saved assessments…</p>
 <div id="savedAssessments"></div>
 <p class="account-help">Results are recalculated using the tool’s current standards data.</p>
-<div class="account-data-download"><h3>Your account data</h3><p>Download your profile, preferences, and all saved assessments as a JSON file. Unsaved browser changes are not included.</p><button id="downloadAccountData" type="button" class="secondary-action">Download all account data</button></div>
+<div class="account-data-download"><h3>Your account data</h3><p>Download your profile, preferences, and all saved assessments as a CSV file. Unsaved browser changes are not included.</p><button id="downloadAccountData" type="button" class="secondary-action">Download all account data</button></div>
 </section>
 <div id="profileSection" hidden>
 <section class="card account-profile" aria-labelledby="profileHeading">
@@ -103,10 +103,10 @@
         <p>This tool does not replace professional environmental consulting, regulatory review, or legal interpretation.</p>
       </div>
     </footer>
-  <script src="site-dialog.js?v=20261018-dialog-refinements"></script>
-  <script src="data-utils.js?v=20261018-email-confirmation"></script>
-  <script type="module" src="auth.js?v=20261018-deletion-only-red"></script>
-  <script type="module" src="account-assessments.js?v=20261018-dialog-refinements"></script>
+  <script src="site-dialog.js?v=20261018-unsaved-new-assessment"></script>
+  <script src="data-utils.js?v=20261018-csv-only"></script>
+  <script type="module" src="auth.js?v=20261018-signin-redirect"></script>
+  <script type="module" src="account-assessments.js?v=20261018-save-buttons-copy-names"></script>
   <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>

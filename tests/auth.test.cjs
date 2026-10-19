@@ -37,11 +37,53 @@ function setup(supabase) {
   });
   vm.runInContext(fs.readFileSync(require.resolve('../data-utils.js'), 'utf8'), context);
   const source = fs.readFileSync(require.resolve('../auth.js'), 'utf8');
-  vm.runInContext(source.slice(0, source.indexOf('initialize().catch')), context);
+  vm.runInContext(source.slice(0, source.indexOf('initialize().catch')).replace("await import('./supabase-client.js')", '({ supabase: mockClient })'), context);
   context.mockClient = supabase;
   vm.runInContext("supabase = mockClient; user = { id: 'alice', user_metadata: { display_name: 'Alice' } };", context);
   return { context, elements, document, storage };
 }
+
+test('signed-in visitors to signin redirect to Account only after verifying the user', async () => {
+  let verified=0;
+  const s=setup({auth:{async getSession(){return {data:{session:{user:{id:'alice'}}}};},async getUser(){verified++;return {data:{user:{id:'alice'}}};}}});
+  const get=s.document.getElementById.bind(s.document);
+  s.document.getElementById=id=>['accountPanel','resetForm'].includes(id)?null:get(id);
+  s.document.querySelectorAll=()=>{assert.fail('Do not enable sign-in forms before redirecting');};
+  await vm.runInContext('initialize()',s.context);
+  assert.equal(verified,1);assert.equal(s.context.window.location.destination,'account.html');
+});
+
+test('guests can still sign in and invalid sessions never redirect as authenticated', async () => {
+  for(const hasSession of [false,true]) {
+    const s=setup({auth:{async getSession(){return {data:{session:hasSession?{user:{id:'alice'}}:null}};},async getUser(){return {data:{user:null},error:new Error('Expired session')};}}});
+    const get=s.document.getElementById.bind(s.document),submit={disabled:true};
+    s.document.getElementById=id=>['accountPanel','resetForm'].includes(id)?null:get(id);
+    s.document.querySelectorAll=()=>[submit];
+    if(hasSession) await assert.rejects(vm.runInContext('initialize()',s.context),/Expired session/);
+    else {await vm.runInContext('initialize()',s.context);assert.equal(submit.disabled,false);}
+    assert.equal(s.context.window.location.destination,undefined);
+  }
+});
+
+test('a signed-in password reset stays on its reset page', async () => {
+  const s=setup({auth:{async getSession(){return {data:{session:{user:{id:'alice'}}}};},async getUser(){return {data:{user:{id:'alice'}}};}}});
+  const get=s.document.getElementById.bind(s.document);
+  s.document.getElementById=id=>['accountPanel','signinForm'].includes(id)?null:get(id);
+  s.document.querySelectorAll=()=>[];
+  s.context.window.location.href='http://127.0.0.1:5500/reset-password.html';
+  await vm.runInContext('initialize()',s.context);
+  assert.equal(s.context.window.location.destination,undefined);
+  assert.equal(get('resetForm').hidden,false);
+});
+
+test('every main navigation account link consistently goes to Account', () => {
+  for(const page of ['index','about','assessment','contaminants','labdata','results','account','signin','reset-password','disclaimer','privacypolicy','termsofuse']) {
+    const html=fs.readFileSync(require.resolve('../'+page+'.html'),'utf8');
+    const nav=html.match(/<div class="nav-links">([\s\S]*?)<\/div>/)[1];
+    assert.match(nav,/<a href="account.html">Account<\/a>/,page);
+    assert.doesNotMatch(nav,/signin.html/,page);
+  }
+});
 
 test('sign-out clears browser progress and recovery copies without deleting cloud saves', async () => {
   const {context,storage,document} = setup({auth:{async signOut(){return {data:{}};}},from(){assert.fail('Sign-out must never delete cloud assessments');}});

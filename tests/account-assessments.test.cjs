@@ -29,7 +29,7 @@ function setup(elements = {}) {
     document: { getElementById(id) { return elements[id] || null; }, querySelectorAll() { return []; }, addEventListener() {} },
     localStorage: { getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, value), removeItem: key => storage.delete(key) },
     window: { dispatchEvent() {}, location: {}, confirm() { return true; } },
-    CustomEvent: class {}, TextEncoder, console, mockSupabase: client
+    CustomEvent: class {}, TextEncoder, Blob, console, mockSupabase: client
   });
   context.showSiteDialog = async () => context.window.confirm();
   vm.runInContext(fs.readFileSync(require.resolve('../data-utils.js'), 'utf8'), context);
@@ -170,7 +170,7 @@ test('numbered name lookup checks older pages and rejects errors or changed acco
 
 function saveElements() {
   return Object.fromEntries(['accountSaveForm','savedAssessmentStatus','assessmentSaveTitle','saveAssessmentButton','saveAssessmentCopy'].map(id=>[id,{
-    hidden:true,value:'',dataset:{},handlers:{},addEventListener(event,fn){this.handlers[event]=fn;}
+    hidden:true,value:'',dataset:{},handlers:{},reportValidity(){return true;},addEventListener(event,fn){this.handlers[event]=fn;}
   }]));
 }
 
@@ -187,20 +187,23 @@ test('new forms use numbered names while editing keeps the original saved name',
   assert.equal(elements.saveAssessmentButton.textContent,'Save changes to account');
 });
 
-test('separate numbered copies advance only after saving and preserve custom names', async () => {
+test('separate copies suffix unchanged names and preserve deliberately changed names', async () => {
   const elements=saveElements(),s=setup(elements);
   s.context.record={...s.record(),title:'Assessment 1'};
   s.run("restoreAccountAssessment(record,'alice')");
   await s.run('initializeAccountAssessments()');
+  s.run("updateActiveProfileData({siteName:'Edited site'})");
   s.pages([{data:[{title:'Assessment 1'}]}]);
   s.respond({error:{code:'network'}});
   await elements.saveAssessmentCopy.handlers.click();
   assert.equal(elements.assessmentSaveTitle.value,'Assessment 1');
   s.pages([{data:[{title:'Assessment 1'}]}]);
-  s.respond({data:{...s.record(),id:'saved-2',title:'Assessment 2'}});
+  s.respond({data:{...s.record(),id:'saved-2',title:'Assessment 1 (1)'}});
   await elements.saveAssessmentCopy.handlers.click();
-  assert.equal(s.calls.at(-1).value.title,'Assessment 2');
-  assert.equal(elements.assessmentSaveTitle.value,'Assessment 2');
+  assert.equal(s.calls.at(-1).value.title,'Assessment 1 (1)');
+  assert.equal(elements.assessmentSaveTitle.value,'Assessment 1 (1)');
+  assert.equal(elements.saveAssessmentButton.hidden,true);
+  assert.equal(elements.saveAssessmentCopy.hidden,true);
   elements.assessmentSaveTitle.value='My custom copy';
   s.respond({data:{...s.record(),id:'saved-3',title:'My custom copy'}});
   await elements.saveAssessmentCopy.handlers.click();
@@ -258,11 +261,42 @@ test('saving status distinguishes saved inputs, unsaved values and unsaved title
   s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice')");
   await s.run('initializeAccountAssessments()');
   assert.match(elements.savedAssessmentStatus.textContent,/^Saved to your account/);
+  assert.equal(elements.saveAssessmentButton.hidden,true);
+  assert.equal(elements.saveAssessmentCopy.hidden,true);
   s.run("updateActiveProfileData({siteName:'Changed'}); updateAccountSaveStatus()");
   assert.match(elements.savedAssessmentStatus.textContent,/haven’t been saved/);
+  assert.equal(elements.saveAssessmentButton.hidden,false);
+  assert.equal(elements.saveAssessmentCopy.hidden,false);
   s.run("restoreAccountAssessment(record,'alice')");
   elements.assessmentSaveTitle.value='Renamed locally';s.run('updateAccountSaveStatus()');
   assert.match(elements.savedAssessmentStatus.textContent,/haven’t been saved/);
+  elements.assessmentSaveTitle.value='My assessment';s.run('updateAccountSaveStatus()');
+  assert.equal(elements.saveAssessmentButton.hidden,true);
+  assert.equal(elements.saveAssessmentCopy.hidden,true);
+});
+
+test('copy numbering checks every owner page, skips occupied names and fits the name limit',async()=>{
+  const s=setup();
+  s.pages([{data:Array.from({length:100},(_,i)=>({title:i?'Other '+i:'Former gas station (1)'}))},{data:[{title:'Former gas station (2)'}]}]);
+  assert.equal(await s.run("nextAssessmentCopyName('Former gas station')"),'Former gas station (3)');
+  for(const call of s.calls) assert.deepEqual(call.filters,[['user_id','alice']]);
+  s.pages([{data:[]}]);
+  const name=await s.run("nextAssessmentCopyName('x'.repeat(100))");
+  assert.equal(name.length,100);assert.ok(name.endsWith(' (1)'));
+  s.pages([{error:{code:'network'}}]);
+  await assert.rejects(s.run("nextAssessmentCopyName('Former gas station')"),/Unable to access/);
+});
+
+test('successful updates hide both save actions and the Results shortcut is removed',async()=>{
+  const elements=saveElements(),s=setup(elements);
+  s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice')");
+  await s.run('initializeAccountAssessments()');
+  s.run("updateActiveProfileData({siteName:'Edited'});updateAccountSaveStatus()");
+  s.respond({data:{...s.record(),revision:2}});
+  await elements.accountSaveForm.handlers.submit({preventDefault(){}});
+  assert.equal(elements.saveAssessmentButton.hidden,true);assert.equal(elements.saveAssessmentCopy.hidden,true);
+  const html=fs.readFileSync(require.resolve('../results.html'),'utf8');
+  assert.doesNotMatch(html,/>Saved assessments<\/a>/);
 });
 
 test('library paginates all owner saves so search includes records beyond the first hundred', async () => {
@@ -295,4 +329,105 @@ test('failed or wrong-owner exports never return partial account data',async()=>
   s.profile({data:{id:'alice'}});s.pages([{error:{code:'network'}}]);
   await assert.rejects(s.run('collectAccountExport()'),/Unable to access/);
   s.setUser('bob');await assert.rejects(s.run('collectAccountExport()'),/sign-in has changed/);
+});
+
+test('account CSV download keeps profile, preferences and nested assessment values safely',async()=>{
+  const s=setup({savedAssessmentStatus:{dataset:{}}});
+  const saved=s.record();saved.title='=HYPERLINK("example")';
+  saved.payload.extra={note:'Commas, "quotes"\r\nand lines',zero:0,empty:'',nothing:null,flag:false,array:[],object:{}};
+  s.pages([{data:[saved]}]);
+  let file;s.context.capture=(blob,name)=>{file={blob,name};};s.run('downloadBlob=capture');
+  await s.run('downloadAccountData()');
+  assert.match(file.name,/^bccsrtool-account-data-\d{4}-\d{2}-\d{2}\.csv$/);
+  assert.equal(file.blob.type,'text/csv;charset=utf-8');
+  const csv=await file.blob.text();s.context.csv=csv;
+  const rows=JSON.parse(s.run('JSON.stringify(parseCsv(csv))'));
+  assert.deepEqual(rows[0],['section','assessment_id','assessment_name','field','type','value']);
+  assert.ok(rows.some(row=>row[0]==='account' && row[3]==='/email' && row[5]==='alice@example.com'));
+  assert.ok(rows.some(row=>row[0]==='profile' && row[3]==='/chemical_sort' && row[5]==='alpha'));
+  for(const [key,type,value] of [['note','string',saved.payload.extra.note],['zero','number','0'],['empty','string',''],['nothing','null',''],['flag','boolean','false'],['array','array','[]'],['object','object','{}']]) {
+    const row=rows.find(row=>row[3]===`/payload/extra/${key}`);
+    assert.deepEqual(row.slice(0,3),['saved_assessment',saved.id,"'"+saved.title]);
+    assert.deepEqual(row.slice(4),[type,value]);
+  }
+  assert.doesNotMatch(csv,/never-export-this/);
+});
+
+test('CSV cells quote line breaks and protect spreadsheet formulas without changing numeric values',()=>{
+  const s=setup();
+  for(const text of ['=1+1','+SUM(1,2)','-1+2','@SUM(1,2)','\t=1','\r=1','  =1']) {
+    s.context.text=text;
+    assert.equal(s.run('parseCsv(csvEscape(text))[0][0]'),"'"+text);
+  }
+  assert.equal(s.run('csvEscape(-12)'),'-12');
+  assert.equal(s.run("parseCsv(csvEscape('a\\rb'))[0][0]"),'a\rb');
+});
+
+test('viewing saved results carries the Saved assessments return destination', async()=>{
+  const s=setup();s.respond({data:s.record()});
+  await s.run("openAccountAssessment('saved-1','results.html')");
+  assert.equal(s.context.window.location.href,'results.html?from=saved');
+});
+
+test('unchanged saved inputs and reverted edits start fresh without a warning or save',async()=>{
+  for(const revert of [false,true]) {
+    const elements=saveElements(),s=setup(elements);
+    s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice')");
+    elements.assessmentSaveTitle.value='My assessment';
+    if(revert) s.run("updateActiveProfileData({siteName:'Edited'});updateActiveProfileData({siteName:''});updateAppUi({resultsLayout:'matrix'})");
+    s.context.showSiteDialog=()=>assert.fail('Already saved: no warning needed');
+    await s.run('startNewAssessment()');
+    assert.equal(s.context.window.location.href,'index.html');
+    assert.equal(s.run('getActiveProfile().selectedContaminants.length'),0);
+    assert.equal(s.calls.length,0);
+  }
+});
+
+test('unsaved changes can be cancelled or discarded without changing the account save',async()=>{
+  for(const decision of [false,'discard']) {
+    const elements=saveElements(),s=setup(elements);
+    s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice');updateActiveProfileData({siteName:'Unsaved site'})");
+    elements.assessmentSaveTitle.value='My assessment';
+    const before=s.storage.get('bcCsrToolState');
+    s.context.showSiteDialog=async(message,options)=>{
+      assert.equal(options.confirmLabel,'Save');assert.equal(options.discardLabel,'New assessment');assert.equal(options.cancelLabel,'Cancel');
+      return decision;
+    };
+    await s.run('startNewAssessment()');
+    assert.equal(s.calls.length,0);
+    if(decision===false) {assert.equal(s.storage.get('bcCsrToolState'),before);assert.equal(s.context.window.location.href,undefined);}
+    else assert.equal(s.context.window.location.href,'index.html');
+  }
+});
+
+test('Save waits for the account update before starting fresh; save failure preserves edits',async()=>{
+  for(const fail of [false,true]) {
+    const elements=saveElements(),s=setup(elements);
+    s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice');updateActiveProfileData({siteName:'Edited site'})");
+    elements.assessmentSaveTitle.value='Renamed assessment';s.context.showSiteDialog=async()=>true;
+    let complete;s.respond(new Promise(resolve=>{complete=resolve;}));
+    const before=s.storage.get('bcCsrToolState'),pending=s.run('startNewAssessment()');
+    await new Promise(resolve=>setImmediate(resolve));
+    assert.equal(s.storage.get('bcCsrToolState'),before);assert.equal(s.context.window.location.href,undefined);
+    assert.equal(s.calls[0].value.payload.profiles.assessment.siteName,'Edited site');
+    assert.equal(s.calls[0].value.title,'Renamed assessment');
+    complete(fail?{error:{code:'network'}}:{data:{...s.record(),title:'Renamed assessment',revision:2}});
+    if(fail) {await assert.rejects(pending,/Unable to access/);assert.equal(s.storage.get('bcCsrToolState'),before);}
+    else {await pending;assert.equal(s.context.window.location.href,'index.html');assert.equal(s.run('getActiveProfile().selectedContaminants.length'),0);}
+  }
+});
+
+test('edits made while saving and account changes during the decision cannot be discarded by Save',async()=>{
+  const elements=saveElements(),s=setup(elements);
+  s.context.record=s.record();s.run("restoreAccountAssessment(record,'alice');updateActiveProfileData({siteName:'First edit'})");
+  elements.assessmentSaveTitle.value='My assessment';s.context.showSiteDialog=async()=>true;
+  let complete;s.respond(new Promise(resolve=>{complete=resolve;}));
+  const pending=s.run('startNewAssessment()');await new Promise(resolve=>setImmediate(resolve));
+  s.run("updateActiveProfileData({siteName:'Newer edit'})");
+  complete({data:{...s.record(),revision:2}});
+  await assert.rejects(pending,/changed while saving/);
+  assert.equal(s.run('getActiveProfile().siteName'),'Newer edit');assert.equal(s.context.window.location.href,undefined);
+  s.context.showSiteDialog=async()=>{s.setUser('bob');return 'discard';};
+  await assert.rejects(s.run('startNewAssessment()'),/sign-in has changed/);
+  assert.equal(s.run('getActiveProfile().siteName'),'Newer edit');
 });

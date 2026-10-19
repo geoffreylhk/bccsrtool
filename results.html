@@ -7,9 +7,8 @@
     <link rel="canonical" href="https://bccsrtool.ca/results.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20261018-dialog-refinements">
+    <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
     <link rel="stylesheet" href="auth.css?v=20261018-settings-actions">
-    <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js" defer></script>
   </head>
 
   <!-- Google tag (gtag.js) -->
@@ -65,32 +64,15 @@
         </div>
       </header>
       <div class="results-bottom-actions results-top-actions no-print">
-          <a href="labdata.html" class="secondary-action">
+          <a href="labdata.html" class="secondary-action" data-results-back>
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
             Back
           </a>
           <div class="results-bottom-right">
-          <div class="export-menu">
-            <button class="secondary-action" type="button" data-export-menu-btn aria-haspopup="menu" aria-expanded="false">
+          <button class="secondary-action" type="button" data-csv-export-btn>
               <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
-              Export
-              <span aria-hidden="true">▾</span>
-            </button>
-            <div class="export-menu-list" role="menu" hidden>
-              <button type="button" role="menuitem" data-print-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
-                Export PDF
-              </button>
-              <button type="button" role="menuitem" data-csv-export-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
-                Export CSV
-              </button>
-              <button type="button" role="menuitem" data-word-export-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#file-text"></use></svg>
-                Export Word
-              </button>
-            </div>
-          </div>
+              Export CSV
+          </button>
           <button class="primary-action" type="button" data-new-assessment-btn>
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
             New Assessment
@@ -108,7 +90,6 @@
           <div class="saved-assessment-actions">
             <button id="saveAssessmentButton" type="submit" class="primary-action">Save to account</button>
             <button id="saveAssessmentCopy" type="button" class="secondary-action" hidden>Save as a separate copy</button>
-            <a href="account.html" class="secondary-action">Saved assessments</a>
           </div>
         </form>
       </section>
@@ -194,32 +175,15 @@
       </section>
 
       <div class="results-bottom-actions no-print">
-        <a href="labdata.html" class="secondary-action">
+        <a href="labdata.html" class="secondary-action" data-results-back>
           <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#arrow-left"></use></svg>
           Back
         </a>
         <div class="results-bottom-right">
-          <div class="export-menu export-menu-up">
-            <button id="exportMenuBtn" class="secondary-action" type="button" data-export-menu-btn aria-haspopup="menu" aria-expanded="false">
+          <button class="secondary-action" type="button" data-csv-export-btn>
               <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
-              Export
-              <span aria-hidden="true">▾</span>
-            </button>
-            <div id="exportMenuList" class="export-menu-list" role="menu" hidden>
-              <button id="printBtn" type="button" role="menuitem" data-print-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#printer"></use></svg>
-                Export PDF
-              </button>
-              <button id="csvExportBtn" type="button" role="menuitem" data-csv-export-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#download"></use></svg>
-                Export CSV
-              </button>
-              <button id="wordExportBtn" type="button" role="menuitem" data-word-export-btn>
-                <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#file-text"></use></svg>
-                Export Word
-              </button>
-            </div>
-          </div>
+              Export CSV
+          </button>
           <button id="newAssessmentBtn" class="primary-action" type="button" data-new-assessment-btn>
             <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#refresh-cw"></use></svg>
             New Assessment
@@ -270,10 +234,10 @@
       </div>
     </footer>
 
-    <script src="site-dialog.js?v=20261018-dialog-refinements"></script>
-    <script src="data-utils.js?v=20261018-email-confirmation"></script>
-    <script src="results.js?v=20261018-dialog-refinements"></script>
-    <script type="module" src="account-assessments.js?v=20261018-dialog-refinements"></script>
+    <script src="site-dialog.js?v=20261018-unsaved-new-assessment"></script>
+    <script src="data-utils.js?v=20261018-csv-only"></script>
+    <script src="results.js?v=20261018-unsaved-new-assessment"></script>
+    <script type="module" src="account-assessments.js?v=20261018-save-buttons-copy-names"></script>
     <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>

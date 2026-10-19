@@ -8,11 +8,10 @@ const labDataCount = document.getElementById('labDataCount');
 const comparisonMeta = document.getElementById('comparisonMeta');
 const resultsTable = document.getElementById('resultsTable');
 const recommendation = document.getElementById('recommendation');
-const exportMenus = [...document.querySelectorAll('.export-menu')];
-const printButtons = [...document.querySelectorAll('[data-print-btn]')];
 const csvExportButtons = [...document.querySelectorAll('[data-csv-export-btn]')];
-const wordExportButtons = [...document.querySelectorAll('[data-word-export-btn]')];
-const newAssessmentButtons = [...document.querySelectorAll('[data-new-assessment-btn]')];
+if (new URLSearchParams(window.location.search).get('from') === 'saved') {
+  document.querySelectorAll('[data-results-back]').forEach(link => { link.href = 'account.html#saved'; });
+}
 
 let csrData = null;
 let latestRows = [];
@@ -91,20 +90,6 @@ function getReportContext() {
     disclaimer: REPORT_DISCLAIMER,
     pathway_note: 'Schedule 3.1 soil only. Unassessed factors and unsupported conditions prevent a confirmed pass. Source URLs: ' + Object.values(csrData.sources).map((source) => source.url).join(' ; ')
   };
-}
-
-function getReportRows(rows) {
-  return getMatrixRows(rows).filter(row=>!latestCounts.enteredCount || row.hasLabValue).flatMap((row) => row.result.comparisons.filter(c=>c.applicability!=='not_applicable').map((comparison) => ({
-    ...row,
-    label: `${row.scenario || ''} ${row.landUse} — ${comparison.label}${row.result.controls.includes(comparison.label)?' (controlling standard)':''}`,
-    threshold: comparison.threshold,
-    thresholdUnit: comparison.unit,
-    standardText: comparison.raw || 'Blank / unavailable',
-    thresholdSource: `${comparison.source}; ${csrData.sources[comparison.part].url}`,
-    result: { ...row.result, status: comparison.status,
-      percentLabel: comparison.ratio !== null ? `${formatRatio(comparison.ratio)}×` : '—',
-      guidance: [comparison.reason, `Overall soil scenario: ${row.result.status}`].filter(Boolean).join(' ') }
-  })));
 }
 
 function renderSummary(rows) {
@@ -319,92 +304,6 @@ function exportResultsCsv() {
   downloadBlob(new Blob(['\uFEFF',lines.join('\n')],{type:'text/csv;charset=utf-8'}),`bc-csr-results-${new Date().toISOString().slice(0,10)}.csv`);
 }
 
-function tableCell(text, width, bold = false) {
-  const { TableCell, Paragraph, TextRun, WidthType } = window.docx;
-  return new TableCell({
-    width: { size: width, type: WidthType.DXA },
-    children: [new Paragraph({ children: [new TextRun({ text: String(text ?? ''), bold, size: 18 })] })]
-  });
-}
-
-function exportWordReport() {
-  if (!window.docx) {
-    showSiteDialog('Word export library could not be loaded. Check your internet connection and try again.', { title: 'Word export unavailable', notice: true });
-    return;
-  }
-
-  const { Document, Packer, Paragraph, Table, TableRow, HeadingLevel, WidthType, TableLayoutType, PageOrientation } = window.docx;
-  const columnWidths = [2000, 1200, 2500, 1000, 700, 1000, 700, 1000, 800, 3500];
-  const profile = getActiveProfile();
-  const siteInfo = getProfileSiteInfo(profile);
-  const thresholdLabel = getAssessmentScenarios(profile).map(s=>`${s.scenario}: ${LAND_USE_LABELS[s.landUse] || 'Unselected'}`).join(' / ');
-  const today = new Date().toLocaleDateString();
-  const recommendationText = getRecommendationText(latestCounts, thresholdLabel);
-  const context = getReportContext();
-  const resultRows = getReportRows(latestRows).map((row) => new TableRow({
-    children: [
-      [row.apec?.name,row.sample?.name,row.sample?.date,row.contaminant.name].filter(Boolean).join(' / '),
-      row.contaminant.cas,
-      row.label,
-      row.displayConcentration,
-      row.unitDef.label,
-      row.standardText,
-      row.thresholdUnit,
-      row.result.status,
-      row.result.percentLabel,
-      `${row.thresholdSource}${row.result.guidance ? `; ${row.result.guidance}` : ''}`
-    ].map((text, index) => tableCell(text, columnWidths[index])),
-    cantSplit: true
-  }));
-
-  const doc = new Document({
-    sections: [{
-      properties: { page: {
-        size: { width: 12240, height: 15840, orientation: PageOrientation.LANDSCAPE },
-        margin: { top: 720, right: 720, bottom: 720, left: 720 }
-      } },
-      children: [
-        new Paragraph({ text: 'BC CSR Screening Report', heading: HeadingLevel.TITLE }),
-        new Paragraph(`Date generated: ${today}`),
-        new Paragraph(`Site: ${profile.siteName || 'Unnamed site'}; assessment mode: ${profile.assessmentMode}`),
-        new Paragraph(`Sample count: ${getSoilSamples(profile).length}. Samples are compared individually; no averaging.`),
-        ...Object.entries(profile.factorJustifications || {}).filter(([,text])=>text).map(([key,text])=>new Paragraph(`${SOIL_FACTORS[key]}: ${text}`)),
-        new Paragraph(REPORT_DISCLAIMER),
-        new Paragraph(`Dataset: ${context.dataset}; source snapshot: ${context.dataset_version}`),
-        new Paragraph(`Official regulation: ${context.regulation_url}`),
-        new Paragraph(context.pathway_note),
-        new Paragraph({ text: 'Land Use Summary', heading: HeadingLevel.HEADING_1 }),
-        new Paragraph(`Current land use: ${siteInfo.currentLandUseLabel || 'Not provided'}`),
-        new Paragraph(`Proposed land use: ${siteInfo.proposedLandUseLabel || 'Not provided'}`),
-        new Paragraph(`Scenarios evaluated: ${thresholdLabel}`),
-        new Paragraph(`Selected thresholds: Schedule 3.1 soil standards (Parts 1–3)`),
-        new Paragraph({ text: 'Results Summary', heading: HeadingLevel.HEADING_1 }),
-        new Paragraph(`${latestCounts.exceedCount} exceedance(s), ${latestCounts.evaluatedCount} evaluated scenario comparison(s), ${latestCounts.reviewCount} scenario comparison(s) requiring review, ${latestCounts.selectedCount} selected contaminant(s).`),
-        new Table({
-          width: { size: 14400, type: WidthType.DXA },
-          columnWidths,
-          layout: TableLayoutType.FIXED,
-          rows: [
-            new TableRow({
-              tableHeader: true,
-              children: ['Sample / contaminant', 'CAS', 'Land use / factor', 'Result', 'Unit', 'Standard', 'Unit', 'Status', 'Ratio', 'Source / review note'].map((heading, index) => tableCell(heading, columnWidths[index], true))
-            }),
-            ...resultRows
-          ]
-        }),
-        new Paragraph({ text: 'Recommendation', heading: HeadingLevel.HEADING_1 }),
-        new Paragraph(recommendationText)
-      ]
-    }]
-  });
-
-  Packer.toBlob(doc).then((blob) => {
-    downloadBlob(blob, `bc-csr-screening-report-${new Date().toISOString().slice(0, 10)}.docx`);
-  }).catch(() => {
-    showSiteDialog('Word export failed. Please try again or use PDF/CSV export.', { title: 'Word export failed', notice: true });
-  });
-}
-
 resultsTable.addEventListener('click', (event) => {
   const infoButton = event.target.closest('[data-action="info"]');
   if (!infoButton || !csrData) return;
@@ -412,65 +311,6 @@ resultsTable.addEventListener('click', (event) => {
   openContaminantDrawer(contaminant, infoButton);
 });
 
-function setExportMenuOpen(menu, isOpen) {
-  const menuList = menu.querySelector('.export-menu-list');
-  const menuButton = menu.querySelector('[data-export-menu-btn]');
-
-  menuList.hidden = !isOpen;
-  menuButton.setAttribute('aria-expanded', String(isOpen));
-}
-
-function closeExportMenus(exceptMenu = null) {
-  exportMenus.forEach((menu) => {
-    if (menu !== exceptMenu) setExportMenuOpen(menu, false);
-  });
-}
-
-exportMenus.forEach((menu) => {
-  const menuButton = menu.querySelector('[data-export-menu-btn]');
-  const menuList = menu.querySelector('.export-menu-list');
-
-  menuButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    const shouldOpen = menuList.hidden;
-    closeExportMenus(menu);
-    setExportMenuOpen(menu, shouldOpen);
-  });
-
-  menuList.addEventListener('click', () => {
-    setExportMenuOpen(menu, false);
-  });
-
-  menuList.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      setExportMenuOpen(menu, false);
-      menuButton.focus();
-    }
-  });
-});
-
-document.addEventListener('click', (event) => {
-  if (!event.target.closest('.export-menu')) {
-    closeExportMenus();
-  }
-});
-
-function printReport() {
-  const filter=document.getElementById('resultFilter');
-  const priorFilter=filter?.value;
-  const layout=document.getElementById('resultLayout');
-  const priorLayout=layout?.value;
-  if(layout) layout.value='rows';
-  if(filter) filter.value='all';
-  renderResultCards(latestRows);
-  const details=[...document.querySelectorAll('.result-standard-details, #sampleSummary details')];
-  const previous=details.map(d=>d.open);
-  details.forEach(d=>d.open=true);
-  const restore=()=>{details.forEach((d,i)=>d.open=previous[i]);if(filter) filter.value=priorFilter;if(layout) layout.value=priorLayout;renderResultCards(latestRows);window.removeEventListener('afterprint',restore);};
-  window.addEventListener('afterprint',restore);
-  window.print();
-}
-printButtons.forEach((button) => button.addEventListener('click', printReport));
 document.getElementById('resultFilter')?.addEventListener('change',()=>renderResultCards(latestRows));
 function saveResultControls() {
   updateAppUi({resultsLayout:document.getElementById('resultLayout').value,resultsSort:{type:document.getElementById('resultSort').value,direction:document.getElementById('resultSortDirection').dataset.direction}});
@@ -487,15 +327,6 @@ document.getElementById('resultSortDirection')?.addEventListener('click',()=>{
 });
 
 csvExportButtons.forEach((button) => button.addEventListener('click', exportResultsCsv));
-wordExportButtons.forEach((button) => button.addEventListener('click', exportWordReport));
-
-newAssessmentButtons.forEach((button) => {
-  button.addEventListener('click', async () => {
-    if (!await showSiteDialog(['This will ', { text: 'clear', red: true }, ' the working assessment in this browser. Your account saves will remain available.'], { title: 'Start a new assessment?', confirmLabel: 'Start new assessment', cancelLabel: 'Cancel', neutral: true })) return;
-    clearAssessment();
-    window.location.href = 'index.html';
-  });
-});
 
 fetch('data.json?v=20261015-source-audit')
   .then((response) => response.json())

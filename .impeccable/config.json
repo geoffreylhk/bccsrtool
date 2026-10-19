@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "results.html"
+        ],
+        "createdAt": "2026-10-19T02:25:52.631Z",
+        "reason": "Codex verified: the flagged red shadow belongs to .selected-header button, which is absent from Results; retain the unrelated component."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "results.html"
+        ],
+        "createdAt": "2026-10-19T02:54:33.004Z",
+        "reason": "Codex review: this is the established shared tool typography; font popularity is not a usability defect and preserving cross-page consistency is intentional."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "style.css"
+        ],
+        "createdAt": "2026-10-19T02:54:33.076Z",
+        "reason": "Codex review: preserve the incumbent shared typography; changing the site typeface is outside this functional review and popularity alone is not a defect."
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "style.css"
+        ],
+        "createdAt": "2026-10-19T02:54:33.147Z",
+        "reason": "Codex review verified both flagged selectors: .sample-apec uses a functional hierarchy boundary between APEC and sample; .why-note is unused in all current HTML pages. No Results border defect."
+      }
+    ]
+  }
+}

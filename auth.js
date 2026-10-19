@@ -183,6 +183,13 @@ async function initialize() {
   if (callbackError) throw new Error(callbackError);
   switchAssessmentAccount(session?.user?.id);
 
+  if (document.getElementById('signinForm') && session) {
+    const currentUser = checkResult(await supabase.auth.getUser()).user;
+    if (!currentUser) throw new Error('Your session has expired. Sign in again.');
+    window.location.replace('account.html');
+    return;
+  }
+
   if (document.getElementById('accountPanel')) {
     if (!session) {
       window.location.replace('signin.html');

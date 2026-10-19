@@ -31,7 +31,7 @@ function setup(page, initialSelections = []) {
       setItem: (key, value) => storage.set(key, value), removeItem: (key) => storage.delete(key)
     },
     window: { dispatchEvent() {}, addEventListener() {}, removeEventListener() {}, location: { href: '' } },
-    CustomEvent: class {}, Blob, Date, console,
+    CustomEvent: class {}, Blob, Date, URLSearchParams, console,
     fetch: () => new Promise(() => {})
   });
   vm.runInContext(fs.readFileSync(path.join(root, 'data-utils.js'), 'utf8'), context);
@@ -161,53 +161,11 @@ test('cards and CSV use explicit threshold units, precision and report provenanc
   assert.equal(imported.apecs[0].locations[0].samples[0].results[0].value,'1');
 });
 
-test('Word report includes disclaimer, dataset version, units and review counts', async () => {
-  const s = setup('results.js');
-  s.seed([record('lead', { soilConc: 10 })]);
-  s.run("updateActiveProfileData({factors:{drinking:'not_assessed'}});renderResults();");
-  let document;
-  class Part { constructor(content) { this.content = content; } }
-  s.context.window.docx = {
-    Document: class extends Part { constructor(content) { super(content); document = content; } },
-    Paragraph: Part, TextRun: Part, Table: Part, TableRow: Part, TableCell: Part,
-    HeadingLevel: { TITLE: 'title', HEADING_1: 'heading' },
-    WidthType: { DXA: 'dxa' }, TableLayoutType: { FIXED: 'fixed' },
-    PageOrientation: { LANDSCAPE: 'landscape' },
-    Packer: { async toBlob() { return new Blob(['test']); } }
-  };
-  s.run('downloadBlob = () => {}; exportWordReport();');
-  await Promise.resolve();
-  const content = JSON.stringify(document);
-  assert.match(content, /2026-10-15/g);
-  assert.match(content, /Educational use only/);
-  assert.doesNotMatch(content, /Unassigned location/);
-  assert.match(content, /Land use \/ factor/);
-  assert.match(content, /2 scenario comparison\(s\) requiring review/);
-  const section = document.sections[0];
-  const table = section.children.find((part) => part.content.columnWidths);
-  assert.equal(section.properties.page.size.orientation, 'landscape');
-  assert.equal(section.properties.page.size.width, 12240);
-  assert.equal(section.properties.page.size.height, 15840);
-  assert.equal(table.content.width.size, 14400);
-  assert.equal(table.content.columnWidths.reduce((sum, width) => sum + width, 0), 14400);
-  assert.equal(table.content.rows[0].content.tableHeader, true);
-  assert.equal(table.content.rows[1].content.children[0].content.width.size, 2000);
-});
-
 test('legacy storage migration retains matrix and units', () => {
   const s = setup();
   s.storage.set('selectedContaminants', JSON.stringify([{ id: 'benzene', concentration: 0.3, unit: 'mg/L' }]));
   assert.equal(s.run('getActiveProfile().selectedContaminants[0].gwConc'), 0.3);
   assert.equal(s.run('getActiveProfile().selectedContaminants[0].gwUnit'), 'mg/L');
-});
-
-test('PDF export retains native print behavior', () => {
-  const printButton = { addEventListener(event, handler) { this[event] = handler; } };
-  const s = setup('results.js', [['[data-print-btn]', [printButton]]]);
-  let printed = false;
-  s.context.window.print = () => { printed = true; };
-  printButton.click();
-  assert.equal(printed, true);
 });
 
 test('Python lookup script runs against current data from another directory', () => {
@@ -498,15 +456,6 @@ test('invalid date cannot overwrite saved samples', () => {
   const before=s.run('JSON.stringify(getActiveProfile().apecs)');
   assert.throws(()=>s.run("changeSampleData(a=>a[0].locations[0].samples[0].date='2026-02-30')"),/date/);
   assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
-});
-
-test('print includes all results and restores the selected screen filter', () => {
-  const s=setup('results.js');s.seed([record('anthracene',{soilConc:3})]);s.run('renderResults()');
-  s.element('resultFilter').value='exceeds';s.element('resultLayout').value='matrix';let restore;
-  s.context.window.addEventListener=(name,fn)=>{if(name==='afterprint')restore=fn;};
-  s.context.window.print=()=>{assert.equal(s.element('resultFilter').value,'all');assert.equal(s.element('resultLayout').value,'rows');};
-  s.run('printReport()');assert.equal(typeof restore,'function');restore();
-  assert.equal(s.element('resultFilter').value,'exceeds');assert.equal(s.element('resultLayout').value,'matrix');
 });
 
 test('ND CSV export omits inactive detected value and reimports the reporting limit', async () => {
@@ -822,10 +771,24 @@ test('deletion warnings recognize zero, non-detection, reporting limits, dates, 
   assert.equal(s.run("sampleHasEnteredData({date:'2026-10-18',results:[]})"),true);
 });
 
-test('Word export dependency errors use a website notice instead of a browser alert', () => {
-  const s=setup('results.js');let notice;
-  s.context.showSiteDialog=(message,options)=>{notice={message,options};};
-  s.run('exportWordReport()');
-  assert.match(notice.message,/library could not be loaded/);
-  assert.equal(notice.options.notice,true);
+test('Results offers direct CSV exports only, with no PDF or Word library or handlers', async () => {
+  const buttons=Array.from({length:2},()=>({addEventListener(event,handler){this[event]=handler;}}));
+  const s=setup('results.js',[['[data-csv-export-btn]',buttons]]);
+  s.seed([record('benzene',{soilConc:0})]);s.run('renderResults()');
+  let blob;s.context.capture=b=>blob=b;s.run('downloadBlob=capture');
+  for(const button of buttons) {button.click();assert.match(blob.type,/text\/csv/);assert.match(await blob.text(),/benzene/);}
+  const html=fs.readFileSync(path.join(root,'results.html'),'utf8');
+  assert.equal((html.match(/data-csv-export-btn/g)||[]).length,2);
+  assert.doesNotMatch(html,/data-print-btn|data-word-export-btn|data-export-menu-btn|docx@|Export PDF|Export Word/);
+  assert.doesNotMatch(fs.readFileSync(path.join(root,'results.js'),'utf8'),/exportWordReport|printReport|window\.print\(/);
+});
+
+test('Results Back links return to Saved assessments only when opened from the library',()=>{
+  for(const fromSaved of [false,true]) {
+    const links=[{href:'labdata.html'},{href:'labdata.html'}];
+    const s=setup(null,[['[data-results-back]',links]]);
+    s.context.window.location.search=fromSaved?'?from=saved':'';
+    vm.runInContext(fs.readFileSync(path.join(root,'results.js'),'utf8'),s.context);
+    assert.deepEqual(links.map(link=>link.href),Array(2).fill(fromSaved?'account.html#saved':'labdata.html'));
+  }
 });

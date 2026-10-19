@@ -772,8 +772,10 @@ function downloadBlob(blob, filename) {
 }
 
 function csvEscape(value) {
-  const text = String(value ?? '');
-  return /[",\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+  let text = String(value ?? '');
+  // Keep user-entered text from becoming a spreadsheet formula.
+  if (typeof value === 'string' && /^(?:\s*[=+@-]|[\t\r\n])/.test(text)) text = "'" + text;
+  return /[",\r\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
 }
 
 function getExtraContaminantInfo(contaminant) {

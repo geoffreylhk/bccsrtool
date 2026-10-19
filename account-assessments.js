@@ -69,7 +69,7 @@ async function openAccountAssessment(id, page) {
   if (!await showSiteDialog(['Your current assessment ', { text: 'will be replaced', red: true }, '. Save your current section first if needed.'], { title: 'Open this saved assessment?', confirmLabel: 'Open assessment', cancelLabel: 'Cancel' })) return;
   await requireAssessmentUser();
   restoreAccountAssessment(record, owner.id);
-  window.location.href = page;
+  window.location.href = page === 'results.html' ? 'results.html?from=saved' : page;
 }
 
 async function nextAssessmentName() {
@@ -85,6 +85,16 @@ async function nextAssessmentName() {
       if (Number.isSafeInteger(number) && number < Number.MAX_SAFE_INTEGER) highest = Math.max(highest, number);
     }
     if (records.length < 100) return `Assessment ${highest + 1}`;
+  }
+}
+
+async function nextAssessmentCopyName(title) {
+  const owner = await requireAssessmentUser();
+  const titles = new Set((await fetchAccountAssessments(owner, 'title')).map(record => record.title));
+  for (let number = 1; ; number++) {
+    const suffix = ` (${number})`;
+    const candidate = title.slice(0, 100 - suffix.length).trimEnd() + suffix;
+    if (!titles.has(candidate)) return candidate;
   }
 }
 
@@ -228,16 +238,79 @@ async function collectAccountExport() {
   };
 }
 
+function buildAccountDataCsv(data) {
+  const rows = [['section', 'assessment_id', 'assessment_name', 'field', 'type', 'value']];
+  function addFields(section, assessment, value, path = '') {
+    if (value === undefined) return;
+    const entries = value !== null && typeof value === 'object' ? Object.entries(value) : [];
+    if (entries.length) {
+      for (const [key, child] of entries) {
+        addFields(section, assessment, child, `${path}/${key.replaceAll('~', '~0').replaceAll('/', '~1')}`);
+      }
+    } else {
+      const type = value === null ? 'null' : Array.isArray(value) ? 'array' : typeof value;
+      rows.push([section, assessment?.id, assessment?.title, path, type,
+        type === 'array' ? '[]' : type === 'object' ? '{}' : value]);
+    }
+  }
+  addFields('export', null, { format: data.format, version: data.version, exported_at: data.exported_at });
+  addFields('account', null, data.account);
+  addFields('profile', null, data.profile);
+  for (const assessment of data.saved_assessments) addFields('saved_assessment', assessment, assessment);
+  return rows.map(row => row.map(csvEscape).join(',')).join('\r\n');
+}
 
-function updateAccountSaveStatus() {
-  if (!saveForm || !accountUser || busy) return;
+async function downloadAccountData() {
+  const data = await collectAccountExport();
+  downloadBlob(new Blob(['\uFEFF', buildAccountDataCsv(data)], { type: 'text/csv;charset=utf-8' }), `bccsrtool-account-data-${new Date().toISOString().slice(0, 10)}.csv`);
+  assessmentStatus('Account data downloaded. Keep this file private; it contains your saved site and assessment data.');
+}
+
+
+function isAssessmentSavedToAccount() {
   const state = getAppState();
   const linked = state.cloudAssessment;
   const sameInputs = linked?.savedSnapshot && JSON.stringify(getAssessmentSnapshot(state)) === JSON.stringify(linked.savedSnapshot);
-  const sameTitle = linked?.title === document.getElementById('assessmentSaveTitle').value.trim();
-  assessmentStatus(linked?.userId === accountUser.id && sameInputs && sameTitle
+  const sameTitle = linked?.title === document.getElementById('assessmentSaveTitle')?.value.trim();
+  return Boolean(accountUser && linked?.userId === accountUser.id && sameInputs && sameTitle);
+}
+
+function updateAccountSaveButtons() {
+  if (!saveForm || !accountUser) return;
+  const ownSave = getAppState().cloudAssessment?.userId === accountUser.id;
+  const saved = isAssessmentSavedToAccount();
+  document.getElementById('saveAssessmentButton').hidden = ownSave && saved;
+  document.getElementById('saveAssessmentCopy').hidden = !ownSave || saved;
+}
+
+function updateAccountSaveStatus() {
+  updateAccountSaveButtons();
+  if (!saveForm || !accountUser || busy) return;
+  assessmentStatus(isAssessmentSavedToAccount()
     ? 'Saved to your account. Changes on another device appear when you reopen the assessment.'
     : 'Changes haven’t been saved to your account. Save below to keep them across devices.');
+}
+
+async function startNewAssessment() {
+  if (accountUser) await requireAssessmentUser();
+  if (!isAssessmentSavedToAccount()) {
+    if (accountUser) {
+      const decision = await showSiteDialog('You have unsaved changes. Save them to your account before starting a new assessment, or start fresh without saving.', {
+        title: 'Start a new assessment?', confirmLabel: 'Save', discardLabel: 'New assessment', cancelLabel: 'Cancel'
+      });
+      if (!decision) return;
+      await requireAssessmentUser();
+      if (decision === true) {
+        if (!saveForm.reportValidity()) return;
+        await saveAccountAssessment(document.getElementById('assessmentSaveTitle').value);
+        if (!isAssessmentSavedToAccount()) throw new Error('Your assessment changed while saving. Review your changes and save again before starting fresh.');
+      }
+    } else if (!await showSiteDialog(['This will ', { text: 'clear', red: true }, ' the working assessment in this browser. Your account saves will remain available.'], {
+      title: 'Start a new assessment?', confirmLabel: 'Start new assessment', cancelLabel: 'Cancel', neutral: true
+    })) return;
+  }
+  clearAssessment();
+  window.location.href = 'index.html';
 }
 
 function selectAccountSection() {
@@ -256,7 +329,7 @@ async function runAssessmentAction(action) {
   const previousFocus = document.activeElement;
   const previousStatus = savedStatus.textContent;
   const previousError = savedStatus.dataset.error === 'true';
-  const actionControls = '[data-account-save] button, #savedAssessments button, #retrySavedAssessments, #assessmentSearch, #assessmentSort, #downloadAccountData';
+  const actionControls = '[data-account-save] button, [data-new-assessment-btn], #savedAssessments button, #retrySavedAssessments, #assessmentSearch, #assessmentSort, #downloadAccountData';
   const buttons = document.querySelectorAll(actionControls);
   buttons.forEach(button => { button.disabled = true; });
   assessmentStatus('Working…');
@@ -265,6 +338,7 @@ async function runAssessmentAction(action) {
   finally {
     busy = false;
     document.querySelectorAll(actionControls).forEach(button => { button.disabled = false; });
+    updateAccountSaveButtons();
     if (savedStatus.textContent === 'Working…') assessmentStatus(previousStatus, previousError);
     if (document.activeElement === document.body) previousFocus?.focus();
   }
@@ -288,17 +362,19 @@ async function initializeAccountAssessments() {
     document.getElementById('saveAssessmentCopy').hidden = !ownSave;
     saveForm.addEventListener('submit', event => {
       event.preventDefault();
+      if (isAssessmentSavedToAccount()) return;
       if (!saveForm.reportValidity()) return;
-      runAssessmentAction(async () => {
+      return runAssessmentAction(async () => {
         await saveAccountAssessment(document.getElementById('assessmentSaveTitle').value);
         document.getElementById('saveAssessmentButton').textContent = 'Save changes to account';
-        document.getElementById('saveAssessmentCopy').hidden = false;
         assessmentStatus('Saved to your account. You can reopen it from Saved assessments.');
       });
     });
     document.getElementById('saveAssessmentCopy').addEventListener('click', () => runAssessmentAction(async () => {
+      if (!saveForm.reportValidity() || isAssessmentSavedToAccount()) return;
       const input = document.getElementById('assessmentSaveTitle');
-      const title = /^Assessment [1-9]\d*$/.test(input.value.trim()) ? await nextAssessmentName() : input.value;
+      const enteredTitle = input.value.trim();
+      const title = enteredTitle === getAppState().cloudAssessment?.title ? await nextAssessmentCopyName(enteredTitle) : enteredTitle;
       const record = await saveAccountAssessment(title, true);
       input.value = record.title;
       assessmentStatus('A separate copy was saved to your account.');
@@ -314,14 +390,15 @@ async function initializeAccountAssessments() {
     assessmentSearch?.addEventListener('input', renderSavedAssessments);
     assessmentSort?.addEventListener('change', renderSavedAssessments);
     document.getElementById('retrySavedAssessments').addEventListener('click', () => runAssessmentAction(listAccountAssessments));
-    document.getElementById('downloadAccountData')?.addEventListener('click', () => runAssessmentAction(async () => {
-      const data = await collectAccountExport();
-      downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), `bccsrtool-account-data-${new Date().toISOString().slice(0, 10)}.json`);
-      assessmentStatus('Account data downloaded. Keep this file private; it contains your saved site and assessment data.');
-    }));
+    document.getElementById('downloadAccountData')?.addEventListener('click', () => runAssessmentAction(downloadAccountData));
     await listAccountAssessments();
   }
 }
+
+document.querySelectorAll('[data-new-assessment-btn]').forEach(button => button.addEventListener('click', async () => {
+  await accountInitialization;
+  runAssessmentAction(startNewAssessment);
+}));
 
 supabase.auth.onAuthStateChange((_event, session) => {
   if (accountUser && session?.user?.id !== accountUser.id) {
@@ -331,4 +408,4 @@ supabase.auth.onAuthStateChange((_event, session) => {
     assessmentStatus('Your sign-in has changed. Reload this page to access the current account.');
   }
 });
-initializeAccountAssessments().catch(error => assessmentStatus(error.message, true));
+const accountInitialization = initializeAccountAssessments().catch(error => assessmentStatus(error.message, true));

@@ -2,7 +2,7 @@
 
 Implemented:
 - Settings saves a default chemical sort (category, order added, alphabetically) in the owner's profile. Auth initialization syncs it to the browser; new assessments inherit it. Per-assessment overrides remain until the saved default changes. Changing/signing out of an account removes its cached default.
-- Saved assessments offers a JSON download of the authenticated user's account details, complete profile/preferences, and all saved assessments, paginated beyond 100 saves. It excludes passwords, access/refresh tokens and unsaved browser work. The file contains private assessment inputs and should be stored privately.
+- Saved assessments offers a CSV download of the authenticated user's account details, complete profile/preferences, and all saved assessments, paginated beyond 100 saves. It excludes passwords, access/refresh tokens and unsaved browser work. The file contains private assessment inputs and should be stored privately.
 - Settings alone contains Sign out.
 - Delete account has two website dialogs: “Are you sure?” with red Yes and No; then an exact typed current sign-in email address. The button stays disabled for partial, different-case or whitespace-mismatched input. The server independently compares the current Auth email and validates caller/session ownership.
 
