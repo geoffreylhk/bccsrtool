@@ -15,7 +15,8 @@
 }
 .auth-page #authStatus { overflow-wrap: anywhere; }
 .auth-page #authStatus[data-error="true"] { color: #a02020; }
-.auth-page #googleSigninButton { width: 100%; justify-content: center; }
+.auth-page #googleSigninButton { display: flex; align-items: center; gap: 12px; width: 100%; justify-content: center; }
+.auth-page .google-signin-logo { width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; }
 .auth-captcha { margin: 16px 0; min-width: 0; }
 .auth-captcha p { margin: 0 0 8px; }
 [data-account-save] [hidden] { display: none !important; }
@@ -84,3 +85,19 @@
 .site-dialog .dialog-confirm-label { flex-basis: 100%; display: grid; gap: 8px; margin-bottom: 20px; }
 .site-dialog input { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--border-strong); border-radius: 7px; color: var(--text); background: var(--surface); font: inherit; }
 .site-dialog input:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+
+/* Guest account pages share one focused panel and the existing site palette. */
+.signin-page .auth-entry { padding: clamp(24px, 5vw, 40px); margin-bottom: 32px; }
+.signin-page .auth-entry h1 { margin: 0 0 28px; font-size: clamp(1.7rem, 5vw, 2.1rem); line-height: 1.3; text-align: center; }
+.signin-page .auth-entry p { line-height: 1.6; }
+.signin-page .auth-entry #authStatus:empty { display: none; }
+.signin-page .auth-entry-form { display: grid; gap: 24px; }
+.signin-page .auth-entry-form .form-group { display: grid; gap: 8px; }
+.signin-page .auth-entry-form button[type="submit"] { width: 100%; justify-content: center; }
+.signin-page .auth-entry .auth-divider { display: flex; align-items: center; gap: 16px; margin: 28px 0; color: var(--text-muted); }
+.signin-page .auth-divider::before, .signin-page .auth-divider::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+.signin-page .auth-entry-links { display: grid; gap: 12px; text-align: center; margin-top: 28px; }
+.signin-page .auth-entry-links p { margin: 0; }
+.signin-page .auth-entry a { color: var(--primary-dark); text-underline-offset: 3px; }
+.signin-page .auth-entry a:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
+.signin-page .auth-entry-legal { margin: 32px 0 0; text-align: center; font-size: .9rem; }

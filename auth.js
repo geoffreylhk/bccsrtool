@@ -73,6 +73,8 @@ bindForm('signinForm', async (fields, captchaToken) => {
 });
 
 bindForm('signupForm', async (fields, captchaToken) => {
+  if (!fields.get('confirm_password')) throw new Error('Please retype your password.');
+  if (fields.get('password') !== fields.get('confirm_password')) throw new Error('The passwords do not match.');
   checkResult(await supabase.auth.signUp({
     email: fields.get('email').trim(),
     password: fields.get('password'),

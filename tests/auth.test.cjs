@@ -148,7 +148,7 @@ test('signup keeps passwords out of metadata and uses the local callback', async
     async signUp(value) { request = value; return { data: {}, error: null }; }
   } });
   const form = document.getElementById('signupForm');
-  form.fields = { email: ' alice@example.com ', password: 'long-password-a', display_name: ' Alice ' };
+  form.fields = { email: ' alice@example.com ', password: 'long-password-a', confirm_password: 'long-password-a', display_name: ' Alice ' };
   await form.submit({ preventDefault() {} });
   assert.equal(request.email, 'alice@example.com');
   assert.equal(request.options.emailRedirectTo, 'http://127.0.0.1:5500/account.html');
@@ -168,7 +168,7 @@ test('all email auth requests forward the verified CAPTCHA token and reset after
     }});
     s.context.window.authCaptcha={getToken(){return 'verified-token';},reset(){resets++;},isReady(){return false;}};
     const form=s.document.getElementById(id);
-    form.fields={email:'alice@example.com',password:'long-password-a',display_name:'Alice'};
+    form.fields={email:'alice@example.com',password:'long-password-a',confirm_password:'long-password-a',display_name:'Alice'};
     await form.submit({preventDefault(){}});
     assert.equal(captured.options.captchaToken,'verified-token',id);
     assert.equal(resets,1);assert.equal(form.button.disabled,true);
@@ -325,4 +325,19 @@ test('settings update validates and saves the account sorting default',async()=>
   assert.equal(JSON.parse(storage.get('bcCsrAccountPreferences')).chemicalSort,'alpha');
   form.fields.chemical_sort='unknown';request=undefined;await form.submit({preventDefault(){}});
   assert.equal(request,undefined);
+});
+
+
+test('signup rejects missing or mismatched confirmation without creating an account', async () => {
+  for (const confirmation of ['', undefined, 'different-password', 'long-password-a ']) {
+    let requests = 0;
+    const s = setup({ auth: { async signUp() { requests++; return { data: {} }; } } });
+    const form = s.document.getElementById('signupForm');
+    form.fields = { email: 'alice@example.com', password: 'long-password-a', confirm_password: confirmation, display_name: 'Alice' };
+    await form.submit({ preventDefault() {} });
+    assert.equal(requests, 0);
+    assert.equal(s.elements.get('authStatus').dataset.error, 'true');
+    assert.match(s.elements.get('authStatus').textContent, /retype|do not match/);
+    assert.equal(form.wasReset, undefined);
+  }
 });

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="referrer" content="no-referrer">
+  <meta name="turnstile-site-key" content="0x4AAAAAAFbqxZNtRgiTPEwO">
+  <title>Create account — BC CSR Screening Tool</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
+  <link rel="stylesheet" href="auth.css?v=20261019-signin-layout">
+</head>
+<body class="auth-page signin-page">
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><img src="assets/images/logo.png" alt=""><span>CSR Screening Tool</span></a>
+    <div class="nav-links"><a href="about.html">About</a><a href="account.html">Account</a></div>
+  </nav>
+  <main class="workflow-main narrow-main">
+    <section class="card auth-entry" aria-labelledby="authHeading">
+      <h1 id="authHeading">Create your account</h1>
+      <p id="authStatus" role="status" aria-live="polite">Loading account service…</p>
+      <p id="authRetry" hidden><a href="signin.html">Return to sign in</a></p>
+      <noscript>Enable JavaScript to use accounts.</noscript>
+<form id="signupForm" class="auth-entry-form">
+<div class="form-group"><label for="signupName">Display name (optional)</label><input id="signupName" name="display_name" autocomplete="nickname" maxlength="100"></div>
+<div class="form-group"><label for="signupEmail">Email</label><input id="signupEmail" name="email" type="email" autocomplete="email" required></div>
+<div class="form-group"><label for="signupPassword">Password (at least 12 characters)</label><input id="signupPassword" name="password" type="password" autocomplete="new-password" minlength="12" required></div>
+<div class="form-group"><label for="signupConfirmPassword">Confirm password</label><input id="signupConfirmPassword" name="confirm_password" type="password" autocomplete="new-password" required></div>
+<p>Read the <a href="privacypolicy.html">Privacy Policy</a> and <a href="termsofuse.html">Terms of Use</a>.</p>
+<div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
+<button class="primary-action" type="submit" disabled>Create account</button>
+</form>
+      <p class="auth-entry-links">Already have an account? <a href="signin.html">Sign in</a></p>
+    </section>
+  </main>
+  <script src="data-utils.js?v=20261018-csv-only"></script>
+  <script src="auth-captcha.js?v=20261019-turnstile-1"></script>
+  <script type="module" src="auth.js?v=20261020-password-confirm"></script>
+  <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
+</body>
+</html>
