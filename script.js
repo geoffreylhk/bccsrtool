@@ -137,11 +137,14 @@ if (currentLandUse && proposedLandUse && siteNextBtn) {
   const factorSettings = document.getElementById('factorSettings');
   if (factorSettings) {
     const choices = [['applicable', '✓ Applicable'], ['not_assessed', '✕ Not assessed']];
-    factorSettings.innerHTML = `<h2>Applicable soil factors</h2><p>The first two factors default to Applicable. Choosing Not assessed flags incomplete screening. Unanswered conditional factors are treated as not applicable.</p>` + Object.entries(SOIL_FACTORS).map(([key, label]) => {
+    const factorRows = Object.entries(SOIL_FACTORS);
+    [factorRows[1], factorRows[2]] = [factorRows[2], factorRows[1]];
+    const factorMarkup = factorRows.map(([key, label]) => {
       const mandatory = ['intake', 'plants'].includes(key);
       const selected = mandatory ? (activeProfile.factors?.[key] === 'not_assessed' ? 'not_assessed' : 'applicable') : activeProfile.factors?.[key] || 'not_applicable';
       return `<fieldset class="factor-choice"><legend>${escapeHtml(label)}</legend><div class="factor-choice__buttons">${choices.map(([value, text]) => `<label class="factor-option factor-option--${value}"><input type="radio" name="factor-${key}" data-factor="${key}" value="${value}" ${selected === value ? 'checked' : ''}><span>${text}</span></label>`).join('')}</div></fieldset>`;
-    }).join('');
+    });
+    factorSettings.innerHTML = `<h2>Applicable soil factors</h2><div class="factor-columns"><div>${factorMarkup.slice(0, 4).join('')}</div><div>${factorMarkup.slice(4).join('')}</div></div>`;
     factorSettings.querySelectorAll('[data-factor]').forEach((input) => {
       input.addEventListener('change', () => {
         const factors = Object.fromEntries([...factorSettings.querySelectorAll('[data-factor]:checked')].map((choice) => [choice.dataset.factor, choice.value]));
@@ -159,20 +162,36 @@ if (currentLandUse && proposedLandUse && siteNextBtn) {
     assessmentMode: assessmentMode?.value || 'current', siteName: siteName?.value.trim() || '',
     multipleLandUses: false
   });
+  let siteValidationAttempted = false;
   const validateSiteForm = () => {
     const proposed = assessmentMode?.value === 'proposed';
     currentLandUse.required = !proposed;
     proposedLandUse.required = proposed;
     const error = getSiteValidationError(readSite());
-    siteNextBtn.disabled = Boolean(error);
+    siteNextBtn.disabled = false;
+    const invalidField = error ? (error === 'Select a valid assessment mode.' ? assessmentMode : proposed ? proposedLandUse : currentLandUse) : null;
+    for (const field of [currentLandUse, proposedLandUse, assessmentMode].filter(Boolean)) {
+      if (siteValidationAttempted && field === invalidField) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    }
     const status = document.getElementById('siteStatus');
-    if (status) status.textContent = error;
+    if (status) {
+      status.textContent = siteValidationAttempted ? error : '';
+      if (invalidField) invalidField.parentElement.append(status);
+    }
+    return error;
   };
   const saveSiteInfo = () => { updateActiveProfileData(readSite()); validateSiteForm(); };
   [currentLandUse, proposedLandUse, assessmentMode].filter(Boolean).forEach(input => input.addEventListener('change', saveSiteInfo));
   siteName?.addEventListener('input', saveSiteInfo);
   siteNextBtn.addEventListener('click', () => {
-    if (siteNextBtn.disabled) return;
+    siteValidationAttempted = true;
+    const error = validateSiteForm();
+    if (error) {
+      const invalidField = [currentLandUse, proposedLandUse, assessmentMode].filter(Boolean).find(field => field.getAttribute('aria-invalid') === 'true');
+      invalidField?.focus();
+      return;
+    }
     saveSiteInfo();
     window.location.href = 'contaminants.html';
   });

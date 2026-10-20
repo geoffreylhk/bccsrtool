@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.bccsrtool.ca/assessment.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
+    <link rel="stylesheet" href="style.css?v=20261020-field-error-position">
   </head>
   
   <!-- Google tag (gtag.js) -->
@@ -63,7 +63,7 @@
 
       <section class="card form-card">
         <div class="form-group"><label for="siteName">Site name (optional)</label><input id="siteName" maxlength="160" placeholder="e.g. Former service station"></div>
-        <div class="form-group"><label for="assessmentMode">Screen against</label><select id="assessmentMode"><option value="current">Current land use</option><option value="proposed">Proposed land use</option></select></div>
+        <div class="form-group"><label for="assessmentMode">Screen against</label><select id="assessmentMode" aria-describedby="siteStatus"><option value="current">Current land use</option><option value="proposed">Proposed land use</option></select></div>
         <div class="form-group" id="currentLandUseGroup">
           <div class="field-label-row">
             <label for="currentLandUse">Current Land Use</label>
@@ -71,7 +71,7 @@
               i
             </button>
           </div>
-          <select id="currentLandUse">
+          <select id="currentLandUse" aria-describedby="siteStatus">
             <option value="">Select current use</option>
             <option value="WLN">Wildlands Natural</option>
             <option value="WLR">Wildlands Reverted</option>
@@ -91,7 +91,7 @@
               i
             </button>
           </div>
-          <select id="proposedLandUse">
+          <select id="proposedLandUse" aria-describedby="siteStatus">
             <option value="">Select proposed use</option>
             <option value="WLN">Wildlands Natural</option>
             <option value="WLR">Wildlands Reverted</option>
@@ -167,7 +167,7 @@
     </footer>
 
     <script src="data-utils.js?v=20261018-csv-only"></script>
-    <script src="script.js?v=20261018-dialog-refinements"></script>
+    <script src="script.js?v=20261020-field-error-position"></script>
     <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>
