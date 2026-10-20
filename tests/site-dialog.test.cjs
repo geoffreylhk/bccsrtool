@@ -102,3 +102,19 @@ test('unsaved assessment dialog offers green Save, red New assessment and neutra
     s.dialog().close(action);assert.equal(await pending,expected);
   }
 });
+
+test('deletion email blocks clipboard and drop insertion while permitting typing', async () => {
+  const s=setup(),pending=s.run("showSiteDialog('Type email',{requiredText:'alice@example.com'})");
+  const input=s.dialog().children[2].children[0].children[0];
+  for(const type of ['copy','cut','paste','drop']) {
+    let prevented=false;input.handlers[type]({preventDefault(){prevented=true;}});
+    assert.equal(prevented,true,type);
+  }
+  for(const inputType of ['insertFromPaste','insertFromDrop','insertFromPasteAsQuotation']) {
+    let prevented=false;input.handlers.beforeinput({inputType,preventDefault(){prevented=true;}});
+    assert.equal(prevented,true,inputType);
+  }
+  let prevented=false;input.handlers.beforeinput({inputType:'insertText',preventDefault(){prevented=true;}});
+  assert.equal(prevented,false);
+  s.dialog().close('cancel');await pending;
+});

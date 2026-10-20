@@ -101,3 +101,17 @@
 .signin-page .auth-entry a { color: var(--primary-dark); text-underline-offset: 3px; }
 .signin-page .auth-entry a:focus-visible { outline: 3px solid var(--primary); outline-offset: 3px; }
 .signin-page .auth-entry-legal { margin: 32px 0 0; text-align: center; font-size: .9rem; }
+
+.auth-page input[aria-invalid="true"] { border: 2px solid var(--danger); outline: none; box-shadow: none; }
+.auth-page input[aria-invalid="true"]:focus-visible { outline: none; box-shadow: none; }
+.auth-page .auth-field-error { margin: 0; color: var(--danger); font-size: .9rem; line-height: 1.5; }
+
+.auth-page .password-rules { margin-top: -12px; }
+.auth-page .password-rules ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; }
+.auth-page .password-rules li { position: relative; padding: 4px 12px 4px 12px; background: transparent; color: #737373; font-size: .8rem; font-weight: 400; line-height: 1.5; }
+.auth-page .password-rules li[data-met="true"] { padding-left: 32px; color: var(--success); background: var(--success-bg); }
+
+.auth-page .password-rules li strong { font-weight: 700; }
+.auth-page .password-rules li[data-met="true"]::before { content: "✓"; position: absolute; left: 12px; font-weight: 700; }
+
+html.dark .auth-page .password-rules li:not([data-met="true"]) { color: #b8b8b8; }

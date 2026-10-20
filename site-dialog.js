@@ -59,6 +59,12 @@ function showSiteDialog(message, { title = 'Please confirm', confirmLabel = 'Yes
     input.autocapitalize = 'off';
     input.maxLength = 320;
     input.autofocus = true;
+    for (const event of ['copy', 'cut', 'paste', 'drop']) {
+      input.addEventListener(event, event => event.preventDefault());
+    }
+    input.addEventListener('beforeinput', event => {
+      if (event.inputType?.startsWith('insertFromPaste') || event.inputType === 'insertFromDrop') event.preventDefault();
+    });
     for (const button of actions.children) button.autofocus = false;
     accept.disabled = true;
     input.addEventListener('input', () => { accept.disabled = input.value !== requiredText; });

@@ -18,10 +18,16 @@ function checkResult(result) {
 function bindForm(id, action) {
   const form = document.getElementById(id);
   if (!form) return;
+  const validation = form.classList?.contains('auth-entry-form') ? window.authValidation : null;
+  validation?.bind(form);
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const button = form.querySelector('button[type="submit"]');
-    if (button.disabled || !form.reportValidity()) return;
+    if (button.disabled) return;
+    if (validation ? !validation.validate(form) : !form.reportValidity()) {
+      showStatus('');
+      return;
+    }
     button.disabled = true;
     form.dataset.submitting = 'true';
     showStatus('Working…');
@@ -29,7 +35,8 @@ function bindForm(id, action) {
       const captchaToken = window.authCaptcha?.getToken(form);
       await action(new FormData(form), captchaToken);
     } catch (error) {
-      showStatus(error.message || 'The request failed. Please try again.', true);
+      if (validation?.showServerError(form, error)) showStatus('');
+      else showStatus(error.message || 'The request failed. Please try again.', true);
     } finally {
       form.dataset.submitting = 'false';
       window.authCaptcha?.reset(form);

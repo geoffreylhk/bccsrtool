@@ -341,3 +341,16 @@ test('signup rejects missing or mismatched confirmation without creating an acco
     assert.equal(form.wasReset, undefined);
   }
 });
+
+test('inline validation prevents auth requests and leaves CAPTCHA unconsumed', async () => {
+  let requests=0, resets=0;
+  const s=setup({auth:{async signUp(){requests++;return {data:{}};}}});
+  const form=s.document.getElementById('signupForm');
+  form.classList={contains:()=>true};
+  s.context.window.authValidation={bind(){},validate(){return false;}};
+  s.context.window.authCaptcha={getToken(){assert.fail('Invalid fields must not consume CAPTCHA');},reset(){resets++;}};
+  vm.runInContext("bindForm('signupForm', async () => { await supabase.auth.signUp({}); })",s.context);
+  await form.submit({preventDefault(){}});
+  assert.equal(requests,0);assert.equal(resets,0);assert.equal(form.button.disabled,false);
+  assert.equal(s.elements.get('authRetry').hidden,true);
+});
