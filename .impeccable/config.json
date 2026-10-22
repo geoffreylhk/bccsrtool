@@ -74,6 +74,15 @@
         ],
         "createdAt": "2026-10-19T13:26:15.709Z",
         "reason": "Retain established shared typography across legal pages. This change adds CAPTCHA disclosure only; no font redesign was requested."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "results.html"
+        ],
+        "createdAt": "2026-10-22T09:03:05.176Z",
+        "reason": "Codex verified false positive: detector reports 0.14x, but shared body and factor table cells explicitly use unitless line-height 1.5. No 0.14x line height exists; compact rows reduce padding only."
       }
     ]
   }

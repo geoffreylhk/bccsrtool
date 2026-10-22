@@ -16,7 +16,7 @@ function setup(page, initialSelections = []) {
       textContent: '', innerHTML: '', value: '', disabled: false, hidden: false,
       dataset: {}, handlers: {}, classList: { add() {}, remove() {}, toggle() {} },
       addEventListener(event, handler) { this.handlers[event] = handler; },
-      setAttribute() {}, focus() {}, querySelector() { return null; }
+      attrs: {}, setAttribute(k,v) { this.attrs[k]=v; }, getAttribute(k) { return this.attrs[k]; }, removeAttribute(k) { delete this.attrs[k]; }, parentElement: {append() {}}, focus() {}, querySelector() { return null; }
     });
     return elements.get(id);
   }
@@ -350,19 +350,20 @@ test('site form shows both editable land uses but requires only the chosen scree
   s.element('factorSettings').querySelectorAll=()=>[];
   s.run(fs.readFileSync(path.join(root,'script.js'),'utf8'));
   const current=s.element('currentLandUse'), proposed=s.element('proposedLandUse'), mode=s.element('assessmentMode');
-  assert.equal(s.element('nextBtn').disabled,true);
+  assert.equal(s.element('nextBtn').disabled,false);
   assert.equal(s.element('proposedLandUseGroup').hidden,false);
   mode.value='proposed';mode.handlers.change();
   assert.equal(s.element('currentLandUseGroup').hidden,false);
   assert.equal(current.disabled,false);assert.equal(current.required,false);
   assert.equal(proposed.required,true);assert.equal(proposed.disabled,false);
+  s.element('nextBtn').handlers.click();
   assert.match(s.element('siteStatus').textContent,/proposed land use/);
   proposed.value='RLLD';proposed.handlers.change();
   assert.equal(s.element('nextBtn').disabled,false);
   assert.equal(s.run('getActiveProfile().currentLandUse'),'');
   assert.equal(s.run('getAssessmentScenarios(getActiveProfile())[0].landUse'),'RLLD');
   mode.value='current';mode.handlers.change();
-  assert.equal(s.element('nextBtn').disabled,true);
+  assert.equal(s.element('nextBtn').disabled,false);
   assert.equal(s.element('currentLandUseGroup').hidden,false);
   assert.equal(s.element('proposedLandUseGroup').hidden,false);
   assert.equal(proposed.disabled,false);assert.equal(proposed.required,false);
@@ -619,15 +620,15 @@ test('compact result views keep measurements, units and uncertain outcomes witho
   assert.match(html,/>Measured</);assert.match(html,/>Threshold</);
   assert.match(html,/3 mg\/kg/);assert.match(html,/1 µg\/g/);
   assert.match(html,/Inconclusive/);
-  assert.doesNotMatch(html,/<button|data-action="info"/);
+  assert.doesNotMatch(html,/data-action="info"/);
   assert.match(html,/Standards by factor/);
   assert.match(html,/Official source/);
   s.element('resultLayout').value='matrix';s.run('renderResultCards(latestRows)');
   html=s.element('resultsTable').innerHTML;
   assert.match(html,/S01/);assert.match(html,/S02/);assert.match(html,/result-matrix-table/);
   assert.match(html,/3 mg\/kg/);assert.match(html,/1 µg\/g/);
-  assert.doesNotMatch(html,/<button|data-action="info"/);
-  assert.match(html,/Controlling factor|Lowest resolved factor|No resolved numerical factor/);
+  assert.doesNotMatch(html,/data-action="info"/);
+  assert.doesNotMatch(html,/Controlling factor:|Lowest resolved factor:|No resolved numerical factor/);
   assert.equal(s.element('resultSortControls').hidden,false);
 });
 
@@ -712,10 +713,10 @@ test('both layouts expose the controlling factor and individual standards with o
   for(const layout of ['rows','matrix']) {
     s.element('resultLayout').value=layout;s.run('renderResultCards(latestRows)');
     const html=s.element('resultsTable').innerHTML;
-    assert.match(html,/Controlling factor: Toxicity to soil invertebrates and plants/);
+    assert.doesNotMatch(html,/Controlling factor:/);
     assert.match(html,/Standards by factor/);assert.match(html,/#page=4/);
     assert.match(html,/Intake of contaminated soil/);assert.match(html,/150 µg\/g/);
-    assert.match(html,/Groundwater used for drinking water/);assert.match(html,/Not applicable/);
+    assert.doesNotMatch(html,/Groundwater used for drinking water|Not applicable/);
     assert.doesNotMatch(html,/data-action="info"/);
   }
 });
@@ -791,4 +792,91 @@ test('Results Back links return to Saved assessments only when opened from the l
     vm.runInContext(fs.readFileSync(path.join(root,'results.js'),'utf8'),s.context);
     assert.deepEqual(links.map(link=>link.href),Array(2).fill(fromSaved?'account.html#saved':'labdata.html'));
   }
+});
+
+test('continued assessments sync existing sample rows to selection and restore deselected measurements',()=>{
+ const s=setup('labdata.js');
+ s.seed([record('arsenic'),record('benzene')]);
+ s.run('renderSampleEditor()');
+ s.run("changeSampleData(apecs=>{const sample=apecs[0].locations[0].samples[0];sample.results.find(r=>r.contaminantId==='arsenic').value=55;sample.results.find(r=>r.contaminantId==='benzene').value=0;})");
+ const sampleId=s.run('getSoilSamples()[0].sample.id');
+ s.run("saveSelectedContaminants(fixture,new Set(['benzene','toluene']));initializeSampleEditor(fixture)");
+ assert.deepEqual(JSON.parse(s.run('JSON.stringify(getSoilSamples()[0].sample.results.map(r=>r.contaminantId).sort())')),['benzene','toluene']);
+ assert.equal(s.run("getSoilSamples()[0].sample.results.find(r=>r.contaminantId==='benzene').value"),0);
+ assert.doesNotMatch(s.element('labTable').innerHTML,/data-contaminant="arsenic"/);
+ assert.equal(s.run('getSampleScreeningRows(fixture,getActiveProfile()).some(r=>r.contaminant.id==="arsenic")'),false);
+ s.run("saveSelectedContaminants(fixture,new Set(['arsenic','benzene']));initializeSampleEditor(fixture)");
+ assert.equal(s.run("getSoilSamples()[0].sample.results.find(r=>r.contaminantId==='arsenic').value"),55);
+ assert.equal(s.run('getSoilSamples()[0].sample.id'),sampleId);
+});
+
+test('factor breakdown uses aligned columns and status-specific labels without changing screening',()=>{
+ const s=setup('results.js');s.seed([record('benzene',{soilConc:300})]);
+ s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'RLHD'});renderResults()");
+ for(const layout of ['rows','matrix']) {
+  s.element('resultLayout').value=layout;s.run('renderResultCards(latestRows)');
+  const html=s.element('resultsTable').innerHTML;
+  assert.match(html,/class="result-factor-table"/);
+  for(const label of ['Soil protection factor','Standard','Comparison','Source']) assert.ok(html.includes(label));
+  assert.match(html,/factor-comparison--exceeds[^>]*>Exceeds/);
+  assert.match(html,/factor-comparison--below[^>]*>Below standard/);
+  assert.doesNotMatch(html,/factor-comparison--inactive|Not applicable/);
+  assert.doesNotMatch(html,/>Pass</);
+  assert.doesNotMatch(html,/Sets standard/);
+  assert.doesNotMatch(html,/factor-row--controlling|<u>/);
+  assert.match(html,/aria-hidden="true">⚠️<\/span> 250 µg\/g/);
+ }
+});
+
+
+test('factor details hide only not-applicable rows and preserve unresolved comparisons and source data',()=>{
+ const s=setup('results.js');
+ s.seed([record('benzene',{soilConc:300})]);
+ s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'RLHD',factors:{drinking:'not_assessed',livestock:'applicable'}});renderResults()");
+ const before=s.run('JSON.stringify(latestRows[0].matrices[0].result)');
+ const html=s.run('resultFactorMarkup(latestRows[0].matrices[0])');
+ assert.match(html,/Groundwater used for drinking water/);assert.match(html,/Not assessed/);
+ assert.match(html,/Livestock ingesting soil and fodder/);assert.match(html,/Requires review/);
+ assert.doesNotMatch(html,/Groundwater used for irrigation|Not applicable|Sets standard/);
+ assert.equal(s.run('JSON.stringify(latestRows[0].matrices[0].result)'),before);
+});
+
+test('results CSV filenames include zero-padded local date and time',()=>{
+ const s=setup('results.js');s.seed([record('benzene',{soilConc:0})]);s.run('renderResults()');
+ let filename;s.context.capture=(_blob,name)=>{filename=name;};
+ s.run("Date=class extends Date { constructor(...args) { super(...(args.length?args:[2026,9,22,1,28,51])); } };downloadBlob=capture;exportResultsCsv()");
+ assert.equal(filename,'bc-csr-results-2026-10-22_01-28-51.csv');
+ assert.doesNotMatch(filename,/[/:]/);
+});
+
+
+test('warning triangles appear only beside exceeded factor standards',()=>{
+ const s=setup('results.js');s.seed([record('benzene',{soilConc:300})]);
+ s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'RLLD'});renderResults()");
+ let html=s.run('resultFactorMarkup(latestRows[0].matrices[0])');
+ assert.equal((html.match(/⚠️/g)||[]).length,2);
+ assert.match(html,/⚠️<\/span> 150 µg\/g/);assert.match(html,/⚠️<\/span> 100 µg\/g/);
+ s.run("updateActiveProfileData({currentLandUse:'RLHD'});renderResults()");
+ html=s.run('resultFactorMarkup(latestRows[0].matrices[0])');
+ assert.equal((html.match(/⚠️/g)||[]).length,1);
+ assert.match(html,/<td class="result-factor-standard">350 µg\/g<\/td>/);
+});
+
+
+test('factor disclosure sits directly beneath CAS and opens only its associated full-width panel',()=>{
+ const s=setup('results.js');s.seed([record('benzene',{soilConc:300})]);s.run('renderResults()');
+ for(const layout of ['rows','matrix']) {
+  s.element('resultLayout').value=layout;s.run('renderResultCards(latestRows)');
+  const html=s.element('resultsTable').innerHTML;
+  assert.match(html,/CAS 71-43-2<\/small><button[^>]*data-factor-toggle/);
+  assert.doesNotMatch(html,/Controlling factor:|Lowest resolved factor:|<details/);
+  const ids=[...html.matchAll(/aria-controls="([^"]+)"/g)].map(m=>m[1]);
+  assert.ok(ids.length);assert.equal(new Set(ids).size,ids.length);
+  for(const id of ids) assert.ok(html.includes(`id="${id}" class="result-provenance-row" hidden`));
+ }
+ const panel=s.element('test-panel');panel.hidden=true;
+ const button={attrs:{'aria-controls':'test-panel','aria-expanded':'false'},getAttribute(k){return this.attrs[k];},setAttribute(k,v){this.attrs[k]=v;}};
+ const event={target:{closest(selector){return selector==='[data-factor-toggle]'?button:null;}}};
+ s.element('resultsTable').handlers.click(event);assert.equal(panel.hidden,false);assert.equal(button.attrs['aria-expanded'],'true');
+ s.element('resultsTable').handlers.click(event);assert.equal(panel.hidden,true);assert.equal(button.attrs['aria-expanded'],'false');
 });

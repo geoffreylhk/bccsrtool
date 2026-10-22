@@ -727,6 +727,22 @@ function getSelectedStorageItem(contaminant, savedItem) {
   };
 }
 
+function syncSelectedSampleResults(apecs, selectedContaminants) {
+  const selectedIds = new Set(selectedContaminants.map(item => item.id));
+  const synced = JSON.parse(JSON.stringify(apecs || []));
+  for (const { sample } of getSoilSamples({ apecs: synced })) {
+    // Keep deselected measurements recoverable without including them in screening.
+    const saved = new Map([...(sample.unselectedResults || []), ...sample.results].map(result => [result.contaminantId, result]));
+    sample.results = selectedContaminants.map(item => saved.get(item.id) || {
+      contaminantId: item.id, value: '', unit: DEFAULT_SOIL_UNIT, qualifier: 'detected', reportingLimit: ''
+    });
+    const unselected = [...saved.values()].filter(result => !selectedIds.has(result.contaminantId));
+    if (unselected.length) sample.unselectedResults = unselected;
+    else delete sample.unselectedResults;
+  }
+  return synced;
+}
+
 function saveSelectedContaminants(data, selectedIds) {
   const profile = getActiveProfile();
   const savedById = new Map(
@@ -736,7 +752,7 @@ function saveSelectedContaminants(data, selectedIds) {
     .filter((contaminant) => selectedIds.has(contaminant.id))
     .map((contaminant) => getSelectedStorageItem(contaminant, savedById.get(contaminant.id)));
 
-  return updateActiveProfileData({ selectedContaminants: selected });
+  return updateActiveProfileData({ selectedContaminants: selected, apecs: syncSelectedSampleResults(profile.apecs, selected) });
 }
 
 function getCategoryEntries(data, siteInfo) {

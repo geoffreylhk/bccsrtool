@@ -15,6 +15,7 @@ if (new URLSearchParams(window.location.search).get('from') === 'saved') {
 
 let csrData = null;
 let latestRows = [];
+let factorDisclosureIndex = 0;
 let latestCounts = { exceedCount: 0, enteredCount: 0, evaluatedCount: 0, reviewCount: 0, selectedCount: 0 };
 const REPORT_DISCLAIMER = 'Educational use only. Not professional environmental advice or a formal ESA. Verify current BC CSR requirements and pathway applicability before relying on results.';
 const REGULATION_URL = 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/375_96_00';
@@ -124,22 +125,21 @@ function resultThreshold(matrix) {
   return matrix.threshold === null ? 'Unresolved' : `${formatThreshold(matrix.threshold)} ${matrix.thresholdUnit}`;
 }
 
-function resultThresholdMarkup(matrix) {
-  return escapeHtml(resultThreshold(matrix))+resultFactorMarkup(matrix);
-}
-
 function resultFactorMarkup(matrix) {
   const result=matrix.result;
-  const unresolved=result.comparisons.some(c=>c.applicability!=='not_applicable' && c.status==='Inconclusive' && c.threshold===null);
-  const controls=result.controls.length ? `${unresolved?'Lowest resolved factor':'Controlling factor'}: ${result.controls.join('; ')}` : 'No resolved numerical factor';
-  const factors=result.comparisons.map(c=>{
+  const factors=result.comparisons.filter(c=>c.applicability!=='not_applicable').map(c=>{
     const source=csrData.sources[String(c.part)];
     const url=`${source.url}#page=${c.pages[0] || 1}`;
     const standard=c.raw ? `${c.raw}${c.raw==='NS'?'':` ${c.unit}`}` : 'Blank / unavailable';
-    const state=c.applicability==='not_applicable'?'Not applicable':c.applicability==='not_assessed'?'Not assessed':c.status==='Inconclusive' && c.threshold===null?'Requires review':c.status;
-    return `<div><dt>${escapeHtml(c.label)}${result.controls.includes(c.label)?' (controlling)':''}</dt><dd><span class="result-factor-standard">${escapeHtml(standard)}</span><span>${escapeHtml(state)}</span><a href="${escapeHtml(url)}" aria-label="Official source: ${escapeHtml(c.source)}" target="_blank" rel="noopener">Part ${c.part}, p. ${escapeHtml(c.pages.join(', '))}</a></dd></div>`;
+    const state=c.applicability==='not_assessed'?'Not assessed':c.status==='Inconclusive' && c.threshold===null?'Requires review':c.status==='Pass'?'Below standard':c.status;
+    const tone=state==='Exceeds'?'exceeds':state==='Below standard'?'below':'review';
+    return `<tr><th scope="row">${escapeHtml(c.label)}</th><td class="result-factor-standard">${state==='Exceeds'?'<span aria-hidden="true">⚠️</span> ':''}${escapeHtml(standard)}</td><td><span class="factor-comparison factor-comparison--${tone}">${escapeHtml(state)}</span></td><td><a href="${escapeHtml(url)}" aria-label="Official source: ${escapeHtml(c.source)}" target="_blank" rel="noopener">Part ${c.part}, p. ${escapeHtml(c.pages.join(', '))}</a></td></tr>`;
   }).join('');
-  return `<small class="result-control-factor">${escapeHtml(controls)}</small><details class="result-standard-details"><summary>Standards by factor</summary><dl class="result-factor-list">${factors}</dl></details>`;
+  return `<div class="result-factor-scroll" role="region" aria-label="Standards by factor" tabindex="0"><table class="result-factor-table"><thead><tr><th scope="col">Soil protection factor</th><th scope="col">Standard</th><th scope="col">Comparison</th><th scope="col">Source</th></tr></thead><tbody>${factors}</tbody></table></div>`;
+}
+
+function resultFactorToggle(panelId, contaminant) {
+  return `<button type="button" class="result-factor-toggle" data-factor-toggle aria-controls="${panelId}" aria-expanded="false" aria-label="Standards by factor for ${escapeHtml(contaminant.name)}">Standards by factor</button>`;
 }
 
 function resultChemicalName(contaminant) {
@@ -161,7 +161,7 @@ function renderSlimResults(rows, filter) {
     const first=group[0];
     const identity=first.sample ? `${first.apec.name} → ${first.sample.name}` : 'Thresholds only';
     const scenarios=new Set(group.flatMap(row=>row.matrices.map(m=>m.label)));
-    return `<section class="result-sample"><h3>${escapeHtml(identity)}</h3>${scenarios.size===1?`<p class="result-scenario">${escapeHtml([...scenarios][0])}</p>`:''}<div class="sample-table-wrap"><table class="sample-table result-rows-table"><thead><tr><th scope="col">Contaminant</th>${scenarios.size>1?'<th scope="col">Land use</th>':''}<th scope="col">Measured</th><th scope="col">Threshold</th><th scope="col">Result</th></tr></thead><tbody>${group.flatMap(row=>row.matrices.map(matrix=>`<tr><th scope="row">${resultChemicalName(row.contaminant)}</th>${scenarios.size>1?`<td>${escapeHtml(matrix.label)}</td>`:''}<td class="result-number" data-label="Measured">${escapeHtml(resultMeasurement(matrix))}</td><td class="result-number" data-label="Threshold">${escapeHtml(resultThreshold(matrix))}</td><td data-label="Result">${getStatusMarkup(matrix.result)}</td></tr><tr class="result-provenance-row"><td colspan="${scenarios.size>1?5:4}">${resultFactorMarkup(matrix)}</td></tr>`)).join('')}</tbody></table></div></section>`;
+    return `<section class="result-sample"><h3>${escapeHtml(identity)}</h3>${scenarios.size===1?`<p class="result-scenario">${escapeHtml([...scenarios][0])}</p>`:''}<div class="sample-table-wrap"><table class="sample-table result-rows-table"><thead><tr><th scope="col">Contaminant</th>${scenarios.size>1?'<th scope="col">Land use</th>':''}<th scope="col">Measured</th><th scope="col">Threshold</th><th scope="col">Result</th></tr></thead><tbody>${group.flatMap(row=>row.matrices.map(matrix=>{const panelId=`result-factor-${++factorDisclosureIndex}`;return `<tr><th scope="row">${resultChemicalName(row.contaminant)}${resultFactorToggle(panelId,row.contaminant)}</th>${scenarios.size>1?`<td>${escapeHtml(matrix.label)}</td>`:''}<td class="result-number" data-label="Measured">${escapeHtml(resultMeasurement(matrix))}</td><td class="result-number" data-label="Threshold">${escapeHtml(resultThreshold(matrix))}</td><td data-label="Result">${getStatusMarkup(matrix.result)}</td></tr><tr id="${panelId}" class="result-provenance-row" hidden><td colspan="${scenarios.size>1?5:4}">${resultFactorMarkup(matrix)}</td></tr>`;})).join('')}</tbody></table></div></section>`;
   }).join('');
 }
 
@@ -199,9 +199,10 @@ function renderMatrixResults(rows, filter) {
       const values=samples.map(sample=>cells.get(JSON.stringify([chemical.id,sample.sample?.id || 'thresholds'])));
       if(!values.some(m=>m && matchesResultFilter(m,filter))) return '';
       const matrix=values.find(Boolean);
+      const panelId=`result-factor-${++factorDisclosureIndex}`;
       const heading=byCategory && category!==chemical.category ? `<tr class="result-category-row"><th scope="rowgroup" colspan="${samples.length+2}">${escapeHtml(chemical.category)}</th></tr>` : '';
       category=chemical.category;
-      return `${heading}<tr><th scope="row">${resultChemicalName(chemical)}</th><td class="result-number">${resultThresholdMarkup(matrix)}</td>${values.map(m=>`<td>${!m?'<span class="result-missing">No value</span>':!matchesResultFilter(m,filter)?'<span class="result-missing">Filtered out</span>':`<span class="result-number">${escapeHtml(resultMeasurement(m))}</span>${getStatusMarkup(m.result)}`}</td>`).join('')}</tr>`;
+      return `${heading}<tr><th scope="row">${resultChemicalName(chemical)}${resultFactorToggle(panelId,chemical)}</th><td class="result-number">${escapeHtml(resultThreshold(matrix))}</td>${values.map(m=>`<td>${!m?'<span class="result-missing">No value</span>':!matchesResultFilter(m,filter)?'<span class="result-missing">Filtered out</span>':`<span class="result-number">${escapeHtml(resultMeasurement(m))}</span>${getStatusMarkup(m.result)}`}</td>`).join('')}</tr><tr id="${panelId}" class="result-provenance-row" hidden><td colspan="${samples.length+2}">${resultFactorMarkup(matrix)}</td></tr>`;
     }).join('');
     if(!body) return '';
     return `<section class="result-sample"><h3>${escapeHtml(label)}</h3><div class="sample-table-wrap" role="region" aria-label="${escapeHtml(label)} sample matrix" tabindex="0"><table class="sample-table result-matrix-table"><thead><tr><th scope="col">Contaminant</th><th scope="col">Threshold</th>${samples.map(s=>`<th scope="col">${s.apec?`${escapeHtml(s.apec.name)}<small>${escapeHtml(s.sample.name)}</small>`:'Measured'}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div></section>`;
@@ -209,6 +210,7 @@ function renderMatrixResults(rows, filter) {
 }
 
 function renderResultCards(rows) {
+  factorDisclosureIndex = 0;
   const filter=document.getElementById('resultFilter')?.value || 'all';
   const matrix=document.getElementById('resultLayout')?.value==='matrix';
   const sortControls=document.getElementById('resultSortControls');
@@ -301,10 +303,22 @@ function exportResultsCsv() {
     const analytical=row.analytical;
     lines.push([row.apec?.id,row.apec?.name,row.location?.id,row.location?.name,row.sample?.id,row.sample?.name,row.sample?.date,row.contaminant.id,row.contaminant.name,row.contaminant.cas,analytical?.qualifier==='non_detect'?'':analytical?.value ?? '',analytical?.unit || DEFAULT_SOIL_UNIT,analytical?.qualifier || 'detected',analytical?.reportingLimit ?? '', 'soil',current?.threshold,current?.result.status,proposed?.threshold,proposed?.result.status,DEFAULT_SOIL_UNIT,DEFAULT_SOIL_UNIT,row.matrices.map(m=>m.thresholdSource || '').join(' | '),row.matrices.map(m=>m.result.guidance).filter(Boolean).join(' | '),JSON.stringify(comparisons),...Object.values(context)].map(csvEscape).join(','));
   }
-  downloadBlob(new Blob(['\uFEFF',lines.join('\n')],{type:'text/csv;charset=utf-8'}),`bc-csr-results-${new Date().toISOString().slice(0,10)}.csv`);
+  const now=new Date();
+  const pad=value=>String(value).padStart(2,'0');
+  const date=[now.getFullYear(),pad(now.getMonth()+1),pad(now.getDate())].join('-');
+  const time=[now.getHours(),now.getMinutes(),now.getSeconds()].map(pad).join('-');
+  downloadBlob(new Blob(['\uFEFF',lines.join('\n')],{type:'text/csv;charset=utf-8'}),`bc-csr-results-${date}_${time}.csv`);
 }
 
 resultsTable.addEventListener('click', (event) => {
+  const factorToggle = event.target.closest('[data-factor-toggle]');
+  if (factorToggle) {
+    const panel = document.getElementById(factorToggle.getAttribute('aria-controls'));
+    const expanded = factorToggle.getAttribute('aria-expanded') === 'true';
+    panel.hidden = expanded;
+    factorToggle.setAttribute('aria-expanded', String(!expanded));
+    return;
+  }
   const infoButton = event.target.closest('[data-action="info"]');
   if (!infoButton || !csrData) return;
   const contaminant = csrData.contaminants.find((item) => item.id === infoButton.dataset.id);

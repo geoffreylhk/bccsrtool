@@ -176,13 +176,10 @@ document.addEventListener('keydown',event=>{
 function initializeSampleEditor(data) {
   csrData=data;
   const profile=getActiveProfile();
-  const apecs=JSON.parse(JSON.stringify(profile.apecs));
+  const apecs=profile.selectedContaminants.length ? syncSelectedSampleResults(profile.apecs, profile.selectedContaminants) : JSON.parse(JSON.stringify(profile.apecs));
   for(const apec of apecs) {
     if(!apec.locations.length) apec.locations.push({id:newRecordId('location'),name:'Samples',type:'',samples:[]});
     if(!apec.locations.some(location=>location.samples.length)) apec.locations[0].samples.push(newSample(apec));
-  }
-  for(const {sample} of getSoilSamples({apecs})) for(const result of selectedSampleResults()) {
-    if(!sample.results.some(r=>r.contaminantId===result.contaminantId)) sample.results.push(result);
   }
   if(JSON.stringify(apecs)!==JSON.stringify(profile.apecs)) saveSampleData(apecs);
   renderSampleEditor();
