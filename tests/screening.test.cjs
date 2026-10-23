@@ -150,7 +150,9 @@ test('cards and CSV use explicit threshold units, precision and report provenanc
   s.context.capture = (blob) => { exported = blob; };
   s.run('downloadBlob = capture; exportResultsCsv();');
   const csv = await exported.text();
-  assert.match(csv, /threshold_unit,converted_unit,threshold_source,review_note,factor_comparisons,site_id,site_name,factor_selections,factor_justifications,assessment_mode,generated_at,dataset,dataset_version/);
+  assert.match(csv, /current_standard,current_status,current_factor,current_source/);
+  assert.match(csv, /threshold_unit/);
+  assert.doesNotMatch(csv, /factor_comparisons|factor_selections|factor_justifications|pathway_note/);
   assert.match(csv, /2026-10-15/g);
   assert.match(csv, /Educational use only/);
   assert.match(csv, /Schedule 3\.1 Part 1 Matrix 4/);
@@ -159,6 +161,51 @@ test('cards and CSV use explicit threshold units, precision and report provenanc
   assert.equal(imported.errors.length,0);
   assert.equal(imported.entries.length,1);
   assert.equal(imported.apecs[0].locations[0].samples[0].results[0].value,'1');
+});
+
+test('results CSV is compact, matches the active scenario and contains no multiline metadata cells', async () => {
+  const s=setup('results.js');
+  s.seed([record('benzene',{soilConc:300}),record('toluene')]);
+  s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'WLR'});renderResults()");
+  let blob;s.context.capture=b=>blob=b;s.run('downloadBlob=capture;exportResultsCsv()');
+  s.context.csv=await blob.text();
+  const rows=s.run('parseCsv(csv.replace(/^\\uFEFF/,""))');
+  const headers=[...rows[0]], values=[...rows[1]];
+  const get=name=>values[headers.indexOf(name)];
+  assert.equal(rows.length,2);
+  assert.ok(headers.length<=18,`Expected a compact export, got ${headers.length} columns`);
+  assert.equal(get('contaminant'),'Benzene');
+  assert.equal(get('value'),'300');
+  assert.equal(get('unit'),'µg/g');
+  assert.equal(get('current_standard'),'100');
+  assert.equal(get('current_status'),'Exceeds');
+  assert.equal(get('current_land_use'),'Wildlands Reverted');
+  assert.match(get('current_source'),/Schedule 3\.1 Part 1 Matrix 4.*p\. 4/);
+  assert.doesNotMatch(headers.join(','),/proposed_|location_id|contaminant_id|converted_unit|factor_comparisons/);
+  assert.ok(values.every(value=>!/[\r\n]/.test(value)));
+  assert.ok(values.every(value=>!value.startsWith('[{') && !value.startsWith('{')));
+  assert.equal(values.length,headers.length);
+});
+
+test('compact CSV preserves repeated sample names in different locations when reimported', async () => {
+  const s=setup('results.js');s.context.graph=sampleFixture();
+  s.run("graph[0].locations.push({...graph[0].locations[0],id:'l2',name:'BH-02',samples:[{...graph[0].locations[0].samples[0],id:'s3'}]});updateActiveProfileData({currentLandUse:'RLLD',assessmentMode:'current'});saveSampleData(graph);renderResults()");
+  let blob;s.context.capture=b=>blob=b;s.run('downloadBlob=capture;exportResultsCsv()');
+  s.context.csv=await blob.text();s.context.d=data;
+  s.run('clearAssessment();applySampleImport(d,buildSampleImportPreview(d,csv))');
+  assert.equal(s.run('getActiveProfile().apecs[0].locations.length'),2);
+  assert.deepEqual([...s.run('getSoilSamples().map(({sample})=>sample.id)')],['s1','s2','s3']);
+});
+
+test('compact CSV escapes spreadsheet formulas and quoted names after removing embedded newlines', async () => {
+  const s=setup('results.js');s.context.graph=sampleFixture();
+  s.run('graph[0].name="\\n=1+1";graph[0].locations[0].samples[0].name=\'Sample, "A"\';saveSampleData(graph);renderResults()');
+  let blob;s.context.capture=b=>blob=b;s.run('downloadBlob=capture;exportResultsCsv()');
+  s.context.csv=await blob.text();
+  const rows=s.run('parseCsv(csv.replace(/^\\uFEFF/,""))');
+  assert.equal(rows[1][rows[0].indexOf('apec')],"' =1+1");
+  assert.equal(rows[1][rows[0].indexOf('sample')],'Sample, "A"');
+  assert.ok(rows.slice(1).every(row=>row.length===rows[0].length));
 });
 
 test('legacy storage migration retains matrix and units', () => {
@@ -428,6 +475,67 @@ test('CSV duplicates, conflicting sample dates and reused hierarchy IDs are reje
     'apec,location,sample,sample_date,contaminant,value\nA,B,S,2026-10-12,Benzene,1\nA,B,S,2026-10-13,Anthracene,2',
     'apec_id,location_id,sample_id,contaminant,value\nrepeat,repeat,s,Benzene,1'
   ]) {s.context.csv=csv;assert.ok(s.run('buildSampleImportPreview(d,csv).errors.length'));}
+});
+
+test('CSV gives an imported APEC a numbered name when a different area already uses its name', () => {
+  const s=setup();s.context.d=data;s.context.graph=sampleFixture();
+  s.run('saveSampleData(graph)');
+  const before=s.run('JSON.stringify(getActiveProfile().apecs)');
+  s.context.csv='apec_id,apec,location_id,location,sample_id,sample,contaminant,value,unit\nforeign-area,Fuel storage,foreign-location,BH-01,foreign-sample,S01,Benzene,300,µg/g\nforeign-area,Fuel storage,foreign-location,BH-01,foreign-sample,S01,Toluene,5,µg/g';
+  const preview=s.run('buildSampleImportPreview(d,csv)');
+  assert.deepEqual([...preview.errors],[]);
+  assert.equal(preview.apecs.length,2);
+  assert.equal(preview.apecs[0].id,'a1');
+  assert.equal(preview.apecs[1].id,'foreign-area');
+  assert.equal(preview.apecs[1].name,'Fuel storage (1)');
+  assert.ok(preview.entries.every(entry=>entry.apec==='Fuel storage (1)'));
+  assert.equal(JSON.stringify(preview.apecs[0]),JSON.stringify(JSON.parse(before)[0]));
+  assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
+  s.context.preview=preview;s.run('applySampleImport(d,preview)');
+  assert.equal(s.run("getSoilSamples()[2].sample.results.find(r=>r.contaminantId==='benzene').value"),'300');
+  assert.equal(s.run('getSoilSamples()[0].sample.results.length'),1);
+  assert.equal(s.run('getSoilSamples()[1].sample.results[0].value'),1);
+  const repeated=s.run('buildSampleImportPreview(d,csv)');
+  assert.deepEqual([...repeated.errors],[]);
+  assert.equal(repeated.apecs.length,2);
+});
+
+test('CSV APEC copy names skip existing suffixes and fit the name limit', () => {
+  const s=setup();s.context.d=data;s.context.graph=sampleFixture();
+  s.run("graph[0].name='X'.repeat(160);graph.push({id:'a2',name:'X'.repeat(156)+' (1)',locations:[]});saveSampleData(graph)");
+  s.context.csv='apec_id,apec,sample_id,sample,contaminant,value\nforeign-area,'+'X'.repeat(160)+',foreign-sample,S01,Benzene,300';
+  const preview=s.run('buildSampleImportPreview(d,csv)');
+  assert.deepEqual([...preview.errors],[]);
+  assert.equal(preview.apecs[2].name,'X'.repeat(156)+' (2)');
+  assert.equal(preview.apecs[2].name.length,160);
+});
+
+test('lab CSV preview enables Apply and shows the numbered APEC before saving', () => {
+  const s=setup('labdata.js');s.context.graph=sampleFixture();s.run('saveSampleData(graph)');
+  s.element('csvText').value='apec_id,apec,location_id,location,sample_id,sample,contaminant,value\nforeign-area,Fuel storage,foreign-location,BH-01,foreign-sample,S01,Benzene,300';
+  s.element('previewCsvBtn').handlers.click();
+  assert.equal(s.element('applyCsvBtn').disabled,false);
+  assert.match(s.element('csvPreview').innerHTML,/1 results · 0 errors/);
+  assert.match(s.element('csvPreview').innerHTML,/Fuel storage \(1\)/);
+  assert.equal(s.run('getActiveProfile().apecs.length'),1);
+  s.element('applyCsvBtn').handlers.click();
+  assert.equal(s.element('labStatus').textContent,'CSV imported and saved.');
+  assert.equal(s.run('getActiveProfile().apecs[1].name'),'Fuel storage (1)');
+});
+
+test('CSV name matching cannot hide conflicting or reused imported IDs', () => {
+  const s=setup();s.context.d=data;s.context.graph=sampleFixture();s.run('saveSampleData(graph)');
+  const before=s.run('JSON.stringify(getActiveProfile().apecs)');
+  for(const csv of [
+    'apec_id,apec,sample_id,sample,contaminant,value\na1,Renamed area,s1,S01,Benzene,1',
+    'apec_id,apec,sample_id,sample,contaminant,value\nforeign-area,Fuel storage,s1,S01,Benzene,1\nforeign-area,Other area,s3,S03,Toluene,2',
+    'apec_id,apec,location_id,location,sample_id,sample,contaminant,value\nforeign-area,Fuel storage,foreign-area,BH-01,s1,S01,Benzene,1'
+  ]) {
+    s.context.csv=csv;
+    assert.ok(s.run('buildSampleImportPreview(d,csv).errors.length'));
+    assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
+    assert.throws(()=>s.run('applySampleImport(d,buildSampleImportPreview(d,csv))'),/Resolve CSV errors/);
+  }
 });
 
 test('non-detect sample comparisons use reporting limits without depth requirements', () => {
@@ -777,7 +885,7 @@ test('Results offers direct CSV exports only, with no PDF or Word library or han
   const s=setup('results.js',[['[data-csv-export-btn]',buttons]]);
   s.seed([record('benzene',{soilConc:0})]);s.run('renderResults()');
   let blob;s.context.capture=b=>blob=b;s.run('downloadBlob=capture');
-  for(const button of buttons) {button.click();assert.match(blob.type,/text\/csv/);assert.match(await blob.text(),/benzene/);}
+  for(const button of buttons) {button.click();assert.match(blob.type,/text\/csv/);assert.match(await blob.text(),/Benzene/);}
   const html=fs.readFileSync(path.join(root,'results.html'),'utf8');
   assert.equal((html.match(/data-csv-export-btn/g)||[]).length,2);
   assert.doesNotMatch(html,/data-print-btn|data-word-export-btn|data-export-menu-btn|docx@|Export PDF|Export Word/);

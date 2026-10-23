@@ -1,0 +1,2 @@
+apec,sample,contaminant,cas,value,unit,current_land_use,current_standard,current_status,current_factor,current_source,threshold_unit,generated_at,dataset_version,disclaimer,apec_id,sample_id
+Area of Potential Concern 1,Sample 1,Benzene,71-43-2,300,µg/g,Wildlands Reverted,100,Exceeds,Toxicity to soil invertebrates and plants,"Schedule 3.1 Part 1 Matrix 4, p. 4",µg/g,2026-10-22T09:14:53.374Z,Source cells rechecked 2026-10-15; consolidation 2026-10-06,Educational use only; verify current BC CSR requirements.,legacy-apec,legacy-sample

@@ -1088,10 +1088,21 @@ function buildSampleImportPreview(data, text, profile = getActiveProfile()) {
   const resolveRecord = (list,id,name,prefix,defaults) => {
     const existing = id ? list.find(r=>r.id===id) : list.find(r=>r.name.toLowerCase()===name.toLowerCase());
     if (existing) {
-      if (name && name !== existing.name) throw new Error(`ID ${id} has a different saved name. Rename it in the editor first.`);
+      const copySuffix=prefix==='a' ? existing.name.match(/ \([1-9]\d*\)$/)?.[0] : null;
+      const importedCopy=copySuffix && existing.name===name.slice(0,160-copySuffix.length)+copySuffix;
+      if (name && name !== existing.name && !importedCopy) throw new Error(`ID ${id} has a different saved name. Rename it in the editor first.`);
       return existing;
     }
-    const record = {id:id || newRecordId(prefix),name:name || id,...defaults};
+    let recordName=name || id;
+    if(prefix==='a') {
+      const names=new Set(list.map(record=>record.name.trim().toLowerCase()));
+      let number=0;
+      while(names.has(recordName.trim().toLowerCase())) {
+        const suffix=` (${++number})`;
+        recordName=(name || id).slice(0,160-suffix.length)+suffix;
+      }
+    }
+    const record = {id:id || newRecordId(prefix),name:recordName,...defaults};
     list.push(record); return record;
   };
   rows.slice(1).forEach((row,index) => {

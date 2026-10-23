@@ -17,8 +17,6 @@ let csrData = null;
 let latestRows = [];
 let factorDisclosureIndex = 0;
 let latestCounts = { exceedCount: 0, enteredCount: 0, evaluatedCount: 0, reviewCount: 0, selectedCount: 0 };
-const REPORT_DISCLAIMER = 'Educational use only. Not professional environmental advice or a formal ESA. Verify current BC CSR requirements and pathway applicability before relying on results.';
-const REGULATION_URL = 'https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/375_96_00';
 
 
 function getRowsForProfile(profileId) {
@@ -75,21 +73,10 @@ function getResultCounts(rows) {
 }
 
 function getReportContext() {
-  const siteInfo = getProfileSiteInfo(getActiveProfile());
   return {
-    site_id:getActiveProfile().siteId,
-    site_name:getActiveProfile().siteName || '',
-    factor_selections:JSON.stringify(getActiveProfile().factors),
-    factor_justifications:JSON.stringify(getActiveProfile().factorJustifications),
-    assessment_mode:getActiveProfile().assessmentMode,
     generated_at: new Date().toISOString(),
-    dataset: csrData.metadata.title,
     dataset_version: csrData.metadata.last_amended,
-    current_land_use: siteInfo.currentLandUseLabel || 'Not provided',
-    proposed_land_use: siteInfo.proposedLandUseLabel || 'Not provided',
-    regulation_url: REGULATION_URL,
-    disclaimer: REPORT_DISCLAIMER,
-    pathway_note: 'Schedule 3.1 soil only. Unassessed factors and unsupported conditions prevent a confirmed pass. Source URLs: ' + Object.values(csrData.sources).map((source) => source.url).join(' ; ')
+    disclaimer: 'Educational use only; verify current BC CSR requirements.'
   };
 }
 
@@ -295,19 +282,36 @@ function renderResults() {
 
 function exportResultsCsv() {
   const context=getReportContext();
-  const headers=['apec_id','apec','location_id','location','sample_id','sample','sample_date','contaminant_id','contaminant','cas','value','unit','qualifier','reporting_limit','matrix','current_standard','current_status','proposed_standard','proposed_status','threshold_unit','converted_unit','threshold_source','review_note','factor_comparisons',...Object.keys(context)];
-  const lines=[headers.join(',')];
+  const records=[];
   for(const row of latestRows.filter(row=>!latestCounts.enteredCount || row.matrices.some(m=>m.hasLabValue))) {
-    const current=row.matrices.find(m=>m.scenario==='Current'),proposed=row.matrices.find(m=>m.scenario==='Proposed');
-    const comparisons=row.matrices.map(m=>({scenario:m.scenario,landUse:m.landUse,status:m.result.status,factors:m.result.comparisons.map(c=>({...c,url:csrData.sources[c.part].url}))}));
     const analytical=row.analytical;
-    lines.push([row.apec?.id,row.apec?.name,row.location?.id,row.location?.name,row.sample?.id,row.sample?.name,row.sample?.date,row.contaminant.id,row.contaminant.name,row.contaminant.cas,analytical?.qualifier==='non_detect'?'':analytical?.value ?? '',analytical?.unit || DEFAULT_SOIL_UNIT,analytical?.qualifier || 'detected',analytical?.reportingLimit ?? '', 'soil',current?.threshold,current?.result.status,proposed?.threshold,proposed?.result.status,DEFAULT_SOIL_UNIT,DEFAULT_SOIL_UNIT,row.matrices.map(m=>m.thresholdSource || '').join(' | '),row.matrices.map(m=>m.result.guidance).filter(Boolean).join(' | '),JSON.stringify(comparisons),...Object.values(context)].map(csvEscape).join(','));
+    const record={apec:row.apec?.name,sample:row.sample?.name,contaminant:row.contaminant.name,cas:row.contaminant.cas,
+      value:analytical?.qualifier==='non_detect'?'':analytical?.value ?? '',unit:analytical?.unit || DEFAULT_SOIL_UNIT,
+      qualifier:analytical?.qualifier==='non_detect'?'non_detect':'',reporting_limit:analytical?.reportingLimit ?? ''};
+    for(const matrix of row.matrices) {
+      const prefix=matrix.scenario.toLowerCase();
+      record[`${prefix}_land_use`]=LAND_USE_LABELS[matrix.landUse] || 'Unselected';
+      record[`${prefix}_standard`]=matrix.threshold ?? 'Unresolved';
+      record[`${prefix}_status`]=matrix.result.status;
+      record[`${prefix}_factor`]=matrix.result.controls.join('; ');
+      record[`${prefix}_source`]=[...new Set(matrix.result.comparisons.filter(c=>c.applicability!=='not_applicable')
+        .map(c=>`${c.source.split(';')[0]}, p. ${c.pages.join(', ')}`))].join('; ');
+    }
+    Object.assign(record,{threshold_unit:DEFAULT_SOIL_UNIT,review_note:[...new Set(row.matrices.map(m=>m.result.guidance).filter(Boolean))].join(' '),
+      sample_date:row.sample?.date,site_name:getActiveProfile().siteName,...context,apec_id:row.apec?.id,sample_id:row.sample?.id});
+    if(row.apec?.locations.length>1) Object.assign(record,{location:row.location.name,location_id:row.location.id});
+    records.push(record);
   }
+  // Omit unused optional columns, while keeping zero measurements and stable sample identities.
+  const headers=[...new Set(records.flatMap(record=>Object.keys(record)))].filter(key=>
+    ['value','unit','threshold_unit'].includes(key) || records.some(record=>record[key]!==undefined && record[key]!==null && record[key]!==''));
+  const lines=[headers.join(','),...records.map(record=>headers.map(key=>csvEscape(
+    typeof record[key]==='string'?record[key].replace(/[\r\n]+/g,' '):record[key])).join(','))];
   const now=new Date();
   const pad=value=>String(value).padStart(2,'0');
   const date=[now.getFullYear(),pad(now.getMonth()+1),pad(now.getDate())].join('-');
   const time=[now.getHours(),now.getMinutes(),now.getSeconds()].map(pad).join('-');
-  downloadBlob(new Blob(['\uFEFF',lines.join('\n')],{type:'text/csv;charset=utf-8'}),`bc-csr-results-${date}_${time}.csv`);
+  downloadBlob(new Blob(['\uFEFF',lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),`bc-csr-results-${date}_${time}.csv`);
 }
 
 resultsTable.addEventListener('click', (event) => {

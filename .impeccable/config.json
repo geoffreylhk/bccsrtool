@@ -83,6 +83,42 @@
         ],
         "createdAt": "2026-10-22T09:03:05.176Z",
         "reason": "Codex verified false positive: detector reports 0.14x, but shared body and factor table cells explicitly use unitless line-height 1.5. No 0.14x line height exists; compact rows reduce padding only."
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "labdata.html"
+        ],
+        "createdAt": "2026-10-22T19:34:29.261Z",
+        "reason": "Codex source review: the flagged muted-text/surface-soft pair belongs to legacy preview-summary and result status components absent from the current lab page and its renderer; CSV preview uses plain paragraphs on the white modal surface."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "labdata.html"
+        ],
+        "createdAt": "2026-10-22T19:34:29.282Z",
+        "reason": "Codex verified the red glow belongs to selected-header button in shared CSS; that contaminant selection component is absent from the lab page."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "labdata.html"
+        ],
+        "createdAt": "2026-10-22T19:34:29.300Z",
+        "reason": "Codex verified false positive: nav-buttons already has 16px padding-top between its top border and controls."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "labdata.html"
+        ],
+        "createdAt": "2026-10-22T19:34:29.319Z",
+        "reason": "Codex review: preserve the incumbent Inter typography shown in the user screenshot; this authorized CSV import fix changes the script cache version only."
       }
     ]
   }
