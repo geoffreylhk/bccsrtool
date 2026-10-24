@@ -4345,6 +4345,9 @@ html.dark .example-result-card {
 /* Sample workflow: keep dense data readable without page-wide scrolling. */
 .sample-apec, .sample-location, .soil-sample { border: 1px solid #d8d2c8; border-radius: 10px; padding: 1rem; margin: 1rem 0; background: rgba(255,255,255,.95); }
 .sample-apec { border-left: 4px solid #315f4c; }
+.sample-apec > [data-action="add-sample"] { display: flex; width: fit-content; margin-left: auto; }
+.lab-add-apec-actions { display: flex; justify-content: flex-end; padding: 0 16px 16px; }
+.lab-page .table-card-header h2 { font-size: 1.17em; }
 .sample-location { background: #f8f8f4; }
 .sample-title-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .75rem; }
 .sample-title-row h3, .sample-title-row h4 { margin: 0; }

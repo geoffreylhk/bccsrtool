@@ -16,6 +16,12 @@ function assessmentStatus(message, error = false) {
 
 function assessmentData(result) {
   if (result.error) {
+    if (result.error.code === 'PT429') {
+      throw new Error('Too many saves or renames. Wait a minute and try again. Your browser assessment is unchanged.');
+    }
+    if (result.error.code === 'PT409') {
+      throw new Error('You have 100 saved assessments. Delete an unused saved assessment before creating another, or update an existing one. Your browser assessment is unchanged.');
+    }
     if (['42P01', 'PGRST205'].includes(result.error.code)) {
       throw new Error('Account saving is not available yet. Your assessment is still saved in this browser.');
     }
@@ -207,12 +213,13 @@ function renderSavedAssessments() {
 
 async function fetchAccountAssessments(owner, columns) {
   const records = [];
-  for (let offset = 0; ; offset += 100) {
+  const pageSize = columns === '*' || columns.includes('payload') ? 10 : 100;
+  for (let offset = 0; ; offset += pageSize) {
     const page = assessmentData(await supabase.from('saved_assessments')
-      .select(columns).eq('user_id', owner.id).order('id').range(offset, offset + 99));
+      .select(columns).eq('user_id', owner.id).order('id').range(offset, offset + pageSize - 1));
     await requireAssessmentUser();
     records.push(...page);
-    if (page.length < 100) break;
+    if (page.length < pageSize) break;
   }
   return records;
 }

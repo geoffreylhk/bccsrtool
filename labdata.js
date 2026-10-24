@@ -98,7 +98,7 @@ labTable.addEventListener('click',async event=>{
       }
       if(action==='delete-sample') location.samples=location.samples.filter(r=>r.id!==button.closest('[data-sample]').dataset.sample);
     });
-    labStatus.textContent='Saved in this browser.';renderSampleEditor();
+    labStatus.textContent='';renderSampleEditor();
   } catch(error) {labStatus.textContent=error.message;}
 });
 
@@ -125,7 +125,7 @@ function saveSampleField(event) {
     });
     input.removeAttribute('aria-invalid');
     if(input.dataset.result==='measurement') input.closest('tr').querySelector('[data-result="qualifier"]').removeAttribute('aria-invalid');
-    labStatus.textContent='Saved in this browser.';
+    labStatus.textContent='';
     if(event.type==='change') renderSampleEditor(); else updateEditorCounts();
   } catch(error) {input.setAttribute('aria-invalid','true');labStatus.textContent=error.message;}
 }

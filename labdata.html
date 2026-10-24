@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.bccsrtool.ca/labdata.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
+    <link rel="stylesheet" href="style.css?v=20261023-lab-heading-status">
   </head>
   
   <!-- Google tag (gtag.js) -->
@@ -96,11 +96,14 @@
       <section class="table-card">
         <p id="labStatus" role="alert"></p>
         <div class="table-card-header">
-          <h2>Area of Potential Concern (APEC) samples</h2><button id="addApecBtn" type="button" class="secondary-action compact-action">+ Add APEC</button>
+          <h2>Area of Potential Concern (APEC) samples</h2>
           <span id="filledCount">0 of 0 filled</span>
         </div>
         <div class="lab-table" id="labTable" aria-live="polite">
           <p class="loading-message">Loading selected contaminants...</p>
+        </div>
+        <div class="lab-add-apec-actions">
+          <button id="addApecBtn" type="button" class="secondary-action compact-action">+ Add APEC</button>
         </div>
       </section>
 
@@ -203,7 +206,7 @@
 
     <script src="site-dialog.js?v=20261018-unsaved-new-assessment"></script>
     <script src="data-utils.js?v=20261022-csv-apec-copies"></script>
-    <script src="labdata.js?v=20261020-selection-sync"></script>
+    <script src="labdata.js?v=20261023-lab-heading-status"></script>
     <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>

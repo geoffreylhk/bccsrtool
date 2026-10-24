@@ -89,6 +89,16 @@ test('stale saves and network failures never report success or change local owne
   }
 });
 
+test('server quota and rate errors explain recovery and preserve the local assessment', async () => {
+  const s = setup();
+  const before = s.storage.get('bcCsrToolState');
+  for (const [code, message] of [['PT429', /Wait a minute/], ['PT409', /100 saved assessments/]]) {
+    s.respond({error:{code}});
+    await assert.rejects(s.run("saveAccountAssessment('Assessment')"), message);
+    assert.equal(s.storage.get('bcCsrToolState'), before);
+  }
+});
+
 test('account changes block operations before any assessment query', async () => {
   const s = setup(); s.setUser('bob');
   await assert.rejects(s.run("saveAccountAssessment('Wrong account')"), /sign-in has changed/);
@@ -301,19 +311,21 @@ test('successful updates hide both save actions and the Results shortcut is remo
 
 test('library paginates all owner saves so search includes records beyond the first hundred', async () => {
   const s=setup();
-  s.pages([{data:Array.from({length:100},(_,i)=>({...s.record(),id:`a${i}`}))},{data:[{...s.record(),id:'older',title:'Old harbour assessment'}]}]);
+  const records = Array.from({length:100},(_,i)=>({...s.record(),id:`a${i}`}));
+  s.pages([...Array.from({length:10},(_,i)=>({data:records.slice(i*10,i*10+10)})),{data:[{...s.record(),id:'older',title:'Old harbour assessment'}]}]);
   s.run('renderSavedAssessments = () => {}');
   await s.run('listAccountAssessments()');
   assert.equal(s.run('savedRecords.length'),101);
   assert.equal(s.run("visibleAssessments(savedRecords,'harbour')[0].id"),'older');
-  assert.deepEqual(s.calls.map(c=>c.range),[[0,99],[100,199]]);
+  assert.deepEqual(s.calls.map(c=>c.range),Array.from({length:11},(_,i)=>[i*10,i*10+9]));
   s.calls.forEach(call=>assert.deepEqual(call.filters,[['user_id','alice']]));
 });
 
 
 test('account export includes profile/preferences and every save without session tokens',async()=>{
   const s=setup();
-  s.pages([{data:Array.from({length:100},(_,i)=>({...s.record(),id:`save-${i}`}))},{data:[{...s.record(),id:'last-save'}]}]);
+  const records = Array.from({length:100},(_,i)=>({...s.record(),id:`save-${i}`}));
+  s.pages([...Array.from({length:10},(_,i)=>({data:records.slice(i*10,i*10+10)})),{data:[{...s.record(),id:'last-save'}]}]);
   const result=await s.run('collectAccountExport()');
   assert.equal(result.profile.chemical_sort,'alpha');
   assert.equal(result.saved_assessments.length,101);
