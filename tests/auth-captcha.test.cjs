@@ -44,6 +44,13 @@ test('widget callbacks never enable a form while its request is in flight',async
   s.forms[0].form.dataset.submitting='true';s.solve(0);assert.equal(s.forms[0].button.disabled,true);
 });
 
+test('solving CAPTCHA does not bypass an active email resend cooldown', async () => {
+  const s=setup();s.context.window.turnstile=s.api;await s.captcha.initialize();
+  s.forms[0].form.dataset.cooldownUntil=String(Date.now()+60000);
+  s.solve(0);
+  assert.equal(s.forms[0].button.disabled,true);
+});
+
 test('narrow cards use the compact widget to avoid mobile overflow',async()=>{
   const s=setup();s.forms[0].container.clientWidth=240;s.context.window.turnstile=s.api;
   await s.captcha.initialize();assert.equal(s.widgets[0].options.size,'compact');

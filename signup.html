@@ -9,7 +9,7 @@
   <title>Create account — BC CSR Screening Tool</title>
   <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="style.css?v=20261018-heading-motion">
-  <link rel="stylesheet" href="auth.css?v=20261020-checklist-grey">
+  <link rel="stylesheet" href="auth.css?v=20261024-verification">
 </head>
 <body class="auth-page signin-page">
   <nav class="site-nav" aria-label="Main navigation">
@@ -39,13 +39,29 @@
 <div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
 <button class="primary-action" type="submit" disabled>Create account</button>
 </form>
-      <p class="auth-entry-links">Already have an account? <a href="signin.html">Sign in</a></p>
+      <p id="signupSigninLink" class="auth-entry-links">Already have an account? <a href="signin.html">Sign in</a></p>
+      <section id="signupConfirmation" class="signup-confirmation" aria-labelledby="verificationHeading" hidden>
+        <svg class="icon verification-envelope" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        <h1 id="verificationHeading" tabindex="-1">Check your inbox</h1>
+        <p>Open the verification email to finish setting up your account.</p>
+        <p class="verification-address" id="verificationEmail"></p>
+        <div class="verification-help">
+          <h2>Didn’t receive an email?</h2>
+          <p>Check your spam or junk folder. You can request another link after 60 seconds.</p>
+          <form id="resendVerificationForm">
+            <div class="auth-captcha" data-auth-captcha hidden><p data-captcha-status role="status" aria-live="polite"></p><div data-captcha-widget></div></div>
+            <button class="primary-action" type="submit" disabled>Resend verification email</button>
+          </form>
+          <button id="correctSignupEmail" class="secondary-action" type="button">Correct email address</button>
+          <p class="verification-signin">Already verified or already have an account? <a href="signin.html">Sign in</a> or <a href="forgot-password.html">reset your password</a>.</p>
+        </div>
+      </section>
     </section>
   </main>
   <script src="data-utils.js?v=20261018-csv-only"></script>
-  <script src="auth-captcha.js?v=20261019-turnstile-1"></script>
+  <script src="auth-captcha.js?v=20261024-verification"></script>
   <script src="auth-validation.js?v=20261020-checklist-spacing"></script>
-  <script type="module" src="auth.js?v=20261020-password-rules"></script>
+  <script type="module" src="auth.js?v=20261024-verification"></script>
   <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
 </html>

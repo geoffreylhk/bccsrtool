@@ -146,6 +146,33 @@
         ],
         "createdAt": "2026-10-23T20:14:53.886Z",
         "reason": "Codex verified these three findings identify unchanged unavailable future-step circles (steps 2-4), not form text; retain inactive progress appearance from the supplied user reference. Active step and merged form use separate accessible foreground colors."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "signup.html"
+        ],
+        "createdAt": "2026-10-24T18:25:56.201Z",
+        "reason": "Agent: detector matches the shared selected-header button shadow, which has no matching element on signup; this change adds no shadows."
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "signup.html"
+        ],
+        "createdAt": "2026-10-24T18:27:32.917Z",
+        "reason": "Agent: browser computed auth-entry padding is 40px on every side; detector misses existing clamp padding."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "signup.html"
+        ],
+        "createdAt": "2026-10-24T18:27:32.939Z",
+        "reason": "Agent: narrow refinement preserves the existing site-wide Inter typography; user requested confirmation flow only."
       }
     ]
   }

@@ -2,6 +2,24 @@ const status = document.getElementById('authStatus');
 let supabase;
 let user;
 let accountSettingsReady = false;
+let verificationEmail = '';
+let verificationTimer;
+
+function updateResendButton() {
+  const form = document.getElementById('resendVerificationForm');
+  const button = form.querySelector('button[type="submit"]');
+  const seconds = Math.max(0, Math.ceil((Number(form.dataset.cooldownUntil || 0) - Date.now()) / 1000));
+  button.textContent = seconds ? `Resend email in ${seconds}s` : 'Resend verification email';
+  button.disabled = seconds > 0 || form.dataset.submitting === 'true' || Boolean(window.authCaptcha && !window.authCaptcha.isReady(form));
+  if (!seconds) clearInterval(verificationTimer);
+}
+
+function startResendCooldown() {
+  document.getElementById('resendVerificationForm').dataset.cooldownUntil = String(Date.now() + 60000);
+  clearInterval(verificationTimer);
+  updateResendButton();
+  verificationTimer = setInterval(updateResendButton, 1000);
+}
 
 function showStatus(message, error = false) {
   status.textContent = message;
@@ -23,7 +41,7 @@ function bindForm(id, action) {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const button = form.querySelector('button[type="submit"]');
-    if (button.disabled) return;
+    if (button.disabled || Date.now() < Number(form.dataset.cooldownUntil || 0)) return;
     if (validation ? !validation.validate(form) : !form.reportValidity()) {
       showStatus('');
       return;
@@ -40,7 +58,7 @@ function bindForm(id, action) {
     } finally {
       form.dataset.submitting = 'false';
       window.authCaptcha?.reset(form);
-      button.disabled = window.authCaptcha ? !window.authCaptcha.isReady(form) : false;
+      button.disabled = Date.now() < Number(form.dataset.cooldownUntil || 0) || Boolean(window.authCaptcha && !window.authCaptcha.isReady(form));
     }
   });
 }
@@ -92,7 +110,39 @@ bindForm('signupForm', async (fields, captchaToken) => {
     }
   }));
   document.getElementById('signupForm').reset();
-  showStatus('Check your email for a verification link. If you already have an account, sign in or request a password reset.');
+  verificationEmail = fields.get('email').trim();
+  document.getElementById('signupForm').hidden = true;
+  document.getElementById('authHeading').hidden = true;
+  document.getElementById('signupSigninLink').hidden = true;
+  document.getElementById('verificationEmail').textContent = verificationEmail;
+  document.getElementById('signupConfirmation').hidden = false;
+  showStatus('');
+  startResendCooldown();
+  document.getElementById('verificationHeading').focus();
+});
+
+bindForm('resendVerificationForm', async (fields, captchaToken) => {
+  if (!verificationEmail || document.getElementById('signupConfirmation').hidden) return;
+  // Limit retries after both success and failure; Supabase also enforces its own limits.
+  startResendCooldown();
+  checkResult(await supabase.auth.resend({
+    type: 'signup', email: verificationEmail,
+    options: { captchaToken, emailRedirectTo: redirectUrl('account.html') }
+  }));
+  showStatus('If your email is awaiting verification, a new link has been sent. Check your inbox and spam folder.');
+});
+
+document.getElementById('correctSignupEmail')?.addEventListener('click', () => {
+  if (document.getElementById('resendVerificationForm').dataset.submitting === 'true') return;
+  clearInterval(verificationTimer);
+  document.getElementById('signupConfirmation').hidden = true;
+  document.getElementById('authHeading').hidden = false;
+  document.getElementById('signupSigninLink').hidden = false;
+  document.getElementById('signupForm').hidden = false;
+  document.getElementById('signupEmail').value = verificationEmail;
+  document.getElementById('signupPasswordRules').hidden = true;
+  showStatus('Correct your email address and re-enter your password to create an account with that address.');
+  document.getElementById('signupEmail').focus();
 });
 
 bindForm('forgotForm', async (fields, captchaToken) => {

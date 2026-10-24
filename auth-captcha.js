@@ -5,7 +5,7 @@
   function update(state, token = '', message = '') {
     state.token = token;
     state.message.textContent = message;
-    state.button.disabled = !token || state.form.dataset.submitting === 'true';
+    state.button.disabled = !token || state.form.dataset.submitting === 'true' || Date.now() < Number(state.form.dataset.cooldownUntil || 0);
   }
 
   function loadTurnstile() {

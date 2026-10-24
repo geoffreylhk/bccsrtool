@@ -6,6 +6,8 @@ const { test } = require('node:test');
 function setup(supabase) {
   const elements = new Map();
   const storage = new Map();
+  let now = 100000;
+  let interval;
   const document = {
     addEventListener() {},
     getElementById(id) {
@@ -17,12 +19,15 @@ function setup(supabase) {
         querySelector() { return this.button; },
         reportValidity() { return true; },
         reset() { this.wasReset = true; },
+        focus() { this.focused = true; },
         addEventListener(event, handler) { this.listeners[event] = handler; if (event !== 'close') this[event] = handler; }
       });
       return elements.get(id);
     }
   };
   const context = vm.createContext({ document, URL, URLSearchParams,
+    Date: class extends Date { static now() { return now; } },
+    setInterval(fn) { interval = fn; return 1; }, clearInterval() { interval = null; },
     CustomEvent: class {}, localStorage: {
       getItem: key => storage.get(key) ?? null, setItem: (key,value) => storage.set(key,value), removeItem: key => storage.delete(key)
     }, FormData: class {
@@ -40,7 +45,7 @@ function setup(supabase) {
   vm.runInContext(source.slice(0, source.indexOf('initialize().catch')).replace("await import('./supabase-client.js')", '({ supabase: mockClient })'), context);
   context.mockClient = supabase;
   vm.runInContext("supabase = mockClient; user = { id: 'alice', user_metadata: { display_name: 'Alice' } };", context);
-  return { context, elements, document, storage };
+  return { context, elements, document, storage, tick(seconds) { now += seconds * 1000; interval?.(); } };
 }
 
 test('signed-in visitors to signin redirect to Account only after verifying the user', async () => {
@@ -155,6 +160,67 @@ test('signup keeps passwords out of metadata and uses the local callback', async
   assert.deepEqual(Object.keys(request.options.data), ['display_name']);
   assert.equal(form.wasReset, true);
   assert.equal(elements.get('authStatus').dataset.error, 'false');
+  assert.equal(form.hidden, true);
+  assert.equal(elements.get('signupConfirmation').hidden, false);
+  assert.equal(elements.get('verificationEmail').textContent, 'alice@example.com');
+  assert.equal(elements.get('verificationHeading').focused, true);
+});
+
+test('verification resend enforces cooldown, forwards CAPTCHA and preserves the confirmation on failure', async () => {
+  const requests = [];
+  let fail = false;
+  const s = setup({auth:{
+    async signUp() { return {data:{}}; },
+    async resend(value) { requests.push(value); return fail ? {error:{message:'Email service unavailable'}} : {data:{}}; }
+  }});
+  const signup = s.document.getElementById('signupForm');
+  signup.fields = {email:'alice@example.com',password:'password1!',confirm_password:'password1!',display_name:''};
+  await signup.submit({preventDefault(){}});
+  const resend = s.document.getElementById('resendVerificationForm');
+  assert.equal(resend.button.disabled, true);
+  resend.button.disabled = false;
+  await resend.submit({preventDefault(){}});
+  assert.equal(requests.length, 0);
+  s.context.window.authCaptcha = {getToken(){return 'fresh-token';},reset(){},isReady(){return true;}};
+  s.tick(60);
+  await resend.submit({preventDefault(){}});
+  assert.equal(requests.length, 1);
+  assert.equal(requests[0].type, 'signup');
+  assert.equal(requests[0].email, 'alice@example.com');
+  assert.equal(requests[0].options.captchaToken, 'fresh-token');
+  assert.equal(requests[0].options.emailRedirectTo, 'http://127.0.0.1:5500/account.html');
+  assert.equal(resend.button.disabled, true);
+  s.tick(60); fail = true;
+  await resend.submit({preventDefault(){}});
+  assert.match(s.elements.get('authStatus').textContent, /Email service unavailable/);
+  assert.equal(s.elements.get('signupConfirmation').hidden, false);
+  assert.equal(resend.button.disabled, true);
+});
+
+test('correcting email returns to signup without retaining passwords or sending another email', async () => {
+  const s = setup({auth:{async signUp(){return {data:{}};}}});
+  const form = s.document.getElementById('signupForm');
+  form.fields = {email:'typo@example.com',password:'password1!',confirm_password:'password1!',display_name:''};
+  await form.submit({preventDefault(){}});
+  await s.document.getElementById('correctSignupEmail').click();
+  assert.equal(form.hidden, false);
+  assert.equal(s.elements.get('signupConfirmation').hidden, true);
+  assert.equal(s.elements.get('signupEmail').value, 'typo@example.com');
+  assert.equal(s.elements.get('signupEmail').focused, true);
+  assert.equal(form.wasReset, true);
+  assert.equal(s.elements.get('signupPasswordRules').hidden, true);
+});
+
+test('failed signup keeps the form visible and never starts a resend cooldown', async () => {
+  const s=setup({auth:{async signUp(){return {error:{message:'Signup failed'}};}}});
+  const panel=s.document.getElementById('signupConfirmation'); panel.hidden=true;
+  const form=s.document.getElementById('signupForm');
+  form.fields={email:'alice@example.com',password:'password1!',confirm_password:'password1!',display_name:''};
+  await form.submit({preventDefault(){}});
+  assert.equal(form.hidden,false);
+  assert.equal(panel.hidden,true);
+  assert.equal(form.wasReset,undefined);
+  assert.equal(s.document.getElementById('resendVerificationForm').dataset.cooldownUntil,undefined);
 });
 
 test('all email auth requests forward the verified CAPTCHA token and reset after each attempt',async()=>{

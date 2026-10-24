@@ -4038,7 +4038,7 @@ html.dark .example-result-card {
 }
 
 .results-comparison-card > .table-card-header {
-  border-bottom-color: var(--border);
+  border-bottom: 0;
   background: var(--surface);
 }
 
