@@ -229,39 +229,25 @@ function renderSampleSummary(rows) {
   const exceeded=[...new Set(matrixRows.filter(r=>r.result.status==='Exceeds').map(r=>r.contaminant.name))];
   const factors=[...new Set(matrixRows.flatMap(r=>r.result.comparisons.filter(c=>c.status==='Exceeds').map(c=>c.label)))];
   const unresolved=[...new Set(matrixRows.filter(r=>r.hasLabValue).flatMap(r=>r.result.uncertainties))];
-  target.innerHTML=`<h2>Site-wide summary</h2><p>${escapeHtml(getActiveProfile().siteName || 'Unnamed site')} · ${getSoilSamples().length} samples · ${latestCounts.enteredCount} sample/contaminant scenarios · ${latestCounts.exceedCount} exceedances · ${latestCounts.reviewCount} requiring review</p><div class="sample-table-wrap"><table class="sample-table"><thead><tr><th>APEC</th><th>Samples</th><th>Evaluated</th><th>Exceeds</th><th>Review</th></tr></thead><tbody>${[...groups.entries()].map(([id,group])=>{const counts=getResultCounts(group),apec=getActiveProfile().apecs?.find(a=>a.id===id);return `<tr><th scope="row">${escapeHtml(apec?.name || group[0]?.apec?.name || 'Thresholds only')}</th><td>${apec?apec.locations.reduce((sum,l)=>sum+l.samples.length,0):new Set(group.map(r=>r.sample?.id).filter(Boolean)).size}</td><td>${counts.evaluatedCount}</td><td>${counts.exceedCount}</td><td>${counts.reviewCount}</td></tr>`;}).join('')}</tbody></table></div><p><strong>Contaminants exceeding:</strong> ${escapeHtml(exceeded.join(', ') || 'None identified')}</p><p><strong>Factors causing exceedances:</strong> ${escapeHtml(factors.join('; ') || 'None identified')}</p>${unresolved.length?`<details><summary>Unassessed factors and limitations (${unresolved.length})</summary><ul>${unresolved.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details>`:''}`;
+  const sampleCount=getSoilSamples().length;
+  const exceedanceText=`${latestCounts.exceedCount} exceedance${latestCounts.exceedCount===1?'':'s'}`;
+  target.innerHTML=`<h2>Site-wide summary</h2><p>${sampleCount} sample${sampleCount===1?'':'s'} · ${latestCounts.evaluatedCount} result${latestCounts.evaluatedCount===1?'':'s'} evaluated · <span class="${latestCounts.exceedCount>0?'summary-exceedance':'summary-no-exceedances'}">${exceedanceText}</span> · ${latestCounts.reviewCount} requiring review</p><div class="sample-table-wrap"><table class="sample-table"><thead><tr><th>APEC</th><th>Samples</th><th>Evaluated</th><th>Exceeds</th><th>Review</th></tr></thead><tbody>${[...groups.entries()].map(([id,group])=>{const counts=getResultCounts(group),apec=getActiveProfile().apecs?.find(a=>a.id===id);return `<tr><th scope="row">${escapeHtml(apec?.name || group[0]?.apec?.name || 'Thresholds only')}</th><td>${apec?apec.locations.reduce((sum,l)=>sum+l.samples.length,0):new Set(group.map(r=>r.sample?.id).filter(Boolean)).size}</td><td>${counts.evaluatedCount}</td><td>${counts.exceedCount}</td><td>${counts.reviewCount}</td></tr>`;}).join('')}</tbody></table></div><p><strong>Contaminants exceeding:</strong> ${escapeHtml(exceeded.join(', ') || 'None identified')}</p><p><strong>Factors causing exceedances:</strong> ${escapeHtml(factors.join('; ') || 'None identified')}</p>${unresolved.length?`<details><summary>Unassessed factors and limitations (${unresolved.length})</summary><ul>${unresolved.map(t=>`<li>${escapeHtml(t)}</li>`).join('')}</ul></details>`:''}`;
 }
 
 function renderRecommendation(counts, thresholdLabel) {
-  const text = getRecommendationText(counts, thresholdLabel);
-
-  recommendation.hidden = !counts.enteredCount;
-  if (!counts.enteredCount) {
+  recommendation.hidden = counts.exceedCount === 0;
+  if (!counts.exceedCount) {
     recommendation.innerHTML = '';
     return;
   }
-
-  if (counts.exceedCount > 0) {
-    recommendation.className = 'recommendation-card exceeds';
-    recommendation.innerHTML = `
-      <h2 class="card-heading-with-icon">
-        <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
-        Exceedance — Further Assessment May Be Needed
-      </h2>
-      <p>${counts.exceedCount} of ${counts.evaluatedCount} evaluated scenario comparisons exceed the selected BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
-      <p>${escapeHtml(text)}</p>
-    `;
-    return;
-  }
-
-  recommendation.className = `recommendation-card ${counts.reviewCount ? 'review' : 'below'}`;
+  recommendation.className = 'result-exceedance';
   recommendation.innerHTML = `
     <h2 class="card-heading-with-icon">
-      <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#check-circle"></use></svg>
-      ${counts.reviewCount ? 'Incomplete Screening — Review Required' : 'No Exceedance Identified in Evaluated Measurements'}
+      <svg class="icon icon-lg" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
+      Exceedance — Further Assessment May Be Needed
     </h2>
-    <p>${counts.evaluatedCount} of ${counts.enteredCount} entered measurements were evaluated for ${escapeHtml(thresholdLabel)}.</p>
-    <p>${escapeHtml(text)}</p>
+    <p>${counts.exceedCount} of ${counts.evaluatedCount} evaluated scenario comparisons exceed the selected BC CSR thresholds for ${escapeHtml(thresholdLabel)}.</p>
+    <p>${escapeHtml(getRecommendationText(counts, thresholdLabel))}</p>
   `;
 }
 

@@ -119,6 +119,33 @@
         ],
         "createdAt": "2026-10-22T19:34:29.319Z",
         "reason": "Codex review: preserve the incumbent Inter typography shown in the user screenshot; this authorized CSV import fix changes the script cache version only."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "assessment.html"
+        ],
+        "createdAt": "2026-10-23T20:14:53.838Z",
+        "reason": "Codex verified false positive: flagged red shadow is selected-header button in shared CSS, absent from the assessment page and factor renderer."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "assessment.html"
+        ],
+        "createdAt": "2026-10-23T20:14:53.863Z",
+        "reason": "Codex review: retain incumbent shared typography from the user reference; user approved merging the two panels only."
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "assessment.html"
+        ],
+        "createdAt": "2026-10-23T20:14:53.886Z",
+        "reason": "Codex verified these three findings identify unchanged unavailable future-step circles (steps 2-4), not form text; retain inactive progress appearance from the supplied user reference. Active step and merged form use separate accessible foreground colors."
       }
     ]
   }

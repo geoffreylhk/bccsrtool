@@ -127,8 +127,9 @@ test('summary distinguishes entered, evaluated and unresolved measurements', () 
   assert.equal(s.run('latestCounts.enteredCount'), 2);
   assert.equal(s.run('latestCounts.evaluatedCount'), 2);
   assert.equal(s.run('latestCounts.reviewCount'), 2);
-  assert.match(s.element('recommendation').innerHTML, /Incomplete Screening/);
-  assert.match(s.element('recommendation').innerHTML, /unresolved applicability/);
+  assert.equal(s.element('recommendation').hidden,true);
+  assert.equal(s.element('recommendation').innerHTML,'');
+  assert.match(s.element('sampleSummary').innerHTML,/Unassessed factors and limitations/);
   s.seed([record('benzene')]);
   s.run('renderResults();');
   assert.equal(s.element('recommendation').hidden, true);
@@ -138,6 +139,20 @@ test('summary distinguishes entered, evaluated and unresolved measurements', () 
   assert.match(s.element('recommendation').innerHTML, /Exceedance/);
   const html=fs.readFileSync(path.join(root,'results.html'),'utf8');
   assert.doesNotMatch(html,/id="reportContext"|id="thresholdNote"/);
+});
+
+test('one results notice contains the conditional exceedance message above the educational notice', () => {
+  const html=fs.readFileSync(path.join(root,'results.html'),'utf8');
+  assert.match(html,/<section class="notice-card results-notice">\s*<div id="recommendation" class="result-exceedance"[^>]*hidden><\/div>\s*<div class="compact-notice">/);
+  assert.equal((html.match(/Educational tool only\./g)||[]).length,1);
+  const s=setup('results.js');s.seed([record('benzene',{soilConc:0})]);s.run('renderResults()');
+  assert.equal(s.element('recommendation').hidden,true);
+  assert.equal(s.element('recommendation').innerHTML,'');
+  s.run("changeSampleData(apecs=>apecs[0].locations[0].samples[0].results[0].value=1000);renderResults()");
+  assert.equal(s.element('recommendation').hidden,false);
+  assert.equal(s.element('recommendation').className,'result-exceedance');
+  assert.match(s.element('recommendation').innerHTML,/Exceedance — Further Assessment May Be Needed/);
+  assert.doesNotMatch(s.element('recommendation').innerHTML,/Educational tool only/);
 });
 
 test('cards and CSV use explicit threshold units, precision and report provenance', async () => {
@@ -328,6 +343,26 @@ test('unanswered factors default to not applicable while explicit not assessed r
   assert.equal(result.comparisons.find(c => c.factor === 'drinking').applicability, 'not_applicable');
   assert.equal(result.comparisons.find(c => c.factor === 'plants').applicability, 'applicable');
   assert.equal(s.run("screenSoil(c, 0.04, 'mg/kg', 'RLLD', {factors:{drinking:'not_assessed'}}).status"), 'Inconclusive');
+});
+
+test('site summary uses short counts with red positive totals and green zero totals', () => {
+  const s=setup('results.js');s.seed([record('benzene',{soilConc:300})]);
+  s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'WLR'});renderResults()");
+  let html=s.element('sampleSummary').innerHTML;
+  assert.match(html,/<p>1 sample · 1 result evaluated · <span class="summary-exceedance">1 exceedance<\/span> · 0 requiring review<\/p>/);
+  assert.doesNotMatch(html,/Unnamed site|sample\/contaminant scenarios/);
+  s.run("changeSampleData(apecs=>apecs[0].locations[0].samples[0].results[0].value=0);renderResults()");
+  html=s.element('sampleSummary').innerHTML;
+  assert.match(html,/<p>1 sample · 1 result evaluated · <span class="summary-no-exceedances">0 exceedances<\/span> · 0 requiring review<\/p>/);
+  assert.doesNotMatch(html,/class="summary-exceedance"/);
+  s.run("updateActiveProfileData({factors:{intake:'not_assessed',plants:'not_assessed'}});renderResults()");
+  assert.match(s.element('sampleSummary').innerHTML,/1 sample · 0 results evaluated · <span class="summary-no-exceedances">0 exceedances<\/span> · 1 requiring review/);
+});
+
+test('site summary pluralizes multiple samples and evaluated results', () => {
+  const s=setup('results.js');s.context.graph=sampleFixture();
+  s.run("updateActiveProfileData({assessmentMode:'current',currentLandUse:'RLLD'});saveSampleData(graph);renderResults()");
+  assert.match(s.element('sampleSummary').innerHTML,/2 samples · 2 results evaluated/);
 });
 
 test('result cards retain comparison and status without explanation blocks', () => {

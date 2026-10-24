@@ -8,7 +8,7 @@
     <link rel="canonical" href="https://www.bccsrtool.ca/results.html">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="stylesheet" href="style.css?v=20261022-compact-factor-table">
+    <link rel="stylesheet" href="style.css?v=20261023-combined-results-notice">
     <link rel="stylesheet" href="auth.css?v=20261019-turnstile">
   </head>
 
@@ -137,8 +137,8 @@
 
 
 
-      <section id="sampleSummary" class="table-card sample-summary"></section>
       <section class="table-card results-comparison-card">
+        <section id="sampleSummary" class="sample-summary"></section>
         <div class="table-card-header">
           <div class="results-comparison-heading">
             <h2>Threshold Comparison</h2>
@@ -162,9 +162,9 @@
         </div>
       </section>
 
-      <section id="recommendation" class="recommendation-card" aria-live="polite"></section>
-
-      <section class="notice-card compact-notice">
+      <section class="notice-card results-notice">
+        <div id="recommendation" class="result-exceedance" aria-live="polite" hidden></div>
+        <div class="compact-notice">
         <h2>
           <svg class="icon icon-md" aria-hidden="true"><use href="assets/icons/ui-sprite.svg#alert-triangle"></use></svg>
           Educational tool only.
@@ -173,6 +173,7 @@
           Results do not constitute a formal Phase I/II ESA. Verify official
           requirements before making regulatory or transactional decisions.
         </p>
+        </div>
       </section>
 
       <div class="results-bottom-actions no-print">
@@ -237,7 +238,7 @@
 
     <script src="site-dialog.js?v=20261018-unsaved-new-assessment"></script>
     <script src="data-utils.js?v=20261018-csv-only"></script>
-    <script src="results.js?v=20261022-readable-csv"></script>
+    <script src="results.js?v=20261023-combined-results-notice"></script>
     <script type="module" src="account-assessments.js?v=20261018-save-buttons-copy-names"></script>
     <script type="module" src="assessment-session.js?v=20261018-email-confirmation"></script>
 </body>
