@@ -173,6 +173,51 @@
         ],
         "createdAt": "2026-10-24T18:27:32.939Z",
         "reason": "Agent: narrow refinement preserves the existing site-wide Inter typography; user requested confirmation flow only."
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-26T07:43:50.775Z",
+        "reason": "Agent: browser measures display heading at 39.04px with 42.944px line-height, not the reported 0.14x; compact display leading preserves the selected mockup."
+      },
+      {
+        "rule": "oversized-h1",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-26T07:43:50.802Z",
+        "reason": "Agent: browser heading is 39.04px and CSS caps it at 60px; 176px is a clamp parsing false positive."
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-26T07:43:50.844Z",
+        "reason": "Agent: preserve existing body typography in the user-selected mockup; no font replacement requested."
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-26T07:43:50.869Z",
+        "reason": "Agent: colored shadow belongs to shared selected-header controls absent from this page; landing adds no colored shadows."
+      },
+      {
+        "rule": "low-contrast",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-26T07:46:21.181Z",
+        "reason": "Agent: the flagged white-on-#72b68b pair is the learn-more underline pseudo-element; its green fill is below text, and hover/focus switches text to #06261b. Landing buttons use fixed contrast-safe colors."
       }
     ]
   }
