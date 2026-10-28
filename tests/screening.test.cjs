@@ -662,6 +662,21 @@ test('new areas open one independent blank sample with all selected contaminants
   assert.notEqual(s.run('getSoilSamples()[0].sample.id'),s.run('getSoilSamples()[1].sample.id'));
 });
 
+test('opening APEC rename preserves the heading and uses a full-size wrapping editor', async () => {
+  const s=setup('labdata.js');s.context.graph=sampleFixture();s.run('saveSampleData(graph)');
+  const before=s.run('JSON.stringify(getActiveProfile().apecs)');
+  let editorMarkup='';
+  const button={dataset:{action:'rename-apec'},style:{},setAttribute(){},closest(){return {dataset:{apec:'a1'}};},insertAdjacentHTML(position,html){assert.equal(position,'afterend');editorMarkup=html;}};
+  const editor={focus(){this.focused=true;},select(){this.selected=true;}};
+  s.element('labTable').querySelector=selector=>selector==='[data-rename]'?editor:null;
+  await s.element('labTable').handlers.click({target:{closest(){return button;}}});
+  assert.equal(button.style.visibility,'hidden');
+  assert.equal(button.outerHTML,undefined);
+  assert.match(editorMarkup,/<textarea[^>]*data-rename[^>]*maxlength="160"[^>]*required>/);
+  assert.equal(editor.focused,true);assert.equal(editor.selected,true);
+  assert.equal(s.run('JSON.stringify(getActiveProfile().apecs)'),before);
+});
+
 test('simplified headings preserve saved metadata and rename without changing sample IDs', () => {
   const s=setup('labdata.js');s.context.graph=sampleFixture();
   s.run("graph[0].description='Stored description';saveSampleData(graph);renderSampleEditor()");

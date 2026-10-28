@@ -15,7 +15,7 @@ function renderSampleEditor() {
   const contaminants=new Map(csrData.contaminants.map(c=>[c.id,c]));
   labTable.innerHTML=(profile.apecs || []).map(apec=>`
     <section class="sample-apec" data-apec="${escapeHtml(apec.id)}">
-      <div class="sample-title-row"><h3><button class="sample-name" type="button" data-action="rename-apec" aria-label="Rename ${escapeHtml(apec.name)}" title="Click to rename">${escapeHtml(apec.name)}</button></h3><button type="button" data-action="delete-apec">Delete APEC</button></div>
+      <div class="sample-title-row"><h3><button class="sample-name" type="button" data-action="rename-apec" aria-label="Rename ${escapeHtml(apec.name)}" title="Click to rename"><span class="sample-name__text">${escapeHtml(apec.name)}</span><span class="sample-name__action" aria-hidden="true"><svg class="icon"><use href="assets/icons/ui-sprite.svg?v=20261027-apec-rename#pencil"></use></svg></span></button></h3><button type="button" data-action="delete-apec">Delete APEC</button></div>
       ${(apec.locations || []).flatMap(location=>location.samples.map(sample=>`
             <section class="soil-sample" data-location="${escapeHtml(location.id)}" data-sample="${escapeHtml(sample.id)}">
               <div class="sample-title-row"><h4>${escapeHtml(sample.name)}</h4><button type="button" data-action="delete-sample">Delete sample</button></div>
@@ -75,7 +75,9 @@ labTable.addEventListener('click',async event=>{
   if(action==='rename-apec') {
     const apec=getActiveProfile().apecs.find(r=>r.id===button.closest('[data-apec]').dataset.apec);
     const kind='apec',record=apec;
-    button.outerHTML=`<input data-rename data-field="name" data-kind="${kind}" aria-label="Rename ${escapeHtml(record.name)}" value="${escapeHtml(record.name)}" maxlength="160" required>`;
+    button.style.visibility='hidden';
+    button.setAttribute('aria-hidden','true');
+    button.insertAdjacentHTML('afterend',`<textarea data-rename data-field="name" data-kind="${kind}" aria-label="Rename ${escapeHtml(record.name)}" maxlength="160" required>${escapeHtml(record.name)}</textarea>`);
     const input=labTable.querySelector('[data-rename]');input.focus();input.select();
     return;
   }

@@ -4329,7 +4329,7 @@ html.dark .example-result-card {
 .factor-option { position: relative; cursor: pointer; }
 .factor-option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .factor-option span { display: block; padding: .65rem .85rem; border: 2px solid #857c70; border-radius: .5rem; background: #fff; color: #403a33; }
-.factor-option input:checked + span { background: #e8e4dd; border-color: #403a33; font-weight: 700; }
+.factor-option input:checked + span { background: #e8e4dd; border-color: #403a33; }
 .factor-option--applicable input:checked + span { background: #e5f2e9; border-color: #286344; color: #205137; }
 .factor-option--not_assessed input:checked + span { background: #fbe8e7; border-color: #a52d2d; color: #8c2424; }
 .factor-option input:focus-visible + span { outline: 3px solid #2369a3; outline-offset: 3px; }
@@ -4344,9 +4344,13 @@ html.dark .example-result-card {
 .sample-title-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem; margin-bottom: .75rem; }
 .sample-title-row h3, .sample-title-row h4 { margin: 0; }
 .sample-title-row button { border: 1px solid #a79b8c; border-radius: 6px; background: white; padding: .4rem .65rem; color: #713c32; cursor: pointer; }
-.sample-title-row .sample-name { border: 0; background: transparent; padding: 0; color: #315f4c; font: inherit; text-align: left; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: .2em; }
+.sample-title-row h3 { position: relative; min-width: 0; max-width: 100%; }
+.sample-title-row .sample-name { display: inline-flex; flex-wrap: nowrap; align-items: center; gap: .75rem; max-width: 100%; min-height: 44px; border: 0; background: transparent; padding: 0; color: #315f4c; font: inherit; text-align: left; }
+.sample-name__text { min-width: 0; overflow-wrap: anywhere; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: .2em; }
+.sample-name__action { display: inline-flex; flex-shrink: 0; font-size: 1rem; }
 .sample-name:focus-visible { outline: 3px solid #2369a3; outline-offset: 4px; }
-.sample-title-row input[data-rename] { max-width: 100%; min-width: 0; font: inherit; padding: .3rem; border: 1px solid #315f4c; border-radius: 4px; box-sizing: border-box; }
+.sample-title-row textarea[data-rename] { position: absolute; inset: 0; width: 100%; height: 100%; min-width: 0; margin: 0; padding: 0 .2rem; border: 0; border-radius: 4px; outline: 1px solid #315f4c; box-sizing: border-box; font: inherit; color: #315f4c; background: #fff; resize: none; overflow-wrap: anywhere; }
+.sample-title-row textarea[data-rename]:focus-visible { outline: 3px solid #2369a3; outline-offset: 2px; }
 .sample-fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: .8rem; }
 .sample-fields label, .factor-help label { display: flex; flex-direction: column; gap: .3rem; font-weight: 600; }
 .sample-fields input, .sample-fields textarea, .factor-help textarea, .form-group input:not([type=checkbox]) { width: 100%; border: 1px solid #bfb6a7; border-radius: 6px; padding: .55rem; box-sizing: border-box; font: inherit; background: white; color: #302c27; }
