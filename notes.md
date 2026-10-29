@@ -2,7 +2,7 @@
 
 ## Git workflow (Easy copy and paste)
 git add .
-git commit -m "describe"
+git commit -m "
 git push
 
 ## Live site

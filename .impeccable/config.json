@@ -218,6 +218,24 @@
         ],
         "createdAt": "2026-10-26T07:46:21.181Z",
         "reason": "Agent: the flagged white-on-#72b68b pair is the learn-more underline pseudo-element; its green fill is below text, and hover/focus switches text to #06261b. Landing buttons use fixed contrast-safe colors."
+      },
+      {
+        "rule": "tiny-text",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-29T05:32:37.778Z",
+        "reason": "User requested reducing the image attribution from 12px; its 11px linked credit is an intentional secondary attribution, not body content."
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-29T05:33:31.319Z",
+        "reason": "User explicitly requested 6px image attribution after being informed it would be very small on phones; preserve the requested credit styling."
       }
     ]
   }

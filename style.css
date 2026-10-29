@@ -289,7 +289,7 @@ html.dark .theme-toggle .sun-icon {
   width: min(540px, calc(100% - 48px));
   margin: 0 clamp(24px, 4vw, 56px) 0 24px;
   color: #f8f7f3;
-  font-size: 0.75rem;
+  font-size: 6px;
   line-height: 1.5;
   text-align: right;
 }
