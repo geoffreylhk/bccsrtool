@@ -7,6 +7,8 @@ async function syncAccountChemicalSort(userId) {
 }
 
 supabase.auth.onAuthStateChange((_event, session) => {
+  const createAccountLink = document.getElementById('createAccountLink');
+  if (createAccountLink) createAccountLink.hidden = Boolean(session?.user);
   const reset = switchAssessmentAccount(session?.user?.id);
   if (session?.user && ['INITIAL_SESSION', 'SIGNED_IN'].includes(_event)) {
     setTimeout(() => syncAccountChemicalSort(session.user.id).catch(() => {

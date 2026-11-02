@@ -5,8 +5,9 @@ const {test}=require('node:test');
 
 function setup(page='workflow'){
   const storage=new Map(),events={},timers=[];let callback,reloads=0,sort='category';
+  const createAccountLink={hidden:true};
   const context=vm.createContext({
-    document:{addEventListener(){},getElementById(id){return page==='account' && ['authStatus','accountPanel'].includes(id)?{}:null;}},
+    document:{addEventListener(){},getElementById(id){if(page==='landing' && id==='createAccountLink')return createAccountLink;return page==='account' && ['authStatus','accountPanel'].includes(id)?{}:null;}},
     localStorage:{getItem:key=>storage.get(key)??null,setItem:(key,value)=>storage.set(key,value),removeItem:key=>storage.delete(key)},
     window:{dispatchEvent(){},addEventListener(name,handler){events[name]=handler;},location:{reload(){reloads++;}}},
     CustomEvent:class{},setTimeout(fn){timers.push(fn);},client:{auth:{onAuthStateChange(handler){callback=handler;}},from(){const q={select(){return q;},eq(){return q;},async maybeSingle(){return {data:{chemical_sort:sort}};}};return q;}}
@@ -15,8 +16,22 @@ function setup(page='workflow'){
   vm.runInContext(fs.readFileSync(require.resolve('../assessment-session.js'),'utf8').replace("import { supabase } from './supabase-client.js';",'const supabase=client;'),context);
   const run=code=>vm.runInContext(code,context);
   const seed=()=>run("markAssessmentStarted(); updateActiveProfileData({currentLandUse:'RLLD',selectedContaminants:[{id:'benzene',soilConc:5}]});");
-  return {storage,events,run,seed,setSort:value=>{sort=value;},flush:async()=>{await Promise.all(timers.splice(0).map(fn=>fn()));},emit:(name,id)=>callback(name,id?{user:{id}}:null),reloads:()=>reloads};
+  return {storage,events,run,seed,createAccountLink,setSort:value=>{sort=value;},flush:async()=>{await Promise.all(timers.splice(0).map(fn=>fn()));},emit:(name,id)=>callback(name,id?{user:{id}}:null),reloads:()=>reloads};
 }
+
+test('landing account creation is visible to guests and hidden throughout signed-in sessions',()=>{
+  const s=setup('landing');
+  assert.equal(s.createAccountLink.hidden,true);
+  s.emit('INITIAL_SESSION');assert.equal(s.createAccountLink.hidden,false);
+  s.emit('SIGNED_IN','alice');assert.equal(s.createAccountLink.hidden,true);
+  s.emit('TOKEN_REFRESHED','alice');assert.equal(s.createAccountLink.hidden,true);
+  s.emit('SIGNED_OUT');assert.equal(s.createAccountLink.hidden,false);
+});
+
+test('restoring a signed-in landing session never shows account creation',()=>{
+  const s=setup('landing');s.emit('INITIAL_SESSION','alice');
+  assert.equal(s.createAccountLink.hidden,true);
+});
 
 test('switching accounts removes the former working assessment and all resume/backups',()=>{
   const s=setup();s.emit('INITIAL_SESSION','alice');s.seed();

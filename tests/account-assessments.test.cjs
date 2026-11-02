@@ -10,7 +10,7 @@ function setup(elements = {}) {
   let response;
   let pages = [];
   const calls = [];
-  const client = { auth: { async getUser() { return { data: { user: { id: actualUser, email: 'alice@example.com', access_token:'never-export-this', app_metadata:{providers:['google']}, user_metadata:{display_name:'Alice'} } } }; } }, from(table) {
+  const client = { auth: { async getUser() { return { data: { user: actualUser ? { id: actualUser, email: 'alice@example.com', access_token:'never-export-this', app_metadata:{providers:['google']}, user_metadata:{display_name:'Alice'} } : null } }; } }, from(table) {
     assert.ok(['saved_assessments','profiles'].includes(table));
     const call = { table, filters: [] }; calls.push(call);
     const query = {
@@ -183,6 +183,42 @@ function saveElements() {
     hidden:true,value:'',dataset:{},handlers:{},reportValidity(){return true;},addEventListener(event,fn){this.handlers[event]=fn;}
   }]));
 }
+
+test('guest results explain account saving and dismiss without changing assessment data', async () => {
+  const elements={...saveElements(),accountSaveCard:{hidden:false},guestAccountPrompt:{hidden:true},accountSaveHeading:{textContent:'Save this assessment'},dismissAccountPrompt:{handlers:{},addEventListener(event,fn){this.handlers[event]=fn;}}};
+  const s=setup(elements);s.setUser(null);
+  const before=s.storage.get('bcCsrToolState');
+  await s.run('initializeAccountAssessments()');
+  assert.equal(elements.guestAccountPrompt.hidden,false);
+  assert.equal(elements.accountSaveHeading.textContent,'Keep this assessment for later');
+  assert.equal(elements.savedAssessmentStatus.hidden,true);
+  assert.equal(elements.accountSaveForm.hidden,true);
+  elements.dismissAccountPrompt.handlers.click();
+  assert.equal(elements.accountSaveCard.hidden,true);
+  assert.equal(s.storage.get('bcCsrToolState'),before);
+});
+
+test('signed-in results keep the save form and do not show the guest prompt', async () => {
+  const elements={...saveElements(),guestAccountPrompt:{hidden:true},accountSaveHeading:{textContent:'Save this assessment'}};
+  const s=setup(elements);await s.run('initializeAccountAssessments()');
+  assert.equal(elements.guestAccountPrompt.hidden,true);
+  assert.equal(elements.accountSaveForm.hidden,false);
+  assert.equal(elements.accountSaveHeading.textContent,'Save this assessment');
+});
+
+test('signing in from guest results refreshes the prompt into the account save form', () => {
+  const s=setup({guestAccountPrompt:{hidden:false}});
+  let callback,reloads=0;
+  s.context.mockSupabase.auth.onAuthStateChange=fn=>{callback=fn;};
+  s.context.window.location.reload=()=>{reloads++;};
+  s.run('accountUser=undefined');
+  const source=fs.readFileSync(require.resolve('../account-assessments.js'),'utf8');
+  s.run(source.slice(source.indexOf('supabase.auth.onAuthStateChange'),source.indexOf('const accountInitialization =')));
+  const before=s.storage.get('bcCsrToolState');
+  callback('INITIAL_SESSION',null);assert.equal(reloads,0);
+  callback('SIGNED_IN',{user:{id:'alice'}});assert.equal(reloads,1);
+  assert.equal(s.storage.get('bcCsrToolState'),before);
+});
 
 test('new forms use numbered names while editing keeps the original saved name', async () => {
   const elements=saveElements(),s=setup(elements);

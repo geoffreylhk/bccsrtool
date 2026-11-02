@@ -798,7 +798,7 @@ html.dark .secondary-action:hover {
   cursor: not-allowed;
 }
 
-.form-group[hidden], #resumeBtn[hidden] {
+.form-group[hidden], #resumeBtn[hidden], #createAccountLink[hidden] {
   display: none !important;
 }
 

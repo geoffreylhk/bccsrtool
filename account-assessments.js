@@ -354,6 +354,17 @@ async function runAssessmentAction(action) {
 async function initializeAccountAssessments() {
   const result = await supabase.auth.getUser();
   if (result.error || !result.data?.user) {
+    const guestPrompt = document.getElementById('guestAccountPrompt');
+    if (guestPrompt) {
+      document.getElementById('accountSaveHeading').textContent = 'Keep this assessment for later';
+      savedStatus.hidden = true;
+      guestPrompt.hidden = false;
+      document.getElementById('dismissAccountPrompt').addEventListener('click', () => {
+        document.getElementById('accountSaveCard').hidden = true;
+        document.getElementById('assessmentSummary')?.focus();
+      });
+      return;
+    }
     assessmentStatus('Sign in to save assessments to your account. Your working assessment stays in this browser.');
     document.getElementById('assessmentSignin')?.removeAttribute('hidden');
     return;
@@ -408,6 +419,10 @@ document.querySelectorAll('[data-new-assessment-btn]').forEach(button => button.
 }));
 
 supabase.auth.onAuthStateChange((_event, session) => {
+  if (_event === 'SIGNED_IN' && session?.user && !accountUser && document.getElementById('guestAccountPrompt')) {
+    window.location.reload();
+    return;
+  }
   if (accountUser && session?.user?.id !== accountUser.id) {
     saveForm?.setAttribute('hidden', '');
     savedRecords = [];
