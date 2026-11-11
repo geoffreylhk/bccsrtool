@@ -22,7 +22,7 @@ function renderSampleEditor() {
               <div class="sample-table-wrap"><table class="sample-table"><thead><tr><th>Contaminant</th><th>Detection</th><th>Concentration</th><th>Unit</th></tr></thead><tbody>
               ${sample.results.map(result=>{const substance=contaminants.get(result.contaminantId);return `<tr data-contaminant="${escapeHtml(result.contaminantId)}"><th scope="row">${escapeHtml(substance?.name || 'Unknown substance')}<small>${escapeHtml(substance?.cas || '')}</small></th>
                 <td><select aria-label="Detection for ${escapeHtml(substance?.name)}" data-result="qualifier"><option value="detected" ${result.qualifier==='detected'?'selected':''}>Detected</option><option value="non_detect" ${result.qualifier==='non_detect'?'selected':''}>No detection</option></select></td>
-                <td><input aria-label="${result.qualifier==='non_detect'?'Reporting limit':'Concentration'} for ${escapeHtml(substance?.name)}" data-result="measurement" type="number" min="0" step="any" value="${escapeHtml(result.qualifier==='non_detect'?result.reportingLimit:result.value)}" placeholder="${result.qualifier==='non_detect'?'Reporting limit':''}"></td>
+                <td><input aria-label="${result.qualifier==='non_detect'?'Reporting limit':'Concentration'} for ${escapeHtml(substance?.name)}" data-result="measurement" type="text" inputmode="decimal" value="${escapeHtml(result.qualifier==='non_detect'?result.reportingLimit:result.value)}" placeholder="${result.qualifier==='non_detect'?'Reporting limit':''}"></td>
                 <td><select aria-label="Unit for ${escapeHtml(substance?.name)}" data-result="unit">${LAB_UNITS.filter(u=>u.category==='soil').map(u=>`<option ${result.unit===u.label?'selected':''} value="${u.label}">${u.label}</option>`).join('')}</select></td></tr>`;}).join('')}
               </tbody></table></div>
             </section>`)).join('')}
@@ -108,7 +108,10 @@ function saveSampleField(event) {
   const input=event.target;
   if(!input.dataset.field && !input.dataset.result) return;
   try {
-    if(input.validity?.badInput) throw new Error('Enter a valid number.');
+    if (input.dataset.result === 'measurement' && input.value !== '' &&
+        !/^-?(?:\d+|\d*\.\d+)(?:e[+-]?\d+)?$/i.test(input.value)) {
+      throw new Error('Enter a valid number.');
+    }
     if(!input.checkValidity()) throw new Error('Correct this field before saving.');
     changeSampleData(apecs=>{
       const apec=apecs.find(r=>r.id===input.closest('[data-apec]').dataset.apec);
