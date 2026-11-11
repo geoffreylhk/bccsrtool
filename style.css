@@ -927,8 +927,8 @@ footer {
   display: block;
 }
 
-.site-footer__column .site-footer__icon-link:hover,
-.site-footer__column .site-footer__icon-link:focus-visible {
+.site-footer__column a.site-footer__icon-link:hover,
+.site-footer__column a.site-footer__icon-link:focus-visible {
   background: rgba(46, 99, 78, 0.08);
   text-decoration: none;
 }
