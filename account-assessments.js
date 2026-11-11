@@ -419,7 +419,9 @@ document.querySelectorAll('[data-new-assessment-btn]').forEach(button => button.
 }));
 
 supabase.auth.onAuthStateChange((_event, session) => {
-  if (_event === 'SIGNED_IN' && session?.user && !accountUser && document.getElementById('guestAccountPrompt')) {
+  // A restored session can emit SIGNED_IN before getUser() finishes.
+  const guestPrompt = document.getElementById('guestAccountPrompt');
+  if (_event === 'SIGNED_IN' && session?.user && !accountUser && guestPrompt?.hidden === false) {
     window.location.reload();
     return;
   }

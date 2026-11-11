@@ -207,7 +207,8 @@ test('signed-in results keep the save form and do not show the guest prompt', as
 });
 
 test('signing in from guest results refreshes the prompt into the account save form', () => {
-  const s=setup({guestAccountPrompt:{hidden:false}});
+  const guestAccountPrompt = { hidden: true };
+  const s=setup({guestAccountPrompt});
   let callback,reloads=0;
   s.context.mockSupabase.auth.onAuthStateChange=fn=>{callback=fn;};
   s.context.window.location.reload=()=>{reloads++;};
@@ -215,8 +216,12 @@ test('signing in from guest results refreshes the prompt into the account save f
   const source=fs.readFileSync(require.resolve('../account-assessments.js'),'utf8');
   s.run(source.slice(source.indexOf('supabase.auth.onAuthStateChange'),source.indexOf('const accountInitialization =')));
   const before=s.storage.get('bcCsrToolState');
-  callback('INITIAL_SESSION',null);assert.equal(reloads,0);
-  callback('SIGNED_IN',{user:{id:'alice'}});assert.equal(reloads,1);
+  callback('INITIAL_SESSION', { user: { id: 'alice' } });
+  callback('SIGNED_IN', { user: { id: 'alice' } });
+  assert.equal(reloads, 0, 'session events during startup must not reload Results');
+  guestAccountPrompt.hidden = false;
+  callback('SIGNED_IN', { user: { id: 'alice' } });
+  assert.equal(reloads, 1);
   assert.equal(s.storage.get('bcCsrToolState'),before);
 });
 
